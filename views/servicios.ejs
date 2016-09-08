@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+   <html>
+        <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+        <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+        <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+        <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+        <head> <% include partials/head.ejs %> </head>
+        <body>
+            <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+            <% include partials/menu.ejs %>
+            <% include partials/title.ejs %>
+            
+            <div class="container">
+               <p class="app-top">Servicios</p>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                         <div class="panel panel-default">
+                           <div class="panel-heading">
+                               <h3 class="panel-title">Atención a estudiantes</h3>                              
+                           </div>
+                            <div class="panel-body">
+                                El departamento de psiquiatría de la facultad de medicina perteneciente a la BUASLP, ofrece un servicio para diagnosticar enfermedades psiquiátricas en los estudiantes de cualquier facultad a través de SIPDEP. El único requisito es registrarse en la página y llenar toda la información de su perfil. Después de haber realizado un registro, podrán proceder a solicitar la aplicación de algún test, el cuál será aprobado una vez que el aplicador evalué su caso. 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                         <div class="panel panel-default">
+                           <div class="panel-heading">
+                               <h3 class="panel-title">Atención a público en general</h3>
+                           </div>
+                            <div class="panel-body">
+                                El departamento de psiquiatría de la facultad de medicina perteneciente a la BUASLP a través de SIPDEP, ofrece un servicio para diagnosticar enfermedades psiquiátricas en personas que no forman parte de la universidad. El único requisito es registrarse en la página, llenar toda la información de su perfil y contar con el nombre del aplicador que lo autorizó para aplicar un test. Después de haber realizado un registro, podrán proceder a solicitar la aplicación de algún test, el cuál será aprobado una vez que el aplicador evalué su caso. 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
+            <% include partials/footer.ejs %>
+            <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+        </body>
+    </html>

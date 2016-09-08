@@ -1,0 +1,81 @@
+<!--Barra de menú principal-->
+<nav class="navbar-personalizado">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                <span class="icon-bar app-bar"></span>
+                <span class="icon-bar app-bar"></span>
+                <span class="icon-bar app-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="nav navbar-nav nav-personalizado">
+                <li><a href="/workspace">Mis test</a></li>
+                <li><a href="/solicitudes">Solicitudes</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Aplicar test
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/individual">Individual</a></li>
+                        <!--<li><a href="#">Grupal</a></li>-->
+                    </ul>
+                </li>
+                <%if( typeof(apppriv) != 'undefined' && apppriv){%>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Aplicadores
+                        <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/agregar">Agregar aplicador</a></li>
+                            <li><a href="/eliminar">Eliminar aplicador</a></li>
+                            <li><a href="/consultar">Consultar aplicadores</a></li>
+                        </ul>
+                    </li>
+                    <%}%>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Test
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header"><strong>Test</strong></li>
+                                <li><a href="/agregartest">Agregar</a></li>
+                                <li><a href="/eliminartest">Eliminar</a></li>
+                                <li><a href="/consultartest">Consultar</a></li>
+                                <li class="dropdown-header"><strong>Preguntas y respuestas</strong></li>
+                                <li><a href="/agregarpregres">Agregar</a></li>
+                                <li><a href="/workspace">Eliminar</a></li>
+                                <li><a href="/consultarpregres">Consultar</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Universidad
+                                <span class="caret"></span>
+                           </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header"><strong>Facultades</strong></li>
+                                <li><a href="/agfacultad">Agregar facultad</a></li>
+                                <li><a href="/elfacultad">Eliminar facultad</a></li>
+                                <li><a href="/confacultad">Consultar facultades</a></li>
+                                <li class="dropdown-header"><strong>Carreras</strong></li>
+                                <li><a href="/agcarrera">Agregar carreras</a></li>
+                                <li><a href="/elcarrera">Eliminar carreras</a></li>
+                                <li><a href="/concarrera">Consultar carreras</a></li>
+                            </ul>
+                        </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right nav-personalizado">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <%= usuario %>
+                            <span class="caret"></span>
+                            <ul class="dropdown-menu">
+                                <li><a href="/perfil">Editar perfil</a></li>
+                                <li><a href="/logout">Cerrar sesión</a></li>
+                            </ul>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

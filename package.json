@@ -1,0 +1,39 @@
+{
+    "name": "sipdep",
+    "version": "1.0.0",
+    "description": "Sistema Inteligente Para la Detección de Enfermedades Psiquiatricas",
+    "engines": {
+        "node": "5.6.0",
+        "npm": "3.6.0"
+    },
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/azzaeelhg/SIPDEP.git"
+    },
+    "keywords": [
+    "SIPDEP",
+    "UASLP",
+    "Ingenieria",
+    "Medicina"
+  ],
+    "author": "Asael Hernández García",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/azzaeelhg/SIPDEP/issues"
+    },
+    "homepage": "https://github.com/azzaeelhg/SIPDEP#readme",
+    "dependencies": {
+        "bcrypt-nodejs": "0.0.3",
+        "bootstrap": "^3.3.6",
+        "crypto": "0.0.3",
+        "ejs": "^2.4.1",
+        "express": "^4.13.4",
+        "express-partials": "^0.3.0",
+        "express-session": "^1.13.0",
+        "pdfkit": "^0.7.2"
+    }
+}

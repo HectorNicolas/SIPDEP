@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+    <% include partials/appmenu.ejs %>
+        <div class="container">
+            <br>
+            <form action="/consultarpregres" method="get" role="form" class="form-inline">
+                <div class="form-group">
+                    <label>Selecciona el test del que quieres consultar las preguntas y respuestas </label>
+                    <select class="form-control" name="test" onchange="this.form.submit()">
+                        <option selected disabled>
+                            Selecciona un test
+                        </option>
+                        <% if(typeof(test) != 'undefined'){ %>
+                            <% for(i=0;i<test.length;i++){ %>
+                                <% if(typeof(testSeleccionado) != 'undefined'){ %>
+                                    <%if(test[i] == testSeleccionado){%>
+                                        <option selected>
+                                            <%= test[i].Nombre %>
+                                        </option>
+                                        <%}else{%>
+                                            <option>
+                                                <%= test[i].Nombre %>
+                                            </option>
+                                            <%}} else{%>
+                                                <option>
+                                                    <%= test[i].Nombre %>
+                                                </option>
+                                                <%} } }%>
+                    </select>
+                </div>
+            </form>
+            <h2>Test</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre del test</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%  if (typeof(datos) != 'undefined' ){%>
+                        <% for(i=0;i<datos.length;i++){ %>
+                            <tr>
+                                <th>
+                                    <%= datos[i].Nombre %>
+                                </th>
+                                <th>
+                                    <%= datos[i].Descripcion %>
+                                </th>
+                            </tr>
+                            <% } %>
+                                <% } %>
+                </tbody>
+            </table>
+        </div>
+        <% include partials/footer.ejs %>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <script>
+                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+            </script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

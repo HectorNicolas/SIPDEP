@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+    <% if(priv == 'app'){ %>
+        <% include partials/appmenu.ejs %>
+            <%}else{%>
+                <% include partials/usermenu.ejs %>
+                    <%}%>
+
+                        <div class="container">
+                            <form action="/selfac_carr" method="get" class="form-inline" role="form">
+                                <div class="form-group">
+                                    <br>
+                                    <label>Selecciona la facultad:</label>
+                                    <select name="facultad" onchange="this.form.submit()" class="form-control" required>
+                                        <option disabled selected>
+                                            Selecciona la facultad
+                                        </option>
+                                        <%for(i=0;i<facultades.length;i++){%>
+                                            <%if(facultades[i].Nombre == facSeleccionada){%>
+                                                <option selected>
+                                                    <%=facultades[i].Nombre%>
+                                                </option>
+                                                <%}else{%>
+                                                    <option>
+                                                        <%=facultades[i].Nombre%>
+                                                    </option>
+                                                    <%}}%>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="container app-registro center">
+                            <br>
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title">
+                                       Eliminar carrera
+                                   </h2>
+                                </div>
+                                <div class="panel-body">
+                                    <% if (errorMessage.length > 0) { %>
+                                        <div class="alert alert-danger">
+                                            <%= errorMessage %>
+                                        </div>
+                                        <% } %>
+                                            <% if (succesfulMessage.length > 0) { %>
+                                                <div class="alert alert-success">
+                                                    <%= succesfulMessage %>
+                                                </div>
+                                                <% } %>
+                                                    <form action="/elcarrera" method="post" role="form" class="form form-horizontal">
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label>
+                                                                    Facultad seleccionada:
+                                                                    <%=facSeleccionada%>
+                                                                </label>
+                                                                <input type="hidden" class="form-control" name="facSeleccionada" value="<%=facSeleccionada%>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <label>
+                                                                    Selecciona la carrera a eliminar
+                                                                </label>
+                                                                <select name="carreraSeleccionada" id="" class="form-control">
+                                                                    <option disabled>
+                                                                        Selecciona una carrera
+                                                                    </option>
+                                                                    <%if(carreras != 'undefined'){%>
+                                                                        <%for(i=0;i<carreras.length;i++){%>
+                                                                            <option>
+                                                                                <%=carreras[i].Carrera%>
+                                                                            </option>
+                                                                            <%}}%>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <button class="btn btn-primary" type="submit">
+                                                                    Eliminar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <% include partials/footer.ejs %>
+                            <script>
+                                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+                            </script>
+                            <script src="js/vendor/bootstrap.min.js"></script>
+                            <script src="js/main.js"></script>
+</body>
+
+</html>

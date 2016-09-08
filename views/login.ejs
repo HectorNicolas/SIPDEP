@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <% include partials/menu.ejs %>
+
+        <div class="container app-registro center">
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title app-login-title">
+                          Inicia sesión
+                      </h2>
+                </div>
+                <div class="panel-body">
+                    <% if (errorMessage.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <%= errorMessage %>
+                        </div>
+                        <% } %>
+                            <% if (succesfulMessage.length > 0) { %>
+                                <div class="alert alert-success">
+                                    <%= succesfulMessage %>
+                                </div>
+                                <% } %>
+                                    <form class="form-horizontal" method="post" action="/login">
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <label class="control-label" for="username">Nombre de usuario:</label>
+                                                <input type="text" oninput="validateUsername(this)" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <label class="control-label" for="pwd">Contraseña:</label>
+                                                <input type="password" name="password" class="form-control" id="pwd" placeholder="Ingresa tu contraseña" oninput="validatePassword(this)" required>
+                                            </div>
+                                        </div>
+                                        <!-- 
+                        <div class="form-group">
+                            <div class="col-xs-12">   
+                                <label class="radio-inline"><strong>Iniciar como:</strong></label>       
+                                <label class="radio-inline"><input checked type="radio" name="iniciarComo" value="usuario">Usuario</label>
+                                <label class="radio-inline"><input type="radio" name="iniciarComo" value="aplicador">Aplicador</label>
+                            </div>
+                        </div>
+                                  -->
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <button type="submit" class="btn btn-primary">Ingresar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                </div>
+                <!--Panel Body-->
+            </div>
+            <!--Panel-->
+        </div>
+        <!--Container-->
+
+        <% include partials/footer.ejs %>
+            <script>
+                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+            </script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

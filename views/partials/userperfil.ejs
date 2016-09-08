@@ -1,0 +1,913 @@
+<%if(estudiante){%>
+    <div class="container">
+        <br>
+        <% if (typeof(errorMessage) != 'undefined' && errorMessage.length > 0) { %>
+            <div class="alert alert-danger">
+                <%= errorMessage %>
+            </div>
+            <% } %>
+                <% if (typeof(succesfulMessage) != 'undefined' && succesfulMessage.length > 0) { %>
+                    <div class="alert alert-success">
+                        <%= succesfulMessage %>
+                    </div>
+                    <% } %>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">Datos de estudiante</h2>
+                            </div>
+                            <div class="panel-body">
+                                <form action="/search_mat" method="get" id="form-buscar">
+                                    <%if(typeof(carSeleccionada) != 'undefined'){%>
+                                        <input type="hidden" value="<%=carSeleccionada%>" name="carreraSeleccionada">
+                                        <%}%>
+                                            <%if(typeof(facSeleccionada) != 'undefined'){%>
+                                                <input type="hidden" value="<%=facSeleccionada%>" name="facultadSeleccionada">
+                                                <%}%>
+                                                    <%if(typeof(datosEstudiante) != 'undefined'){%>
+                                                        <%if(datosEstudiante[0].Clave_unica != null){%>
+                                                            <input type="hidden" name="cveunica" class="form-control" value="<%=datosEstudiante[0].Clave_unica%>">
+                                                            <%}}%>
+                                </form>
+                                <form action="/actestudiante" role="form" method="post" class="form-horizontal" id="form-act">
+                                    <div class="form-group">
+                                        <%if(typeof(facSeleccionada) != 'undefined'){%>
+                                            <input type="hidden" value="<%=facSeleccionada%>" name="facultadSeleccionada">
+                                            <%}%>
+                                    </div>
+                                    <!--Seleccionar facultad-->
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 col-md-3 col-lg-2">
+                                            <label>Facultad</label>
+                                        </div>
+                                        <div class="col-sm-6 col-md-5 col-lg-4">
+                                            <select name="facultad" id="facultad" class="form-control" onchange="this.form.submit()" form="form-buscar" required>
+                                                <option>
+                                                    Selecciona una facultad
+                                                </option>
+                                                <%if(facultades != 'undefined'){%>
+                                                    <%for(i=0;i<facultades.length;i++){%>
+                                                        <%if(typeof(facSeleccionada) != 'undefined'){%>
+                                                            <%if(facultades[i].Nombre == facSeleccionada){%>
+                                                                <option selected>
+                                                                    <%=facultades[i].Nombre%>
+                                                                </option>
+                                                                <%}else{%>
+                                                                    <option>
+                                                                        <%=facultades[i].Nombre%>
+                                                                    </option>
+                                                                    <%}}else{%>
+                                                                        <option>
+                                                                            <%=facultades[i].Nombre%>
+                                                                        </option>
+                                                                        <%}}}%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!--Seleccionar carrera-->
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 col-md-3 col-lg-2">
+                                            <label>Carrera</label>
+                                        </div>
+                                        <div class="col-sm-6 col-md-5 col-lg-4">
+                                            <select name="carrera" id="carrera" class="form-control" required form="form-act">
+                                                <option selected disabled>Selecciona una carrera</option>
+                                                <%if(typeof(carreras) != 'undefined'){%>
+                                                    <%for(i=0;i<carreras.length;i++){%>
+                                                        <%if(typeof(carSeleccionada) != 'undefined'){%>
+                                                            <%if(carSeleccionada == carreras[i].Carrera){%>
+                                                                <option selected>
+                                                                    <%=carreras[i].Carrera%>
+                                                                </option>
+                                                                <%}else{%>
+                                                                    <option>
+                                                                        <%=carreras[i].Carrera%>
+                                                                    </option>
+                                                                    <%}%>
+                                                                        <%}else{%>
+                                                                            <option>
+                                                                                <%=carreras[i].Carrera%>
+                                                                            </option>
+                                                                            <%}%>
+                                                                                <%}}%>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 col-md-3 col-lg-2">
+                                            <label>Clave única</label>
+                                        </div>
+                                        <div class="col-sm-6 col-md-5 col-lg-4">
+                                            <%if(typeof(datosEstudiante) != 'undefined'){%>
+                                                <%if(datosEstudiante[0].Clave_unica != null){%>
+                                                    <input type="text" name="cveunica" required class="form-control" value="<%=datosEstudiante[0].Clave_unica%>" oninput="validateCveUnica(this)">
+                                                    <%}else{%>
+                                                        <input type="text" name="cveunica" required class="form-control" oninput="validateCveUnica(this)">
+                                                        <%}}else{%>
+                                                            <input type="text" name="cveunica" required class="form-control" oninput="validateCveUnica(this)">
+                                                            <%}%>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 col-md-3 col-lg-2">
+                                            <label>Intentos de ingreso a la carrera</label>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-lg-1">
+                                            <%if(typeof(datosEstudiante) != 'undefined'){%>
+                                                <%if(datosEstudiante[0].Intentos_Ingreso != null){%>
+                                                    <input type="number" name="intentos" required class="form-control" min="1" max="10" value="<%=datosEstudiante[0].Intentos_Ingreso%>">
+                                                    <%}else{%>
+                                                        <input type="number" name="intentos" required class="form-control" min="1" max="10" value="1">
+                                                        <%}}else{%>
+                                                            <input type="number" name="intentos" required class="form-control" min="1" max="10" value="1">
+                                                            <%}%>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 col-md-3 col-lg-2">
+                                            <label>Semestre en curso</label>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-lg-1">
+                                            <%if(typeof(datosEstudiante) != 'undefined'){%>
+                                                <%if(datosEstudiante[0].Semestre != null){%>
+                                                    <input type="number" name="semestre" required class="form-control" min="1" max="10" value="<%=datosEstudiante[0].Semestre%>">
+                                                    <%}else{%>
+                                                        <input type="number" name="semestre" required class="form-control" min="1" max="10" value="1">
+                                                        <%}}else{%>
+                                                            <input type="number" name="semestre" required class="form-control" min="1" max="10" value="1">
+                                                            <%}%>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 col-md-3 col-lg-2">
+                                            <button class="btn btn-primary">
+                                                Guardar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+    </div>
+    <%}%>
+
+        <!--Panel del perfil-->
+        <div class="container center">
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="panel-title">Perfil</h2>
+                </div>
+
+                <div class="panel-body">
+                    <% if (typeof(errorMessage) != 'undefined' && errorMessage.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <%= errorMessage %>
+                        </div>
+                        <% } %>
+                            <% if (typeof(succesfulMessage) != 'undefined' && succesfulMessage.length > 0) { %>
+                                <div class="alert alert-success">
+                                    <%= succesfulMessage %>
+                                </div>
+                                <% } %>
+                                    <%if(typeof(datos) != 'undefined'){%>
+                                        <form class="form-horizontal" role="form" method="post">
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">¿Tiene pareja sentimental?</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].TienePareja == 'Si'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="pareja" value="Si" checked>Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="pareja" value="No">No</label>
+                                                            </div>
+                                                            <%}else if(datos[0].TienePareja == 'No'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="pareja" value="Si">Si</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="pareja" value="No" checked>No</label>
+                                                                </div>
+                                                                <%} else{%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="pareja" value="Si">Si</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="pareja" value="No">No</label>
+                                                                    </div>
+                                                                    <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">¿Tiene hijos?</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].TieneHijos == 'Si'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="hijos" value="Si" checked>Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="hijos" value="No">No</label>
+                                                            </div>
+                                                            <%}else if(datos[0].TieneHijos == 'No'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="hijos" value="Si">Si</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="hijos" value="No" checked>No</label>
+                                                                </div>
+                                                                <%} else{%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="hijos" value="Si">Si</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="hijos" value="No">No</label>
+                                                                    </div>
+                                                                    <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">¿Con quién vive?</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].ViveCon == 'Familia o pareja'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="viveCon" value="Familia o pareja" checked>Familia o pareja</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="viveCon" value="Amigos">Amigos</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="viveCon" value="Solo">Solo</label>
+                                                            </div>
+                                                            <%}else if(datos[0].ViveCon == 'Amigos'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="viveCon" value="Familia o pareja">Familia o pareja</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="viveCon" value="Amigos" checked>Amigos</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="viveCon" value="Solo">Solo</label>
+                                                                </div>
+                                                                <%}else if(datos[0].ViveCon == 'Solo'){%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="viveCon" value="Familia o pareja">Familia o pareja</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="viveCon" value="Amigos">Amigos</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="viveCon" value="Solo" checked>Solo</label>
+                                                                    </div>
+                                                                    <%}else{%>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="viveCon" value="Familia o pareja">Familia o pareja</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="viveCon" value="Amigos">Amigos</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="viveCon" value="Solo">Solo</label>
+                                                                        </div>
+                                                                        <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">¿De quién depende económicamente?</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].DependeDe == 'Padre y/o madre'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="dependeDe" value="Padre y/o madre" checked>Padre y/o madre</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="dependeDe" value="Otros">Otros</label>
+                                                            </div>
+                                                            <%}else if(datos[0].DependeDe == 'Otros'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="dependeDe" value="Padre y/o madre">Padre y/o madre</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="dependeDe" value="Otros" checked>Otros</label>
+                                                                </div>
+                                                                <%} else{%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="dependeDe" value="Padre y/o madre">Padre y/o madre</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="dependeDe" value="Otros">Otros</label>
+                                                                    </div>
+                                                                    <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">¿Realiza alguna actividad física 3 o más veces por semana?</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].ActividadFisica == 'Si'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="actividadFisica" value="Si" checked>Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="actividadFisica" value="No">No</label>
+                                                            </div>
+                                                            <%}else if(datos[0].ActividadFisica == 'No'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="actividadFisica" value="Si">Si</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="actividadFisica" value="No" checked>No</label>
+                                                                </div>
+                                                                <%}else{%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="actividadFisica" value="Si">Si</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="actividadFisica" value="No">No</label>
+                                                                    </div>
+                                                                    <%}%>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">Lugar de hijo que ocupa dentro de su familia</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].PosicionHijo == 'Primero'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="lugarHijo" value="Primero" checked>Primero</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="lugarHijo" value="Otro">Otro</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="lugarHijo" value="Último">Último</label>
+                                                            </div>
+                                                            <%}else if(datos[0].PosicionHijo == 'Otro'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="lugarHijo" value="Primero">Primero</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="lugarHijo" value="Otro" checked>Otro</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="lugarHijo" value="Último">Último</label>
+                                                                </div>
+                                                                <%}else if(datos[0].PosicionHijo == 'Último'){%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="lugarHijo" value="Primero">Primero</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="lugarHijo" value="Otro">Otro</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="lugarHijo" value="Último" checked>Último</label>
+                                                                    </div>
+                                                                    <%}else{%>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="lugarHijo" value="Primero">Primero</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="lugarHijo" value="Otro">Otro</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="lugarHijo" value="Último">Último</label>
+                                                                        </div>
+                                                                        <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">¿Alguno de sus padres es médico?</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].PadreMedico == 'Si'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="padreMedico" value="Si" checked>Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="padreMedico" value="No">No</label>
+                                                            </div>
+                                                            <%}else if(datos[0].PadreMedico == 'No'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="padreMedico" value="Si">Si</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="padreMedico" value="No" checked>No</label>
+                                                                </div>
+                                                                <%}else{%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="padreMedico" value="Si">Si</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="padreMedico" value="No">No</label>
+                                                                    </div>
+                                                                    <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">Escolaridad paterna</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].EscolPaterna == 'No sabe leer, ni escribir'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="No sabe leer, ni escribir" checked>No sabe leer, ni escribir</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                            </div>
+                                                            <%}else if(datos[0].EscolPaterna == 'Estudió primaria o secundaria'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolPaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolPaterna" value="Estudió primaria o secundaria" checked>Estudió primaria o secundaria</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolPaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolPaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                                </div>
+
+                                                                <%}else if(datos[0].EscolPaterna == 'Estudió prepataroria o nivel técnico'){%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolPaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolPaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolPaterna" value="Estudió prepataroria o nivel técnico" checked>Estudió prepataroria o nivel técnico</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolPaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                                    </div>
+                                                                    <%}else if(datos[0].EscolPaterna == 'Estudió licenciatura o posgrado'){%>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolPaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolPaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolPaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolPaterna" value="Estudió licenciatura o posgrado" checked>Estudió licenciatura o posgrado</label>
+                                                                        </div>
+                                                                        <%}else{%>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolPaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                            </div>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolPaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                                            </div>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolPaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                                            </div>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolPaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                                            </div>
+                                                                            <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    <label class="control-label">Escolaridad materna</label>
+                                                    <div class="radio">
+                                                        <%if(datos[0].EscolMaterna == 'No sabe leer, ni escribir'){%>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="No sabe leer, ni escribir" checked>No sabe leer, ni escribir</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                            </div>
+                                                            <%}else if(datos[0].EscolMaterna == 'Estudió primaria o secundaria'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolMaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolMaterna" value="Estudió primaria o secundaria" checked>Estudió primaria o secundaria</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolMaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="escolMaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                                </div>
+
+                                                                <%}else if(datos[0].EscolMaterna == 'Estudió prepataroria o nivel técnico'){%>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolMaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolMaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolMaterna" value="Estudió prepataroria o nivel técnico" checked>Estudió prepataroria o nivel técnico</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="escolMaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                                    </div>
+                                                                    <%}else if(datos[0].EscolMaterna == 'Estudió licenciatura o posgrado'){%>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolMaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolMaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolMaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="escolMaterna" value="Estudió licenciatura o posgrado" checked>Estudió licenciatura o posgrado</label>
+                                                                        </div>
+                                                                        <%}else{%>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolMaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                                            </div>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolMaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                                            </div>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolMaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                                            </div>
+                                                                            <div class="radio">
+                                                                                <label>
+                                                                                    <input type="radio" name="escolMaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                                            </div>
+                                                                            <%}%>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <%if(typeof(estudiante) != 'undefined' && !estudiante){%>
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿Eres alumno de la UASLP?</label>
+                                                        <div class="radio">
+                                                            <%if(datos[0].EsAlumno == 'Si'){%>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="esAlumno" value="Si" checked>Si</label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="esAlumno" value="No">No</label>
+                                                                </div>
+                                                                <%} else if(datos[0].EsAlumno == 'No'){ %>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="esAlumno" value="Si">Si</label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" name="esAlumno" value="No" checked>No</label>
+                                                                    </div>
+                                                                    <%} else{%>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="esAlumno" value="Si">Si</label>
+                                                                        </div>
+                                                                        <div class="radio">
+                                                                            <label>
+                                                                                <input type="radio" name="esAlumno" value="No">No</label>
+                                                                        </div>
+                                                                        <%}%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <%}else{%>
+                                                    <input type="hidden" name="esAlumno" value="<%=datos[0].EsAlumno%>">
+                                                    <%}%>
+
+                                                        <div class="form-group">
+                                                            <div class="col-xs-11">
+                                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                                            </div>
+                                                        </div>
+                                        </form>
+                                        <%}else{%>
+                                            <form class="form-horizontal" role="form" method="post">
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿Tiene pareja sentimental?</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="pareja" value="Si">Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="pareja" value="No">No</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿Tiene hijos?</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="hijos" value="Si">Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="hijos" value="No">No</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿Con quién vive?</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="viveCon" value="Familia o pareja">Familia o pareja</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="viveCon" value="Amigos">Amigos</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="viveCon" value="Solo">Solo</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿De quién depende económicamente?</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="dependeDe" value="Padre y/o madre">Padre y/o madre</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="dependeDe" value="Otros">Otros</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿Realiza alguna actividad físcia 3 o más veces por semana?</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="actividadFisica" value="Si">Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="actividadFisica" value="No">No</label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">Lugar de hijo que ocupa dentro de su familia</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="lugarHijo" value="Primero">Primero</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="lugarHijo" value="Otro">Otro</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="lugarHijo" value="Último">Último</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿Alguno de sus padres es médico?</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="padreMedico" value="Si">Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="padreMedico" value="No">No</label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">Escolaridad paterna</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolPaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">Escolaridad materna</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="No sabe leer, ni escribir">No sabe leer, ni escribir</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="Estudió primaria o secundaria">Estudió primaria o secundaria</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="Estudió prepataroria o nivel técnico">Estudió prepataroria o nivel técnico</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="escolMaterna" value="Estudió licenciatura o posgrado">Estudió licenciatura o posgrado</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label class="control-label">¿Eres alumno de la UASLP?</label>
+                                                        <div class="radio">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="esAlumno" value="Si">Si</label>
+                                                            </div>
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input type="radio" name="esAlumno" value="No">No</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-11">
+                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <%}%>
+                </div>
+                <!--Panel body-->
+            </div>
+            <!--Panel-->
+        </div>
+        <!--Container-->

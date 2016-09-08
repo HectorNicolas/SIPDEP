@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+    <% include partials/appmenu.ejs %>
+
+        <div class="container">
+            <h2>Aplicadores</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Privilegios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%  if (typeof(datos) != 'undefined' ){%>
+                        <% for(i=0;i<datos.length;i++){ %>
+                            <tr>
+                                <th>
+                                    <%= datos[i].NombreUsuario %>
+                                </th>
+                                <th>
+                                    <%= datos[i].Nombre %>
+                                </th>
+                                <th>
+                                    <%= datos[i].Apellidos %>
+                                </th>
+                                <th>
+                                    <%= datos[i].Telefono %>
+                                </th>
+                                <th>
+                                    <%= datos[i].Correo %>
+                                </th>
+                                <th>
+                                    <%= datos[i].Privilegios %>
+                                </th>
+                            </tr>
+                            <% } %>
+                                <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <% include partials/footer.ejs %>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <script>
+                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+            </script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

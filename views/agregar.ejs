@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+    <% include partials/appmenu.ejs %>
+        <!-- Panel del nuevo aplicador -->
+        <div class="container center app-registro">
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2 class="app-login-title panel-title">Agregar nuevo aplicador</h2>
+                </div>
+
+                <div class="panel-body">
+                    <%include partials/messages.ejs%>
+                        <form class="form-horizontal" role="form" method="post" action="/agregar">
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label class="control-label">Nombre*</label>
+                                    <input type="text" id="nombre" class="form-control" name="nombre" required oninput="validateNombre(this)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label class="control-label">Apellidos*</label>
+                                    <input type="text" class="form-control" name="apellidos" required oninput="validateNombre(this)" id="apellidos">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label class="control-label">Nombre de usuario*</label>
+                                    <input type="text" class="form-control" name="username" required oninput="validateUsername(this)" onfocus="onfocusUsername(this)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label class="control-label">Teléfono</label>
+                                    <input type="tel" class="form-control" name="telefono" required min="7" max="15" oninput="validateTelefono(this)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label class="control-label">Correo</label>
+                                    <input type="email" class="form-control" name="correo" required oninput="validateEmail(this)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label for="privilegios">Privilegios</label>
+                                    <select name="privilegios" class="form-control" id="privilegios">
+                                        <option value="administrativos">Administrativos</option>
+                                        <option value="generales">Generales</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label class="control-label">Contraseña*</label>
+                                    <input type="password" class="form-control" name="password" id="password1" required min="4" max="64" oninput="validatePassword(this)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <label class="control-label">Repetir contraseña*</label>
+                                    <input type="password" class="form-control" name="password2" id="password2" required min="4" max="64" onkeyup="validatePasswordMatch(this)">
+                                </div>
+                            </div>
+                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <button type="submit" class="btn btn-primary">Agregar</button>
+                            </div>
+                        </form>
+                </div>
+                <!--Panel body-->
+            </div>
+            <!--Panel-->
+        </div>
+
+        <% include partials/footer.ejs %>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <script>
+                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+            </script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

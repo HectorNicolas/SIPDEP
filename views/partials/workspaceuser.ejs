@@ -1,0 +1,77 @@
+<!--Test pendientes de contestar-->
+<div class="container-fluid">
+    <p class="app-top">Test pendientes de contestar</p>
+    <div class="container-fluid">
+        <br>
+        <% if(typeof(pendientes) != 'undefined'){  %>
+            <% for(i=0;i<pendientes.length;i++){ %>
+                <form action="/contestartest" role="form" method="post" class="form-inline">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">
+                      <%= pendientes[i].Test %>
+                       <input type="hidden" class="form-control input-personalizado" name="test" value="<%= pendientes[i].Test %>">
+                       <input type="hidden" class="form-control input-personalizado" name="fechaAplicacion" value="<%= pendientes[i].Fecha %>">
+                       <input type="hidden" class="form-control input-personalizado" name="username" value="<%= pendientes[i].Username %>">
+                   </h2>
+                        </div>
+                        <div class="panel-body row">
+                            <div class="col-sm-1 col-md-1 col-lg-1">
+                                <i class="glyphicon glyphicon-file app-test"></i>
+                            </div>
+                            <div class="col-sm-11 col-md-11 col-lg-11">
+                                <span><strong>Aplicador: </strong><%= pendientes[i].Nombre + ' ' + pendientes[i].Apellidos %></span>
+                                <br>
+                                <span><strong>Fecha de aplicación: </strong><%= pendientes[i].Fecha %></span>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-2 col-md-1 col-lg-1">
+                                    <button class="btn btn-primary" type="submit">Contestar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <% } %>
+                    <% } else{ %>
+                        <div class="alert alert-info">¡Felicidades! No tienes test pendientes de contestar. Puedes solicitar un test o esperar a que te apliquen uno.</div>
+                        <%}%>
+    </div>
+</div>
+
+<!--Test contestados-->
+<div class="container-fluid">
+    <p class="app-top">Test contestados</p>
+    <div class="container-fluid">
+        <br>
+        <% if(typeof(contestados) != 'undefined'){  %>
+            <% if(contestados.length > 0) {%>
+                <% for(i=0;i<contestados.length;i++){ %>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">
+                           <%= contestados[i].Test %>
+                       </h2>
+                        </div>
+                        <div class="panel-body row">
+                            <div class="col-sm-1 col-md-1 col-lg-1">
+                                <i class="glyphicon glyphicon-file app-test"></i>
+                            </div>
+                            <div class="col-sm-11 col-md-11 col-lg-11">
+                                <span><strong>Aplicador: </strong><%= contestados[i].Nombre + ' ' + contestados[i].Apellidos %></span>
+                                <br>
+                                <span><strong>Fecha de aplicación: </strong><%= contestados[i].Fecha %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                        <% } if(contestados.length == 0){ %>
+                            <div class="alert alert-info">Aún no has contestado ningún test, contestalos ahora si tienes pendientes</div>
+                            <% } %>
+                                <% } else { %>
+                                    <div class="alert alert-info">Aún no has contestado ningún test, contestalos ahora si tienes pendientes</div>
+                                    <%}%>
+    </div>
+</div>

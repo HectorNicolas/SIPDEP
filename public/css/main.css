@@ -1,0 +1,167 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+.input-personalizado{
+    background: transparent;
+    outline: none;
+    border-color: inherit;
+    box-shadow: none;
+    border: 0px;
+    background-color: transparent;
+}
+
+.noresize {
+  resize: none; 
+}
+
+.input-personalizado:focus{
+    outline: none;
+}
+
+.navbar-personalizado{
+    background-color: #DADADA;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.nav-personalizado>li>a{
+    color: black;
+    text-shadow: none;
+}
+
+.nav-personalizado>li>a:hover{
+    background-color: #BFBFBF;
+}
+
+.app-bar{
+    background-color: white;
+}
+
+.app-principal{
+    background-color: #1B3257;
+    color: white;
+    text-align: center;
+}
+
+.app-titulo{
+    font-size: 40px;
+}
+
+.app-desc{
+    font-size: 18px;
+}
+
+.app-btn{
+     display: inline-block;
+}
+
+.app-login{
+    display: inline-block;
+}
+
+.app-registrar{
+    display: inline-block;
+}
+
+.btn-login{
+    color: black;
+    background-color: #DADADA;
+}
+
+.btn-registrar{
+    color: black;
+    background-color: #DADADA;
+}
+
+.user-img{
+    font-size: 50px;
+    color: #1B3257;
+}
+
+.app-top{
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.app-user{
+    text-align: center;
+    font-size: 18px;
+    margin-right: auto;
+}
+
+.app-img-centrar{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.app-justificar{
+    text-align: justify;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.app-footer{
+    margin-top: 22%;
+    background-color: #1B3257;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    padding: 25px;
+}
+
+.app-login-title{
+    text-align: center;
+}
+
+.section-directorio{
+    border-width: 1px;
+}
+
+.container-directorio{
+    border-width: 2px;
+    border-color: red;
+}
+
+.app-userActive{
+    width: 100px;
+    height: 20px;
+}
+
+.app-activado{
+    width: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.app-test{
+    font-size: 45px;
+    color: #1B3257;
+}
+
+/*Small*/
+@media only screen and (min-width : 480px) {
+    .app-registro{
+        width: 100%;
+    }
+}
+
+/*Medium*/
+@media only screen and (min-width: 768px) {
+    .app-registro{
+        width: 60%;
+    }
+}
+/*Large*/
+@media only screen and (min-width: 992px){
+    .app-registro{
+        width: 40%;
+    }
+}
+
+/*Extra large*/
+@media only screen and (min-width: 1200px){
+    .app-registro{
+        width: 40%;
+    }
+}

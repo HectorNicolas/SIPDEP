@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+    <% include partials/appmenu.ejs %>
+
+        <div class="container">
+            <br>
+            <div class="container">
+                <div class="row">
+                    <form action="/selecciontest" method="get" role="form" class="form-inline">
+                        <div class="form-group">
+                            <label>Selecciona el test:</label>
+                            <select class="form-control" name="test">
+                                <% if(typeof(test) != 'undefined'){ %>
+                                    <% for(i=0;i<test.length;i++){ %>
+                                        <% if(typeof(testSeleccionado) != 'undefined'){ %>
+                                            <%if(test[i] == testSeleccionado){%>
+                                                <option selected>
+                                                    <%= test[i].Nombre %>
+                                                </option>
+                                                <%}else{%>
+                                                    <option>
+                                                        <%= test[i].Nombre %>
+                                                    </option>
+                                                    <%}} else{%>
+                                                        <option>
+                                                            <%= test[i].Nombre %>
+                                                        </option>
+                                                        <%} } }%>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Seleccionar</button>
+                    </form>
+                </div>
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="app-login-title panel-title">Agregar pregunta</h2>
+                        </div>
+                        <div class="panel-body">
+                            <% if (addPregErrorMessage.length > 0) { %>
+                                <div class="alert alert-danger">
+                                    <%= addPregErrorMessage %>
+                                </div>
+                                <% } %>
+                                    <% if (addPregSuccesfulMessage.length > 0) { %>
+                                        <div class="alert alert-success">
+                                            <%= addPregSuccesfulMessage %>
+                                        </div>
+                                        <% } %>
+                                            <form class="form-horizontal" role="form" method="get" action="/agregarpregunta">
+                                                <%if(typeof(testSeleccionado) != 'undefined'){%>
+                                                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label>Test seleccionado:
+                                                            <%=testSeleccionado%>
+                                                        </label>
+                                                    </div>
+                                                    <input type="hidden" class="form-control" name="testSeleccionado" value="<%=testSeleccionado%>">
+                                                    <%}else{%>
+                                                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <label>Test seleccionado: Ninguno</label>
+                                                        </div>
+                                                        <%}%>
+                                                            <%if(typeof(numeroPregunta) != 'undefined'){%>
+                                                                <div class="col-sm-7 col-md-6 col-lg-5">
+                                                                    <div class="form-group">
+                                                                        <label>Numero de pregunta</label>
+                                                                        <input type="number" class="form-control" name="numero" min="1" max="100" required value="<%=numeroPregunta%>">
+                                                                    </div>
+                                                                </div>
+                                                                <%}else{%>
+                                                                    <div class="col-sm-7 col-md-6 col-lg-5">
+                                                                        <div class="form-group">
+                                                                            <label>Numero de pregunta</label>
+                                                                            <input type="number" class="form-control" name="numero" min="1" max="100" required value="1">
+                                                                        </div>
+                                                                    </div>
+                                                                    <%}%>
+                                                                        <div class="form-group">
+                                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                                <label class="control-label">Ingresa la pregunta que quieres agregar</label>
+                                                                                <textarea type="text" rows="5" class="form-control noresize" name="pregunta" required></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                            <button type="submit" class="btn btn-primary">Agregar pregunta</button>
+                                                                        </div>
+                                            </form>
+                        </div>
+                        <!--Panel body-->
+                    </div>
+                    <!--Panel-->
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="app-login-title panel-title">Agregar respuesta a pregunta</h2>
+                        </div>
+                        <div class="panel-body">
+                            <% if (addRespuestaErrorMessage.length > 0) { %>
+                                <div class="alert alert-danger">
+                                    <%= addRespuestaErrorMessage %>
+                                </div>
+                                <% } %>
+                                    <% if (addRespuestaSuccesfulMessage.length > 0) { %>
+                                        <div class="alert alert-success">
+                                            <%= addRespuestaSuccesfulMessage %>
+                                        </div>
+                                        <% } %>
+                                            <form class="form-horizontal" role="form" method="get" action="/agregarrespuesta">
+                                                <%if(typeof(testSeleccionado) != 'undefined'){%>
+                                                    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label>Test seleccionado:
+                                                            <%=testSeleccionado%>
+                                                        </label>
+                                                    </div>
+                                                    <input type="hidden" class="form-control" name="testSeleccionado" value="<%=testSeleccionado%>" required>
+                                                    <%}else{%>
+                                                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <label>Test seleccionado: Ninguno</label>
+                                                        </div>
+                                                        <%}%>
+                                                            <div class="form-group">
+                                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                    <label class="control-label">Selecciona la pregunta</label>
+                                                                    <select class="form-control" name="pregunta">
+                                                                        <% if(typeof(preguntas) != 'undefined'){ %>
+                                                                            <% for(i=0;i<preguntas.length;i++){ %>
+                                                                                <option>
+                                                                                    <%= preguntas[i].Pregunta %>
+                                                                                </option>
+                                                                                <% } }%>
+                                                                                    <button type="submit" class="btn btn-primary">Buscar pregunta</button>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <%if(typeof(numeroRespuesta) != 'undefined'){%>
+                                                                <div class="col-sm-7 col-md-6 col-lg-5">
+                                                                    <div class="form-group">
+                                                                        <label>Numero de respuesta</label>
+                                                                        <input type="number" class="form-control" name="numero" min="1" max="100" required value="<%=numeroRespuesta%>">
+                                                                    </div>
+                                                                </div>
+                                                                <%}else{%>
+                                                                    <div class="col-sm-7 col-md-6 col-lg-5">
+                                                                        <div class="form-group">
+                                                                            <label>Numero de respuesta</label>
+                                                                            <input type="number" class="form-control" name="numero" min="1" max="100" required value="1">
+                                                                        </div>
+                                                                    </div>
+                                                                    <%}%>
+                                                                        <div class="form-group">
+                                                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                                <label class="control-label">Ingresa la respuesta que quieres agregar a la pregunta anterior</label>
+                                                                                <textarea type="text" rows="5" id="comment" class="form-control noresize" name="respuesta"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-7 col-md-6 col-lg-5">
+                                                                            <div class="form-group">
+                                                                                <label>Puntuación</label>
+                                                                                <input type="number" class="form-control" name="puntuacion" min="0" max="100" required value="0">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                            <button type="submit" class="btn btn-primary">Agregar respuesta</button>
+                                                                        </div>
+                                            </form>
+                        </div>
+                        <!--Panel body-->
+                    </div>
+                    <!--Panel-->
+                </div>
+            </div>
+        </div>
+        <% include partials/footer.ejs %>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <script>
+                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+            </script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

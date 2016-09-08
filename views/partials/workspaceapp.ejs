@@ -1,0 +1,75 @@
+<!--Test aplicados-->
+<div class="container-fluid">
+    <p class="app-top">Test aplicados que ya fueron contestados</p>
+    <div class="container-fluid">
+        <br>
+        <% if(typeof(contestados) != 'undefined'){  %>
+            <% for(i=0;i<contestados.length;i++){ %>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                   <%= contestados[i].Test %>
+               </h2>
+                    </div>
+                    <form role="form" action="/resultados" method="get" class="form">
+                        <div class="panel-body row">
+                            <div class="col-sm-1 col-md-1 col-lg-1">
+                                <i class="glyphicon glyphicon-file app-test"></i>
+                            </div>
+                            <div class="col-sm-11 col-md-11 col-lg-11">
+                                <span><strong>Número de folio del resultado: </strong><%= contestados[i].Folio%></span>
+                                <input type="hidden" value="<%=contestados[i].Folio%>" name="folio">
+                                <br>
+                                <span><strong>Aplicado a: </strong><%= contestados[i].Nombre + ' ' + contestados[i].Apellidos %></span>
+                                <br>
+                                <span><strong>Fecha de aplicación: </strong><%= contestados[i].Fecha %></span>
+                                <br>
+                                <span><strong>Fecha de contestación: </strong><%= contestados[i].FechaContestado %></span>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-primary" type="submit">
+                                Mostrar resultados
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <% } %>
+                    <% } else{ %>
+                        <div class="alert alert-info">Aún no hay test que hayan sido contestados. Puedes aplicar un nuevo test o esperar a que te manden solicitudes para aplicar un nuevo test.</div>
+                        <%}%>
+    </div>
+</div>
+
+<!--Test que no han sido contestados-->
+<div class="container-fluid">
+    <p class="app-top">Test que no han sido contestados</p>
+    <div class="container-fluid">
+        <br>
+        <% if(typeof(pendientes) != 'undefined'){  %>
+            <% for(i=0;i<pendientes.length;i++){ %>
+                <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                   <%= pendientes[i].Test %>
+               </h2>
+                    </div>
+
+                    <div class="panel-body row">
+                        <div class="col-sm-1 col-md-1 col-lg-1">
+                            <i class="glyphicon glyphicon-file app-test"></i>
+                        </div>
+                        <div class="col-sm-11 col-md-11 col-lg-11">
+                            <span><strong>Aplicado a: </strong><%= pendientes[i].Nombre + ' ' + pendientes[i].Apellidos %></span>
+                            <br>
+                            <span><strong>Fecha de aplicación: </strong><%= pendientes[i].Fecha %></span>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                    <% }else { %>
+                        <div class="alert alert-info">No hay test en espera a ser contestados por los usuarios.</div>
+                        <%}%>
+    </div>
+</div>

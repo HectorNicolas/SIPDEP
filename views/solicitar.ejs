@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <% include partials/usermenu.ejs %>
+
+        <div class="container-fluid">
+            <p class="app-top">Solicitar test</p>
+            <div class="container-fluid">
+                <%if(errorMessage.length > 0){%>
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>¡Error!</strong>
+                        <%=errorMessage%>
+                    </div>
+                    <%}%>
+                        <%if(succesfulMessage.length > 0){%>
+                            <div class="alert alert-success">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>¡Correcto!</strong>
+                                <%=succesfulMessage%>
+                            </div>
+                            <%}%>
+                                <br>
+                                <form action="/solicitar" method="post">
+                                    <% if(typeof(test) != 'undefined'){%>
+                                        <%for(i=0; i<test.length;i++){%>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h2 class="panel-title">
+                                            <%= test[i].Nombre %>
+                                        </h2>
+                                                    <input type="hidden" value="<%=test[i].Nombre%>" name="test">
+                                                </div>
+                                                <div class="panel-body">
+                                                    <%= test[i].Descripcion %>
+                                                </div>
+                                                <div class="panel-footer">
+                                                    <div class="row">
+                                                        <div class="col-sm-2 col-md-1 col-lg-1">
+                                                            <button class="btn btn-primary" type="submit">Solicitar</button>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-5 col-lg-5">
+                                                            <input type="text" name="aplicador" class="form-control" placeholder="Ingresa el nombre del aplicador" required oninput="validateUsername(this)">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%}%>
+                                                <%}else{%>
+                                                    <div class="jumbotron">
+                                                        <h3><strong>No hay test disponibles</strong></h3>
+                                                        <div class="alert alert-info">
+                                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Espera a que los aplicadores agreguen un nuevo test.
+                                                        </div>
+                                                    </div>
+                                                    <%}%>
+                                </form>
+            </div>
+        </div>
+
+        <% include partials/footer.ejs %>
+            <script>
+                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+            </script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

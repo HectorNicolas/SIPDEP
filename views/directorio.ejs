@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <% include partials/menu.ejs %>
+        <% include partials/title.ejs %>
+
+            <!-- Directorio-->
+            <section class="container">
+                <p class="app-top">Directorio</p>
+                <div class="container list-group">
+                    <div class="container">
+                        <%if(typeof(app) != 'undefined'){%>
+                            <%for(i=0;i<app.length;i++){%>
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                        <span class="glyphicon glyphicon-user user-img"></span>
+                                    </div>
+                                    <div class="col-sm-5 col-md-5 col-lg-5">
+                                        <p>
+                                            <strong>Nombre:</strong>
+                                            <%=app[i].Nombre + ' ' + app[i].Apellidos%>
+                                                <br>
+                                                <strong>Correo: </strong>
+                                                <%=app[i].Correo%>
+                                        </p>
+                                    </div>
+                                    <%if(i + 1 < app.length){%>
+                                        <div class="col-sm-1 col-md-1 col-lg-1">
+                                            <span class="glyphicon glyphicon-user user-img"></span>
+                                        </div>
+                                        <div class="col-sm-5 col-md-5 col-lg-5">
+                                            <p>
+                                                <strong>Nombre:</strong>
+                                                <%=app[++i].Nombre + ' ' + app[i].Apellidos%>
+                                                    <br>
+                                                    <strong>Correo: </strong>
+                                                    <%=app[i].Correo%>
+                                            </p>
+                                        </div>
+                                        <%}%>
+                                </div>
+                                <%} }%>
+                    </div>
+                </div>
+            </section>
+
+
+            <% include partials/footer.ejs %>
+                <script>
+                    window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+                </script>
+                <script src="js/vendor/bootstrap.min.js"></script>
+                <script src="js/main.js"></script>
+</body>
+
+</html>

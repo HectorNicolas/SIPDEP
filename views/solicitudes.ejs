@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+
+    <% include partials/appmenu.ejs %>
+        <div class="container-fluid">
+            <p class="app-top">Solicitudes de los usuarios que requieren aplicar un test</p>
+            <div class="container-fluid">
+                <br>
+                <%if(typeof(solicitudes) != 'undefined' && typeof(solicitudes) != 'undefined'){  %>
+                    <% for(i=0;i<solicitudes.length;i++){ %>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">
+                                   <%= solicitudes[i].Nombre_Test %>
+                               </h2>
+                            </div>
+                            <form action="/solicitudes" method="post" role="form" class="form form-horizontal">
+                                <div class="panel-body row">
+                                    <input type="hidden" name="test" value="<%=solicitudes[i].Nombre_Test%>">
+                                    <input type="hidden" value="<%=solicitudes[i].Nombre_Usuario%>" name="username">
+                                    <div class="col-sm-1 col-md-1 col-lg-1">
+                                        <i class="glyphicon glyphicon-file app-test"></i>
+                                    </div>
+                                    <div class="col-sm-11 col-md-11 col-lg-11">
+                                        <span><strong>Enviada por: </strong><%= solicitudes[i].Nombre + ' ' + solicitudes[i].Apellidos %></span>
+                                        <br>
+                                        <span><strong>Fecha de solicitud: </strong><%= solicitudes[i].Fecha %></span>
+                                        <input type="hidden" name="fechaSolicitud" value="<%=solicitudes[i].Fecha%>">
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <button class="btn btn-primary" type="submit">
+                                        Aceptar solicitud
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <% } %>
+            </div>
+            <% }else{%>
+                <div class="alert alert-info">
+                    No tienes solicitudes pendientes
+                </div>
+                <%}%>
+        </div>
+        </div>
+
+        <% include partials/footer.ejs %>
+            <script>
+                window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+            </script>
+            <script src="js/vendor/bootstrap.min.js"></script>
+            <script src="js/main.js"></script>
+</body>
+
+</html>

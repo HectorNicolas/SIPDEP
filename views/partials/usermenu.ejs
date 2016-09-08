@@ -1,0 +1,32 @@
+ <!--Barra de menú principal-->
+<nav class="navbar-personalizado">
+    <div class="container-fluid">
+       
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                <span class="icon-bar app-bar"></span>
+                <span class="icon-bar app-bar"></span>
+                <span class="icon-bar app-bar"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="menu">
+           
+            <ul class="nav navbar-nav nav-personalizado">
+                <li><a href="workspace">Mis test</a></li>
+                <li><a href="solicitar">Solicitar test</a></li>
+            </ul>
+                
+            <ul class="nav navbar-nav navbar-right nav-personalizado">
+                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span> <%= usuario %>
+                    <span class="caret"></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="/perfil">Editar perfil</a></li>
+                        <li><a href="/logout">Cerrar sesión</a></li>
+                    </ul>
+                </a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
