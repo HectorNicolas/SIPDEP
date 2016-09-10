@@ -9,6 +9,8 @@
 
 <head>
     <% include partials/head.ejs %>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js "></script>
+    <script type="text/javascript" src="js/validations.js"></script>
 </head>
 
 <body>
@@ -40,14 +42,14 @@
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <label class="control-label" for="username">Nombre de usuario:</label>
-                                                <input type="text" oninput="validateUsername(this)" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
+                                                <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario" required>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <label class="control-label" for="pwd">Contraseña:</label>
-                                                <input type="password" name="password" class="form-control" id="pwd" placeholder="Ingresa tu contraseña" oninput="validatePassword(this)" required>
+                                                <input type="password" name="password" class="form-control" id="pwd" placeholder="Ingresa tu contraseña" required>
                                             </div>
                                         </div>
                                         <!-- 
@@ -61,7 +63,7 @@
                                   -->
                                         <div class="form-group">
                                             <div class="col-xs-12">
-                                                <button type="submit" class="btn btn-primary">Ingresar</button>
+                                                <button type="submit" id="submitlog" class="btn btn-primary">Ingresar</button>
                                             </div>
                                         </div>
                                     </form>

@@ -1,4 +1,4 @@
-/// Autor: Jesús Asael Hernández García
+﻿/// Autor: Jesús Asael Hernández García
 /// Email: azzaeelhg@gmail.com
 //  Fecha: 15/05/2016
 
@@ -2725,8 +2725,8 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: 'asael',
-        password: 'password12++',
+        user: 'gabriel',
+        password: '123456',
         database: 'sipdep',
         port: 3306,
         multipleStatements: true

@@ -1,4 +1,4 @@
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var partials = require('express-partials');
