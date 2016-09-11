@@ -1,4 +1,4 @@
-﻿/// Autor: Jesús Asael Hernández García
+/// Autor: Jesús Asael Hernández García
 /// Email: azzaeelhg@gmail.com
 //  Fecha: 15/05/2016
 
@@ -2064,6 +2064,7 @@ module.exports = function (app) {
         });
     });
 
+
     ///
     /// GET y POST de la página directorio
     ///
@@ -2079,6 +2080,45 @@ module.exports = function (app) {
                 });
             }
         });
+    });
+	
+	///
+    /// GET y POST de la página cambiar contraseña
+    ///
+    app.get('/cambiar', function (req, res) {
+        var username = req.cookies.name;
+
+        connection.query(checkUserName, username, function (errorUs, resultUs) {
+            if (errorUs) throw errorUs;
+            if (resultUs.length > 0) {
+                connection.query(selectTest, function (error, result) {
+                    if (error) throw error;
+                    if (result.length > 0) {
+                        var string = JSON.stringify(result);
+                        var selectJson = JSON.parse(string);
+                        console.log(selectJson);
+                        res.render('cambiar', {
+                            title: 'Cambiar la contraseña',
+                            usuario: req.cookies.name,
+                            test: selectJson
+                        });
+                        app.locals.errorMessage = '';
+                        app.locals.succesfulMessage = '';
+                    } else {
+                        res.render('cambiar', {
+                            title: 'Cambiar la contraseña',
+                            usuario: req.cookies.name
+                        });
+                        app.locals.errorMessage = '';
+                        app.locals.succesfulMessage = '';
+                    }
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
+
+
     });
 
     ///
@@ -2725,7 +2765,7 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: 'gabriel',
+        user: 'hector',
         password: '123456',
         database: 'sipdep',
         port: 3306,
