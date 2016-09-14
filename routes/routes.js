@@ -2083,7 +2083,41 @@ module.exports = function (app) {
     });
 	
 	///
-    /// GET y POST de la página cambiar contraseña
+    /// GET y POST de la página cambiar contraseña del aplicador
+    ///
+    app.get('/cambiarapp', function (req, res) {
+        var apppriv = false;
+
+        connection.query(checkAplicadorName, [req.cookies.name], function (error, result) {
+            if (error) throw error;
+            if (result.length > 0) {
+                var appData = JSON.parse(JSON.stringify(result));
+                if (appData[0].Privilegios == 'administrativos')
+                    apppriv = true,
+                    res.render('cambiarapp', {
+                        title: 'Cambiar Contraseña',
+                        usuario: req.cookies.name,
+                        errorMessage: app.locals.errorMessage,
+                        succesfulMessage: app.locals.succesfulMessage,
+                        apppriv: apppriv
+                    });
+            } else {
+                res.render('cambiarapp', {
+                        title: 'Cambiar Contraseña',
+                    usuario: req.cookies.name,
+                    errorMessage: app.locals.errorMessage,
+                    succesfulMessage: app.locals.succesfulMessage,
+                    apppriv: apppriv
+                });
+            }
+        });
+        app.locals.errorMessage = '';
+        app.locals.succesfulMessage = '';
+    });
+
+	
+	///
+    /// GET y POST de la página cambiar contraseña del usuario
     ///
     app.get('/cambiar', function (req, res) {
         var username = req.cookies.name;
