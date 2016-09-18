@@ -59,6 +59,28 @@ $(document).ready(function(e){
    			return false;
    		}
     });
+
+	/*Verefiaca Cambio de Password para el Usuario*/
+	$('#newpassword').on('focusout', function(){
+    	var nPass = $('#newpassword').val();
+    	validatePassChange(nPass);
+    });
+
+    $('#newpassword2').on('focusout', function(){
+    	var pass1Change = $('#newpassword').val();
+    	var pass2Change = $('#newpassword2').val();
+    	validateSamePassChange(pass1Change,  pass2Change);
+    });
+
+	$('#submitChangePassword').click(function(e){    	
+    	var nPass = $('#newpassword').val();        
+    	var pass2Change = $('#newpassword2').val();
+    	if(validatePassChange(nPass)&&validateSamePassChange(nPass,  pass2Change)){             
+   		} else{            
+   			e.preventDefault();
+   			return false;
+   		}
+    });
 });
 
 function validateName(sName){
@@ -106,7 +128,7 @@ function validateEmail(SEmail){
 function validatePass(sPass){
 	var filter = /\s/;
 	if(sPass.length < 4){
-		alert("La contraseña debe contener mas de 4 caaracteres");
+		alert("La contraseña debe contener más de 4 caracteres");
 		return false;
 	} else if(sPass.length > 64){
 		alert("La contraseña debe contener menos de 64 caracteres");
@@ -121,7 +143,33 @@ function validatePass(sPass){
 
 function validateSamePass(pass1 , pass2){
 	if(pass1 != pass2){
+		alert("Las constraseñas no coinciden. Asegúrate de que hayas escrito bien tu constraseña.");
+		return false;
+	}
+}
+
+
+function validatePassChange(nPass){
+	var filter = /\s/;
+	if(nPass.length < 4){
+		alert("La contraseña debe contener más de 4 caracteres");
+		return false;
+	} else if(nPass.length > 64){
+		alert("La contraseña debe contener menos de 64 caracteres");
+		return false;
+	} else if(filter.test(nPass) == true){
+		alert("La contraseña no puede contener espacios");
+		return false;
+	} else{
+		return true;
+	}
+}
+
+function validateSamePassChange(pass1Change , pass2Change){
+	if(pass1Change != pass2Change){
 		alert("Las constraseñas no coinciden. Asegurate de que hayas escrito bien tu constraseña.");
 		return false;
 	}
+    else
+        return true;
 }
