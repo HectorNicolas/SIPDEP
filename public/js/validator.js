@@ -18,16 +18,17 @@ $(document).ready(function () {
 				required: true,
 				email: true
 			},
-			pass1: {
+			passwd: {
 				required: true,
 				pattern: /^[^\s]+$/
 			},
-			pass2: {
+			passwd2: {
 				required: true,
 				pattern: /^[^\s]+$/,
 				equalTo: "#password1"
 			},
-			fecha: "required"
+			fechaNac: "required",
+			sexo: "required"
 		},
 		messages: {
 			nombre: {
@@ -43,16 +44,17 @@ $(document).ready(function () {
 				pattern: "Tu nombre de usuario solo puede contener palabras separadas de '.'' o '_'"
 			},
 			correo: "Por favor escribe un correo valido",
-			pass1:{
+			passwd:{
 				required: "Por favor escribe una contraseña",
 				pattern: "Las contraseñas no deben contener espacios"
 			},
-			pass2: {
+			passwd2: {
 				required: "Por favor escribe la contraseña de confirmacion",
 				pattern: "Las contraseñas no deben contener espacios",
 				equalTo: "Por favor escribe la misma contraseña de arriba"
 			},
-			fecha: "Por favor selecciona una fecha valida"
+			fechaNAC: "Por favor selecciona una fecha valida",
+			sexo: "Por favor selecciona un Sexo"
 		}
 	})
 	$('#loginForm').validate({
@@ -61,7 +63,7 @@ $(document).ready(function () {
 				required: true,
 				pattern: /^[a-zA-Z]*[.|_][a-zA-Z]*$/
 			},
-			password1: {
+			password: {
 				required: true,
 				pattern: /^[^\s]+$/
 			}
@@ -71,7 +73,7 @@ $(document).ready(function () {
 				required: "Por favor escribe tu nombre de usuario",
 				pattern: "Tu nombre de usuario solo puede contener palabras separadas de '.'' o '_'"
 			},
-			password1: {
+			password: {
 				required: "Por favor escribe una contraseña",
 				pattern: "Las contraseñas no deben contener espacios"
 			}

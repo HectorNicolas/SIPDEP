@@ -1,4 +1,4 @@
-﻿/// Autor: Jesús Asael Hernández García
+/// Autor: Jesús Asael Hernández García
 /// Email: azzaeelhg@gmail.com
 //  Fecha: 15/05/2016
 
