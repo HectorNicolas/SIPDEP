@@ -4,15 +4,15 @@ $(document).ready(function () {
 		rules: {
 			nombre: {
 				required: true,
-				pattern: /^[áéíóúaÁÉÍÓÚÑña-zA-Z]+\S?[áéíóúaÁÉÍÓÚÑña-zA-Z]*$/
+				pattern: /^[áéíóúaÁÉÍÓÚÑña-zA-Z]+\s?[áéíóúaÁÉÍÓÚÑña-zA-Z]*$/
 			},
 			apellidos: {
 				required: true,
-				pattern: /^[áéíóúaÁÉÍÓÚÑña-zA-Z]+\S?[áéíóúaÁÉÍÓÚÑña-zA-Z]*$/
+				pattern: /^[áéíóúaÁÉÍÓÚÑña-zA-Z]+\s?[áéíóúaÁÉÍÓÚÑña-zA-Z]*$/
 			},
 			username: {
 				required: true,
-				pattern: /^[a-zA-Z]+.|\_[a-zA-Z]*$/
+				pattern: /^[a-zA-Z]+[.|_][a-zA-Z]*$/
 			},
 			correo: {
 				required: true,
@@ -25,19 +25,22 @@ $(document).ready(function () {
 			pass2: {
 				required: true,
 				pattern: /^[^\s]+$/,
-				equalTo: "#password1"
+				equalTo: "#pass1"
 			},
 			fecha: "required"
 		},
 		messages: {
 			nombre: {
 				required: "Por favor escribe tu nombre",
-				pattern: "No coincide"
+				pattern: "Solo puedes escrribir letras separadas de un espacio"
 			},
-			apellidos: "Por favor escribe tu nombre",
+			apellidos: {
+				required: "Por favor escribe tus apellidos",
+				pattern: "Solo puedes escribir letras separadas de un espacio"
+			},
 			username: {
 				required: "Por favor escribe tu nombre de usuario",
-				minlenght: "Tu nombre de usuario debe contener al menos 2 caracteres"
+				pattern: "Tu nombre de usuario solo puede contener palabras separadas de '.'' o '_'"
 			},
 			correo: "Por favor escribe un correo valido",
 			pass1:{
@@ -56,7 +59,7 @@ $(document).ready(function () {
 		rules: {
 			username: {
 				required: true,
-				pattern: /^[a-zA-Z]*\S?[a-zA-Z]*$/
+				pattern: /^[a-zA-Z]*[.|_][a-zA-Z]*$/
 			},
 			password1: {
 				required: true,
@@ -66,7 +69,7 @@ $(document).ready(function () {
 		messages: {
 			username: {
 				required: "Por favor escribe tu nombre de usuario",
-				pattern: "No coincide"
+				pattern: "Tu nombre de usuario solo puede contener palabras separadas de '.'' o '_'"
 			},
 			password1: {
 				required: "Por favor escribe una contraseña",
