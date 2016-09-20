@@ -139,6 +139,14 @@
     color: #1B3257;
 }
 
+#signupForm .error{
+    color: #FF0000;
+}
+
+#loginForm .error{
+    color: #FF0000;
+}
+
 /*Small*/
 @media only screen and (min-width : 480px) {
     .app-registro{

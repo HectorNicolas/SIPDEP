@@ -10,8 +10,9 @@
 <head>
     <% include partials/head.ejs %>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js "></script>
-    <script type="text/javascript" src="js/validations.js"></script>
-
+    <script src="js/vendor/jquery.validate.js"></script>
+    <script src="js/vendor/additional-methods.js"></script>
+    <script type="text/javascript" src="js/validator.js"></script>
 </head>
 
 <body>
@@ -39,52 +40,52 @@
                                     <%= succesfulMessage %>
                                 </div>
                                 <% } %>
-                                    <form action="/signup" class="form-horizontal" role="form" method="post">
+                                    <form action="/signup" class="form-horizontal" id="signupForm" role="form" method="post">
                                         <div class="form-group">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <label class="control-label" for="nombre">Nombre:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa tu nombre">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <label class="control-label" for="apellidos">Apellidos:</label>
-                                                <input type="text" name="apellidos" class="form-control" id="apellidos" placeholder="Ingresa tus apellidos" required>
+                                                <input type="text" name="apellidos" class="form-control" id="apellidos" placeholder="Ingresa tus apellidos">
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <label class="control-label" for="inputNombreUsuario">Nombre de usuario:</label>
-                                                <input type="text" name="username" class="form-control" id="inputApellidos" placeholder="Ingresa un nombre de usuario" onfocus="onfocusUsername(this)" required>
+                                                <input type="text" name="username" class="form-control" id="username" placeholder="Ingresa un nombre de usuario" onfocus="onfocusUsername(this)">
                                             </div>
                                         </div>
 
                                         <div class=" form-group ">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
                                                 <label class="control-label " for="inputCorreo ">Correo:</label>
-                                                <input type="email" name="correo" class="form-control " id="inputCorreo " placeholder="Ingresa tu correo " " required>
+                                                <input type="email" name="correo" class="form-control " id="correo" placeholder="Ingresa tu correo">
                                             </div>
                                         </div>
 
                                         <div class="form-group ">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
                                                 <label class="control-label " for="passwd1">Contraseña:</label>
-                                                <input type="password" name="passwd" class="form-control" id="password1" placeholder="Ingresa tu contraseña" required>
+                                                <input type="password" name="pass1" class="form-control" id="pass1" placeholder="Ingresa tu contraseña">
                                             </div>
                                         </div>
                                         <div class="form-group ">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
                                                 <label class="control-label " for="passwd2">Repite la contraseña:</label>
-                                                <input type="password" class="form-control" id="password2" placeholder="Ingresa tu contraseña nuevamente" required>
+                                                <input type="password" name="pass2" class="form-control" id="pass2" placeholder="Ingresa tu contraseña nuevamente">
                                             </div>
                                         </div>
 
                                         <div class="form-group ">
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
                                                 <label class="control-label " for="inputFechaNac ">Fecha de nacimiento:</label>
-                                                <input type="date" name="fechaNac" class="form-control " id="inputFechaNac" required>
+                                                <input type="date" name="fecha" class="form-control " id="fecha">
                                             </div>
                                         </div>
 
@@ -112,7 +113,6 @@
         <!--Container-->
 
         <% include partials/footer.ejs %>
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js "></script>
             <script>
                 window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js "><\/script>')
             </script>
