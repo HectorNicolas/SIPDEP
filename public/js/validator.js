@@ -25,7 +25,7 @@ $(document).ready(function () {
 			pass2: {
 				required: true,
 				pattern: /^[^\s]+$/,
-				equalTo: "#pass1"
+				equalTo: "#password1"
 			},
 			fecha: "required"
 		},
