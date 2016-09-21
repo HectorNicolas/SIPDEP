@@ -76,12 +76,34 @@ $(document).ready(function(e){
     	var nPass = $('#newpassword').val();        
     	var pass2Change = $('#newpassword2').val();
     	if(validatePassChange(nPass)&&validateSamePassChange(nPass,  pass2Change)){
-				alert("Se cambio la contraseña correctamente");
+				//alert("Se cambio la contraseña correctamente");
    		} else{            
    			e.preventDefault();
    			return false;
    		}
     });	
+	///////////////////APlicador
+	$('#newpasswordapp').on('focusout', function(){
+    	var nPass = $('#newpasswordapp').val();
+    	validatePassChange(nPass);
+    });
+
+    $('#newpassword2').on('focusout', function(){
+    	var pass1Change = $('#newpasswordapp').val();
+    	var pass2Change = $('#newpassword2app').val();
+    	validateSamePassChange(pass1Change,  pass2Change);
+    });
+
+	$('#submitChangePasswordapp').click(function(e){    	
+    	var nPass = $('#newpasswordapp').val();        
+    	var pass2Change = $('#newpassword2app').val();
+    	if(validatePassChange(nPass)&&validateSamePassChange(nPass,  pass2Change)){
+				//alert("Se cambio la contraseña correctamente");
+   		} else{            
+   			e.preventDefault();
+   			return false;
+   		}
+    });
 });
 
 function validateName(sName){

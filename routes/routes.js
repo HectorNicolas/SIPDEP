@@ -2238,9 +2238,9 @@ module.exports = function (app) {
 	
 	app.post('/cambiarapp', function (req, res) {
         var username = req.cookies.name;
-        var pass = req.body.oldpassword;
+        var pass = req.body.oldpasswordapp;
         var passwordOld =  encrypt(username, pass);
-        var passNew = req.body.newpassword;
+        var passNew = req.body.newpasswordapp;
         var passwordNew =  encrypt(username, passNew);
 
         console.log("User: " + username);
@@ -2281,7 +2281,6 @@ module.exports = function (app) {
                                         {
 											console.log("Hola3\n");
                                             app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
-											app.locals.succesfulMessage = "Se cambio la contraseña correctamentectamente";
 											console.log("Hola4\n\n");
                                             res.redirect('/cambiarapp');                                                    
 											console.log("Hola5\n\n");
@@ -2291,6 +2290,7 @@ module.exports = function (app) {
                                             app.locals.errorMessage = 'No es posible Cambiar la Contraseña , intentalo nuevamente';
                                             res.redirect('/cambiarapp');                                                
                                         }
+										//app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
                                     }
                                 });
                             }
