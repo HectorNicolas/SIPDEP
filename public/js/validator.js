@@ -79,4 +79,36 @@ $(document).ready(function () {
 			}
 		}
 	})
+	$('#passChangeForm').validate({
+		rules: {
+			oldpassword: {
+				required: true,
+				pattern: /^[^\s]+$/
+			},
+			newpassword: {
+				required: true,
+				pattern: /^[^\s]+$/
+			},
+			newpassword2: {
+				required: true,
+				pattern: /^[^\s]+$/,
+				equalTo: "#newpassword"
+			}
+		},
+		messages: {
+			oldpassword: {
+				required: "Debes completar este campo",
+				pattern: "Las contraseñas no deben incluir espacios"
+			},
+			newpassword: {
+				required: "Debes completar este campo",
+				pattern: "Las contraseñas no deben incluir espacios"
+			},
+			newpassword2: {
+				required: "Debes completar este campo",
+				pattern: "Las contraseñas no deben incluir espacios",
+				equalTo: "Las contraseñas no coinciden"
+			}
+		}
+	})
 });

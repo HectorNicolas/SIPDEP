@@ -9,7 +9,9 @@
         <head> 
 			<% include partials/head.ejs %> 
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js "></script>
-			<script type="text/javascript" src="js/validations.js"></script>
+            <script src="js/vendor/jquery.validate.js"></script>
+            <script src="js/vendor/additional-methods.js"></script>
+            <script type="text/javascript" src="js/validator.js"></script>
 	    </head>
         <body>
             <!--[if lt IE 8]>
@@ -26,7 +28,7 @@
             <div class="panel-heading">
                 <h2 class="panel-title">Cambio de contraseña</h2>
             </div>
-			<form class="form-horizontal" method="post" action="/cambiar">
+			<form class="form-horizontal" id="passChangeForm" method="post" action="/cambiar">
             <div class="panel-body">
                 <% if (errorMessage.length > 0) { %>
                     <div class="alert alert-danger">
@@ -41,19 +43,19 @@
                 <div class="form-group row">
                     <div class="col-xs-12">
                         <label class="control-label" for="oldpassword">Contraseña Anterior:</label>                    
-                        <input type="password" required class="form-control" id="oldpassword"  name="oldpassword" placeholder="Contraseña Anterior"value="">
+                        <input type="password" class="form-control" id="oldpassword"  name="oldpassword" placeholder="Contraseña Anterior"value="">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-xs-12">
                         <label class="control-label" for="newpassword">Nueva Contraseña:</label>                    
-                        <input type="password" required class="form-control" id="newpassword" name="newpassword" placeholder="Nueva Contraseña" value="">
+                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Nueva Contraseña" value="">
                     </div>
                 </div>				
                 <div class="form-group row">
                     <div class="col-xs-12">
                         <label class="control-label" for="newpassword2">Confirmar Contraseña:</label>                    
-                        <input type="password" required class="form-control" id="newpassword2" name="newpassword2" placeholder="Confirma tu contraseña" value="">
+                        <input type="password" class="form-control" id="newpassword2" name="newpassword2" placeholder="Confirma tu contraseña" value="">
                     </div>
 				</div>				
                 <div class="form-group">
