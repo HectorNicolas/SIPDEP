@@ -112,6 +112,7 @@ INNER JOIN test ON test_usuario.Nombre_Test = test.Nombre \
 INNER JOIN aplicador ON aplicador.NombreUsuario = test_usuario.Nombre_Aplicador \
 WHERE test_usuario.Contestado = \'Si\' AND test_usuario.Nombre_Usuario = ?';
 var selectCurrentPassword = 'SELECT * FROM usuario WHERE NombreUsuario = ? AND Password = ?';
+var selectCurrentPassword1 = 'SELECT * FROM aplicador WHERE NombreUsuario = ? AND Password = ?';
 ///
 /// INSERT queries
 ///
@@ -138,6 +139,7 @@ var updateAlumno = 'UPDATE alumno SET Facultad = ?, Carrera = ?, Intentos_Ingres
 var updateUser = 'UPDATE usuario SET TienePareja=?, TieneHijos=?, ViveCon=?, DependeDe=?, ActividadFisica=?, PosicionHijo=?, PadreMedico=?, EscolPaterna=?, EscolMaterna=?, EsAlumno=? WHERE NombreUsuario = ?;';
 var updateAplicador = 'UPDATE aplicador SET Nombre = ?, Apellidos = ?, Telefono = ?, Correo = ? WHERE NombreUsuario = ?';
 var updateUserPassword = 'UPDATE usuario SET Password = ? WHERE NombreUsuario = ?';
+var updateUserPassword1 = 'UPDATE aplicador SET Password = ? WHERE NombreUsuario = ?';
 ///
 /// DELETE queries
 ///
@@ -2234,6 +2236,89 @@ module.exports = function (app) {
         }
     });
 	
+	app.post('/cambiarapp', function (req, res) {
+        var username = req.cookies.name;
+        var pass = req.body.oldpassword;
+        var passwordOld =  encrypt(username, pass);
+        var passNew = req.body.newpassword;
+        var passwordNew =  encrypt(username, passNew);
+
+        console.log("User: " + username);
+        console.log("PasswordOld: " + passwordOld);
+		console.log("NEW: "+passNew);
+		try
+        {   
+            connection.query(checkAplicadorName, [username], function (errorApp, resultApp)
+            {
+                if (errorApp) 
+                {                   
+                    throw errorApp;
+                }
+                else 
+                {
+                    if (resultApp.length > 0) 
+                    {    
+                        connection.query(selectCurrentPassword1, [username, passwordOld], function (error, result) 
+                        {
+                            if (error) 
+                            {
+                                throw error;
+                            }
+                            else
+                            if (result.length > 0) 
+                            {                                
+                                connection.query(updateUserPassword1, [passwordNew, username], function (errorIns, resultIns) 
+                                {
+									console.log("Hola1\n");
+                                    if (errorIns) 
+                                    {
+                                        throw errorIns;
+										console.log("Hola2\n\n");
+                                    }
+                                    else
+                                    {
+                                        if (resultIns.affectedRows > 0) 
+                                        {
+											console.log("Hola3\n");
+                                            app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
+											app.locals.succesfulMessage = "Se cambio la contraseña correctamentectamente";
+											console.log("Hola4\n\n");
+                                            res.redirect('/cambiarapp');                                                    
+											console.log("Hola5\n\n");
+                                        }
+                                        else
+                                        {
+                                            app.locals.errorMessage = 'No es posible Cambiar la Contraseña , intentalo nuevamente';
+                                            res.redirect('/cambiarapp');                                                
+                                        }
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                app.locals.errorMessage = 'La Contraseña Actual no coincide';
+                                res.redirect('/cambiarapp');
+                            }
+                        });
+                    } 
+                    else 
+                    {
+                        res.redirect('/cambiarapp');
+                    }
+                }
+            });   
+				console.log("PasswordNew: " + passwordNew);
+        } 
+        catch (error) 
+        {            
+            console.log(error);
+            res.render('cambiarapp', {
+                title: 'Cambiar Contraseña',
+                errorMessage: 'Sucedió un error inesperado, intentalo de nuevo más tarde',
+            });
+        }
+    });
+	
     ///
     /// GET y POST de la página login
     ///
@@ -2878,7 +2963,7 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: 'gabo',
+        user: 'hector',
         password: '123456',
         database: 'sipdep',
         port: 3306,
