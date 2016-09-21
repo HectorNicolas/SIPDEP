@@ -2281,6 +2281,7 @@ module.exports = function (app) {
                                         {
 											console.log("Hola3\n");
                                             app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
+											//app.locals.succesful = 'Hola';
 											console.log("Hola4\n\n");
                                             res.redirect('/cambiarapp');                                                    
 											console.log("Hola5\n\n");
