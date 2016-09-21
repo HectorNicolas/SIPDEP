@@ -17,7 +17,10 @@
                 <% include partials/usermenu.ejs %>
                 <%include partials/workspaceuser.ejs %>
             <%}%>
-                   
+			<%if(priv == 'gen'){%>
+				<% include partials/appmenu.ejs %>
+                <% include partials/workspaceapp.ejs %>
+            <%}%>
             <% include partials/footer.ejs %>
             <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
             <script src="js/vendor/bootstrap.min.js"></script>

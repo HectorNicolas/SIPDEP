@@ -61,7 +61,12 @@
                                 <li><a href="/concarrera">Consultar carreras</a></li>
                             </ul>
                         </li>
-						<li><a href="/cambiarapp">Cambiar Contraseña</a></li>
+						<%if( typeof(appgen) != 'undefined' && appgen){%>
+							<li><a href="/cambiarapp1">Cambiar Contraseña</a></li>
+						<%}else {%>
+							<li><a href="/cambiarapp">Cambiar Contraseña</a></li>
+						<%}%>
+						
             </ul>
 
             <ul class="nav navbar-nav navbar-right nav-personalizado">

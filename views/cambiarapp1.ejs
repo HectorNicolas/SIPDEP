@@ -4,20 +4,17 @@
         <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
         <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
         <!--[if gt IE 8]><!--> 
-		<html class="no-js" lang="">
+		<html class="no-js" lang=""> 
 		<!--<![endif]-->
-        <head> 
-			<% include partials/head.ejs %> 
+        <head> <% include partials/head.ejs %> 
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js "></script>
-			<script src="js/vendor/jquery.validate.js"></script>
-            <script src="js/vendor/additional-methods.js"></script>
 			<script type="text/javascript" src="js/validations.js"></script>
-	    </head>
+		</head>
         <body>
             <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
-            <%include partials/usermenu.ejs %>
+            <% include partials/appmenu.ejs %>
                        
             
             <!--Test description-->
@@ -28,7 +25,7 @@
             <div class="panel-heading">
                 <h2 class="panel-title">Cambio de contraseña</h2>
             </div>
-			<form class="form-horizontal" id="passChangeForm" method="post" action="/cambiar">
+			<form class="form-horizontal" method="post" action="/cambiarapp1">
             <div class="panel-body">
                 <% if (errorMessage.length > 0) { %>
                     <div class="alert alert-danger">
@@ -43,24 +40,24 @@
                 <div class="form-group row">
                     <div class="col-xs-12">
                         <label class="control-label" for="oldpassword">Contraseña Anterior:</label>                    
-                        <input type="password" class="form-control" id="oldpassword"  name="oldpassword" placeholder="Contraseña Anterior"value="">
+                        <input type="password" required class="form-control" id="oldpasswordapp"  name="oldpasswordapp" placeholder="Contraseña Anterior"value="">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-xs-12">
                         <label class="control-label" for="newpassword">Nueva Contraseña:</label>                    
-                        <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="Nueva Contraseña" value="">
+                        <input type="password" required class="form-control" id="newpasswordapp" name="newpasswordapp" placeholder="Nueva Contraseña" value="">
                     </div>
                 </div>				
                 <div class="form-group row">
                     <div class="col-xs-12">
                         <label class="control-label" for="newpassword2">Confirmar Contraseña:</label>                    
-                        <input type="password" class="form-control" id="newpassword2" name="newpassword2" placeholder="Confirma tu contraseña" value="">
+                        <input type="password" required class="form-control" id="newpassword2app" name="newpassword2app" placeholder="Confirma tu contraseña" value="">
                     </div>
 				</div>				
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <button type="submit" id="submitChangePassword" class="btn btn-primary">Confirmar</button>
+                        <button type="submit" id="submitChangePasswordapp" class="btn btn-primary">Confirmar</button>
                     </div>
                 </div>		
             </div>

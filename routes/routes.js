@@ -127,7 +127,7 @@ var insertPregunta = 'INSERT INTO pregunta_test VALUES (?,?,?);';
 var insertTest = 'INSERT INTO test (Nombre, Descripcion) VALUES (?,?)'
 var sendTest = 'INSERT INTO test_usuario (Nombre_Aplicador, Nombre_Usuario, Nombre_Test, Fecha, Contestado) VALUES (?,?,?,?,?)';
 var insertUser = 'INSERT INTO usuario (NombreUsuario, Nombre, Apellidos, Correo, Sexo, FechaNacimiento, Password) VALUES(?, ?, ?, ?, ?, ?, ?)';
-var insertAplicador = 'INSERT INTO aplicador (NombreUsuario, Nombre, Apellidos, Telefono, Correo, Privilegios, Password) VALUES (?,?,?,?,?,?,?)';
+var insertAplicador = 'INSERT INTO aplicador (NombreUsuario, Nombre, Apellidos, Telefono, Correo, Privilegios, Password, Eliminado) VALUES (?,?,?,?,?,?,?,?)';
 var insertRespuesta = 'INSERT INTO respuesta_pregunta VALUES (?,?,?,?,?);';
 ///
 /// UPDATE queries
@@ -1813,8 +1813,10 @@ module.exports = function (app) {
     /// Agrega un nuevo aplicador a la base de datos
     ///
     app.post('/agregar', function (req, res) {
-        var pass = encrypt(req.body.username, req.body.password);
-        var data = [req.body.username, req.body.nombre, req.body.apellidos, req.body.telefono, req.body.correo, req.body.privilegios, pass];
+	var pass = encrypt(req.body.username, req.body.password);
+	var elim = req.body.eliminado
+	
+        var data = [req.body.username, req.body.nombre, req.body.apellidos, req.body.telefono, req.body.correo, req.body.privilegios, pass, elim];
 
         connection.query(checkAplicadorName, [req.body.username], function (error, result) {
             if (error) throw error;
@@ -2118,6 +2120,40 @@ module.exports = function (app) {
         app.locals.errorMessage = '';
         app.locals.succesfulMessage = '';
     });
+	
+	///
+	///GET y POST del cambio de contraseña de aplicador con permisos generales
+	///
+	app.get('/cambiarapp1', function (req, res) {
+        var appgen = false;
+
+        connection.query(checkAplicadorName, [req.cookies.name], function (error, result) {
+            if (error) throw error;
+            if (result.length > 0) {
+                var appData = JSON.parse(JSON.stringify(result));
+				var priv = 'gen';
+                if (appData[0].Privilegios == 'generales')
+                    appgen = true,
+                    res.render('cambiarapp1', {
+                        title: 'Cambiar Contraseña',
+                        usuario: req.cookies.name,
+                        errorMessage: app.locals.errorMessage,
+                        succesfulMessage: app.locals.succesfulMessage,
+                        appgen: appgen
+                    });
+            } else {
+                res.render('cambiarapp1', {
+                    title: 'Cambiar Contraseña',
+                    usuario: req.cookies.name,
+                    errorMessage: app.locals.errorMessage,
+                    succesfulMessage: app.locals.succesfulMessage,
+                    appgen: appgen
+                });
+            }
+        });
+        app.locals.errorMessage = '';
+        app.locals.succesfulMessage = '';
+    });
 
 	
 	///
@@ -2281,6 +2317,7 @@ module.exports = function (app) {
                                         {
 											console.log("Hola3\n");
                                             app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
+											//app.locals.succesful = 'Hola';
 											console.log("Hola4\n\n");
                                             res.redirect('/cambiarapp');                                                    
 											console.log("Hola5\n\n");
@@ -2963,7 +3000,7 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: 'gabo',
+        user: 'hector',
         password: '123456',
         database: 'sipdep',
         port: 3306,
