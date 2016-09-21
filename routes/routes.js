@@ -2088,37 +2088,40 @@ module.exports = function (app) {
         });
     });
 	
-	///
-    /// GET y POST de la página cambiar contraseña del aplicador
-    ///
-    app.get('/cambiarapp', function (req, res) {
-        var apppriv = false;
+	app.get('/cambiarapp', function (req, res) {
+        var username = req.cookies.name;
 
-        connection.query(checkAplicadorName, [req.cookies.name], function (error, result) {
-            if (error) throw error;
-            if (result.length > 0) {
-                var appData = JSON.parse(JSON.stringify(result));
-                if (appData[0].Privilegios == 'administrativos')
-                    apppriv = true,
-                    res.render('cambiarapp', {
-                        title: 'Cambiar Contraseña',
-                        usuario: req.cookies.name,
-                        errorMessage: app.locals.errorMessage,
-                        succesfulMessage: app.locals.succesfulMessage,
-                        apppriv: apppriv
-                    });
-            } else {
-                res.render('cambiarapp', {
-                    title: 'Cambiar Contraseña',
-                    usuario: req.cookies.name,
-                    errorMessage: app.locals.errorMessage,
-                    succesfulMessage: app.locals.succesfulMessage,
-                    apppriv: apppriv
+        connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
+            if (errorApp) {                
+                throw errorApp;
+            }
+            if (resultApp.length > 0) {
+                connection.query(selectTest, function (errorAlgo, resultAlgo) {
+                    if (errorAlgo) throw errorAlgo;
+                    if (resultAlgo.length > 0) {
+                        var string = JSON.stringify(resultAlgo);
+                        var selectJson = JSON.parse(string);
+                        console.log(selectJson);
+                        res.render('cambiarapp', {
+                            title: 'Cambiar la contraseña',
+                            usuario: req.cookies.name,
+                            test: selectJson
+                        });
+                        app.locals.errorMessage = '';
+                        app.locals.succesfulMessage = '';
+                    } else {
+                        res.render('cambiarapp', {
+                            title: 'Cambiar la contraseña',
+                            usuario: req.cookies.name
+                       });
+                        app.locals.errorMessage = '';
+                        app.locals.succesfulMessage = '';
+                    }
                 });
+            } else {
+                res.redirect('/');
             }
         });
-        app.locals.errorMessage = '';
-        app.locals.succesfulMessage = '';
     });
 	
 	///
@@ -3000,7 +3003,7 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: 'hector',
+        user: 'sipdep',
         password: '123456',
         database: 'sipdep',
         port: 3306,
