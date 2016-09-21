@@ -2088,6 +2088,10 @@ module.exports = function (app) {
         });
     });
 	
+	///
+	///
+	///GET del cambio de contraseña de aplicador con permisos generales y administrativos
+	///
 	app.get('/cambiarapp', function (req, res) {
         var username = req.cookies.name;
 
@@ -2123,44 +2127,10 @@ module.exports = function (app) {
             }
         });
     });
-	
-	///
-	///GET y POST del cambio de contraseña de aplicador con permisos generales
-	///
-	app.get('/cambiarapp1', function (req, res) {
-        var appgen = false;
-
-        connection.query(checkAplicadorName, [req.cookies.name], function (error, result) {
-            if (error) throw error;
-            if (result.length > 0) {
-                var appData = JSON.parse(JSON.stringify(result));
-				var priv = 'gen';
-                if (appData[0].Privilegios == 'generales')
-                    appgen = true,
-                    res.render('cambiarapp1', {
-                        title: 'Cambiar Contraseña',
-                        usuario: req.cookies.name,
-                        errorMessage: app.locals.errorMessage,
-                        succesfulMessage: app.locals.succesfulMessage,
-                        appgen: appgen
-                    });
-            } else {
-                res.render('cambiarapp1', {
-                    title: 'Cambiar Contraseña',
-                    usuario: req.cookies.name,
-                    errorMessage: app.locals.errorMessage,
-                    succesfulMessage: app.locals.succesfulMessage,
-                    appgen: appgen
-                });
-            }
-        });
-        app.locals.errorMessage = '';
-        app.locals.succesfulMessage = '';
-    });
 
 	
 	///
-    /// GET y POST de la página cambiar contraseña del usuario
+    /// GET de la página cambiar contraseña del usuario
     ///
 
     app.get('/cambiar', function (req, res) {
@@ -2199,7 +2169,9 @@ module.exports = function (app) {
         });
     });    
 
-
+	///
+	///POST para el cambio de contraseña de los usuarios
+	///
     app.post('/cambiar', function (req, res) {
         var username = req.cookies.name;
         var pass = req.body.oldpassword;
@@ -2275,6 +2247,9 @@ module.exports = function (app) {
         }
     });
 	
+	///
+	///POST para el cambio de contraseña de los medicos generales y administrativos
+	///
 	app.post('/cambiarapp', function (req, res) {
         var username = req.cookies.name;
         var pass = req.body.oldpasswordapp;
@@ -2320,8 +2295,6 @@ module.exports = function (app) {
                                         {
 											console.log("Hola3\n");
                                             app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
-											//app.locals.succesful = 'Hola';
-											console.log("Hola4\n\n");
                                             res.redirect('/cambiarapp');                                                    
 											console.log("Hola5\n\n");
                                         }
@@ -3003,7 +2976,7 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: 'sipdep',
+        user: 'hector',
         password: '123456',
         database: 'sipdep',
         port: 3306,
