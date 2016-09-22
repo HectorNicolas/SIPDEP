@@ -2976,7 +2976,7 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: 'hector',
+        user: 'sipdep',
         password: '123456',
         database: 'sipdep',
         port: 3306,
