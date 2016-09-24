@@ -29,36 +29,51 @@
                 </div>
 
                 <div class="panel-body">
-                    <%include partials/messages.ejs%>
-                        <form class="form-horizontal" role="form" method="post" action="/agregar">
+                    <!--<%include partials/messages.ejs%>-->
+					<% if (typeof(errorMessage) != 'undefined' && errorMessage.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <%= errorMessage %>
+                        </div>
+                        <% } %>
+                            <% if (typeof(succesfulMessage) != 'undefined' && succesfulMessage.length > 0) { %>
+                                <div class="alert alert-success">
+                                    <%= succesfulMessage %>
+                                </div>
+                                <% } %>
+                        <form class="form-horizontal" role="form" method="post" action="/agregar" id="agregaraplicador">
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <label class="control-label">Nombre*</label>
-                                    <input type="text" id="nombre" class="form-control" name="nombre" required oninput="validateNombre(this)">
+                                    <!--<input type="text" id="nombre" class="form-control" name="nombre" required oninput="validateNombre(this)">-->
+									<input type="text" id="nombreAplicador" class="form-control" name="nombre" required oninput="validateNombre(this)">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <label class="control-label">Apellidos*</label>
-                                    <input type="text" class="form-control" name="apellidos" required oninput="validateNombre(this)" id="apellidos">
+                                    <input type="text" id="apellidosAplicador"class="form-control" name="apellidos" required oninput="validateNombre(this)" id="apellidos">
+									<!--<input type="text" class="form-control" name="apellidos" required oninput="validateNombre(this)" id="apellidos">-->
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <label class="control-label">Nombre de usuario*</label>
-                                    <input type="text" class="form-control" name="username" required oninput="validateUsername(this)" onfocus="onfocusUsername(this)">
+                                    <!--<input type="text" class="form-control" name="username" required oninput="validateUsername(this)" onfocus="onfocusUsername(this)">-->
+									<input type="text" class="form-control" id="usernameAplicador" name= "username" required oninput="validateUsername(this)" onfocus="onfocusUsername(this)">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <label class="control-label">Teléfono</label>
-                                    <input type="tel" class="form-control" name="telefono" required min="7" max="15" oninput="validateTelefono(this)">
+                                    <!--<input type="tel" class="form-control" name="telefono" required min="7" max="15" oninput="validateTelefono(this)">-->
+									<input type="tel" class="form-control" id="telAplicador" name="telefono" required min="7" max="15" oninput="validateTelefono(this)">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <label class="control-label">Correo</label>
-                                    <input type="email" class="form-control" name="correo" required oninput="validateEmail(this)">
+                                    <!--<input type="email" class="form-control" name="correo" required oninput="validateEmail(this)">-->
+									<input type="email" class="form-control" id="correoAplicador" name="correo" required oninput="validateEmail(this)">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -73,7 +88,7 @@
                             <div class="form-group">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <label class="control-label">Contraseña*</label>
-                                    <input type="password" class="form-control" name="password" id="password1" required min="4" max="64" oninput="validatePassword(this)">
+									<input type="password" class="form-control" name="password" id="password1" required min="4" max="64" oninput="validatePassword(this)">
                                 </div>
                             </div>
                             <div class="form-group">

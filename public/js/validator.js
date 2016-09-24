@@ -111,4 +111,26 @@ $(document).ready(function () {
 			}
 		}
 	})
+	$('#agregaraplicador').validate({
+		rules: {
+			nombreAplicador: {
+				required: true,
+				pattern: /^[áéíóúaÁÉÍÓÚÑña-zA-Z]+\s?[áéíóúaÁÉÍÓÚÑña-zA-Z]*$/
+			},
+			apellidosAplicador: {
+				required: true,
+				pattern: /^[áéíóúaÁÉÍÓÚÑña-zA-Z]+\s?[áéíóúaÁÉÍÓÚÑña-zA-Z]*$/
+			},
+		},
+		messages: {
+			nombreAplicador: {
+				required: "Por favor escribe tu nombre",
+				pattern: "Solo puedes escribir letras separadas de un espacio"
+			},
+			apellidosAplicador: {
+				required: "Por favor escribe tus apellidos",
+				pattern: "Solo puedes escribir letras separadas de un espacio"
+			},
+		}
+	})
 });

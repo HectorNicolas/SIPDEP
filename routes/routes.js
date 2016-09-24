@@ -2091,9 +2091,57 @@ module.exports = function (app) {
 	///
 	///
 	///GET del cambio de contraseña de aplicador con permisos generales y administrativos
+	///Se usa el mismo metodo pero se verifican los privilegios del medico
 	///
 	app.get('/cambiarapp', function (req, res) {
         var username = req.cookies.name;
+		var apppriv = false;
+
+        connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
+            if (errorApp) {                
+                throw errorApp;
+            }
+            if (resultApp.length > 0) {
+				var priv = 'app';
+                var appData = JSON.parse(JSON.stringify(resultApp));
+                if (appData[0].Privilegios == "administrativos") apppriv = true;
+                connection.query(selectTest, function (errorAlgo, resultAlgo) {
+                    if (errorAlgo) throw errorAlgo;
+                    if (resultAlgo.length > 0) {
+                        var string = JSON.stringify(resultAlgo);
+                        var selectJson = JSON.parse(string);
+                        console.log(selectJson);
+						console.log(apppriv);
+                        res.render('cambiarapp', {
+                            title: 'Cambiar la contraseña',
+                            usuario: req.cookies.name,
+							apppriv: apppriv,
+                                    priv: priv,
+                            test: selectJson
+                        });
+                        app.locals.errorMessage = '';
+                        app.locals.succesfulMessage = '';
+                    } else {
+                        res.render('cambiarapp', {
+                            title: 'Cambiar la contraseña',
+                            usuario: req.cookies.name,
+							apppriv: apppriv,
+                                    priv: priv
+                       });
+                        app.locals.errorMessage = '';
+                        app.locals.succesfulMessage = '';
+                    }
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
+    });
+	
+	
+	/*app.get('/cambiarapp1', function (req, res) {
+        var username = req.cookies.name;
+		var apppriv = false;
 
         connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
             if (errorApp) {                
@@ -2105,18 +2153,24 @@ module.exports = function (app) {
                     if (resultAlgo.length > 0) {
                         var string = JSON.stringify(resultAlgo);
                         var selectJson = JSON.parse(string);
+						var appData = JSON.parse(JSON.stringify(resultAlgo));
+						if (appData[0].Privilegios == 'administrativos')
+							apppriv = true,
                         console.log(selectJson);
-                        res.render('cambiarapp', {
+						console.log(apppriv);
+                        res.render('cambiarapp1', {
                             title: 'Cambiar la contraseña',
                             usuario: req.cookies.name,
+							apppriv: apppriv,
                             test: selectJson
                         });
                         app.locals.errorMessage = '';
                         app.locals.succesfulMessage = '';
                     } else {
-                        res.render('cambiarapp', {
+                        res.render('cambiarapp1', {
                             title: 'Cambiar la contraseña',
-                            usuario: req.cookies.name
+                            usuario: req.cookies.name,
+							apppriv: apppriv
                        });
                         app.locals.errorMessage = '';
                         app.locals.succesfulMessage = '';
@@ -2127,8 +2181,90 @@ module.exports = function (app) {
             }
         });
     });
-
 	
+	
+	
+	app.post('/cambiarapp1', function (req, res) {
+        var username = req.cookies.name;
+        var pass = req.body.oldpasswordapp;
+        var passwordOld =  encrypt(username, pass);
+        var passNew = req.body.newpasswordapp;
+        var passwordNew =  encrypt(username, passNew);
+
+        console.log("User: " + username);
+        console.log("PasswordOld: " + passwordOld);
+		console.log("NEW: "+passNew);
+		try
+        {   
+            connection.query(checkAplicadorName, [username], function (errorApp, resultApp)
+            {
+                if (errorApp) 
+                {                   
+                    throw errorApp;
+                }
+                else 
+                {
+                    if (resultApp.length > 0) 
+                    {    
+                        connection.query(selectCurrentPassword1, [username, passwordOld], function (error, result) 
+                        {
+                            if (error) 
+                            {
+                                throw error;
+                            }
+                            else
+                            if (result.length > 0) 
+                            {                                
+                                connection.query(updateUserPassword1, [passwordNew, username], function (errorIns, resultIns) 
+                                {
+									console.log("Hola1\n");
+                                    if (errorIns) 
+                                    {
+                                        throw errorIns;
+										console.log("Hola2\n\n");
+                                    }
+                                    else
+                                    {
+                                        if (resultIns.affectedRows > 0) 
+                                        {
+											console.log("Hola3\n");
+                                            app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
+                                            res.redirect('/cambiarapp1');                                                    
+											console.log("Hola5\n\n");
+                                        }
+                                        else
+                                        {
+                                            app.locals.errorMessage = 'No es posible Cambiar la Contraseña , intentalo nuevamente';
+                                            res.redirect('/cambiarapp1');                                                
+                                        }
+										//app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                app.locals.errorMessage = 'La Contraseña Actual no coincide';
+                                res.redirect('/cambiarapp1');
+                            }
+                        });
+                    } 
+                    else 
+                    {
+                        res.redirect('/cambiarapp1');
+                    }
+                }
+            });   
+				console.log("PasswordNew: " + passwordNew);
+        } 
+        catch (error) 
+        {            
+            console.log(error);
+            res.render('cambiarapp1', {
+                title: 'Cambiar Contraseña',
+                errorMessage: 'Sucedió un error inesperado, intentalo de nuevo más tarde',
+            });
+        }
+    });*/
 	///
     /// GET de la página cambiar contraseña del usuario
     ///
