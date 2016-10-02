@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <br>
+    <div class="container">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <form role="form" method="post" action="/enviar_escala">
+                        <div class="jumbotron">
+                            <h1 class="app-top app-login-title">
+                               Escala de Riesgo Suicida de Plutchik
+                            </h1>
+                            <p>Instrucciones: Las siguientes preguntas tratan sobre cosas que usted ha sentido o hecho. Por favor, conteste cada pregunta simplemente con un sí o no.
+                            </p>
+                            <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                            <input type="hidden" name="username" value="<%=datos[2]%>">
+                            <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                            <input type="hidden" name="test" value="<%=datos[0]%>">
+                        </div>
+                        <%if(typeof(preguntas) != 'undefined'){%>
+                            <%for(i=0;i<preguntas.length;i++){%>
+                                <div class="form-group">
+                                    <label class="label-control">
+                                        <%=preguntas[i].Pregunta%>
+                                            <%var sResp = 'resp' + (i+1).toString();%>
+                                    </label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="<%=sResp%>" value="1.Sí" required>Sí
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="<%=sResp%>" value="0.No" required>No
+                                        </label>
+                                    </div>
+                                </div>
+                                <%}%>
+                </div>
+                <%}%>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Enviar</button>
+                    </div>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+    <!--Panel-->
+    </div>
+    <!--Container-->
+
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

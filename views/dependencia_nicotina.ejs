@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <br>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <form role="form" method="post" action="/enviar_dn">
+                        <div class="jumbotron">
+                            <h1 class="app-top app-login-title">
+                                       Test de Fagerström de Dependencia de Nicotina (Fagerström Test for Nicotine Dependence)
+
+                                    </h1>
+                            <p>Instrucciones: A continuación se expresan varias respuestas posibles a cada una de las 8 preguntas. Detrás de cada pregunta seleccione la opción que mejor refleje su situación actual.</p>
+                            <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                            <input type="hidden" name="username" value="<%=datos[2]%>">
+                            <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                            <input type="hidden" name="test" value="<%=datos[0]%>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[0].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp1" value="0.<15">&lt; 15</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp1" value="1.16-25">16-25</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp1" value="2.>26">&gt; 26</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[1].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp2" value="0.Baja (<0,5 mg)">Baja (&lt; 0,5 mg)</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp2" value="1.Media (0,6 a 1,1 mg)">Media (0,6 a 1,1 mg)</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp2" value="2.Alta (>1,2 mg)">Alta (&gt; 1,2 mg)</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[2].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="0.Nunca">Nunca</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="1.A veces (de vez en cuando)">A veces (de vez en cuando)</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="2.Siempre">Siempre</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[3].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="1.Si">Si</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="0.No">No</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[4].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="1.Al despertar (menos de 30 minutos)">Al despertar (menos de 30 minutos)</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="0.Después de desayunar (más de 30 minutos)">Después de desayunar (más de 30 minutos)</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[5].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="1.El primero del día">El primero del día</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="0.Cualquier otro">Cualquier otro</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[6].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="1.Si">Si</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="0.No">No</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                <%=preguntas[7].Pregunta%>
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp8" value="1.Si">Si</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp8" value="0.No">No</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Panel-->
+    </div>
+    <!--Container-->
+
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

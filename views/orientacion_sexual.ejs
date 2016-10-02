@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <br>
+    <div class="container">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <form role="form" method="post" action="/enviar_orientacion">
+                        <div class="jumbotron">
+                            <h1 class="app-top app-login-title">
+                               Cuestionario autoaplicable de Orientación sexual Almonte-Herskovic
+                            </h1>
+                            <p>Instrucciones: A continuación se expresan varias respuestas posibles a cada una de las 5 preguntas. Detrás de cada pregunta seleccione la opción que mejor refleje su situación actual.</p>
+                            <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                            <input type="hidden" name="username" value="<%=datos[2]%>">
+                            <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                            <input type="hidden" name="test" value="<%=datos[0]%>">
+                        </div>
+                        <%if(typeof(preguntas) != 'undefined'){%>
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[0].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp1" value="0.Heterosexual" required>Heterosexual
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp1" value="0.Predominantemente heterosexual" required>Predominantemente heterosexual
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp1" value="0.Bisexual" required>Bisexual</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp1" value="0.Predominantemente homosexual" required>Predominantemente homosexual</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp1" value="0.Homosexual" required>Homosexual</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp1" value="0.No estoy seguro/a" required>No estoy seguro/a</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp1" value="0.Otro" required>Otro</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[1].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp2" value="0.Te sientes sólo atraído por personas del sexo opuesto y sólo tendrás experiencias sexuales con personas del sexo opuesto" required>Te sientes sólo atraído por personas del sexo opuesto y sólo tendrás experiencias sexuales con personas del sexo opuesto</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp2" value="0.Te sientes fuertemente atraído por personas del sexo opuesto y la mayoría de tus experiencias sexuales serán con personas del sexo opuesto" required>Te sientes fuertemente atraído por personas del sexo opuesto y la mayoría de tus experiencias sexuales serán con personas del sexo opuesto</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp2" value="0.Te sientes atraído igualmente por hombres y mujeres y quieres tener experiencias sexuales con ambos" required>Te sientes atraído igualmente por hombres y mujeres y quieres tener experiencias sexuales con ambos</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp2" value="0.Te sientes fuertemente atraído por personas de tu mismo sexo y la mayoría de tus experiencias sexuales serán con personas de tu mismo sexo" required>Te sientes fuertemente atraído por personas de tu mismo sexo y la mayoría de tus experiencias sexuales serán con personas de tu mismo sexo</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp2" value="0.Te sientes sólo atraído por personas de tu mismo sexo y sólo con ellas tendrás experiencias sexuales" required>Te sientes sólo atraído por personas de tu mismo sexo y sólo con ellas tendrás experiencias sexuales</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp2" value="0.Te sientes inseguro respecto a quién te atrae sexualmente y con quién tendrás experiencias sexuales" required>Te sientes inseguro respecto a quién te atrae sexualmente y con quién tendrás experiencias sexuales</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp2" value="0.No te sientes atraído por nadie" required>No te sientes atraído por nadie</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[2].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp3" value="0.No" required>No </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp3" value="0.Sí con imágenes masculinas" required>Sí con imágenes masculinas</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp3" value="0.Sí con imágenes femeninas" required>Sí con imágenes femeninas</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp3" value="0.Sí con imágenes de ambos sexos" required>Sí con imágenes de ambos sexos</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp3" value="0.Sí con otro tipo de imágenes" required>Sí con otro tipo de imágenes</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp3" value="0.NC tipo de fantasía" required>NC tipo de fantasía</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[3].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp4" value="0.No" required>No</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp4" value="0.Sí de alguien del Sexo opuesto" required>Sí de alguien del Sexo opuesto</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp4" value="0.Sí de alguien de mi Mismo sexo" required>Sí de alguien de mi Mismo sexo</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp4" value="0.Sí de personas de ambos sexos" required>Sí de personas de ambos sexos</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[4].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp5" value="0.No" required>No</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp5" value="0.Ninguna" required>Ninguna</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp5" value="0.Sí Centrada en la mujer" required>Sí Centrada en la mujer</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp5" value="0.Centrada en el hombre" required>Centrada en el hombre</label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="resp5" value="0.Centrada en hombres y mujeres" required>Centrada en hombres y mujeres</label>
+                                </div>
+                            </div>
+                            <%}%>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Enviar</button>
+                                </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!--Panel-->
+    </div>
+    <!--Container-->
+
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <br>
+    <div class="container">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div class="container col-xs-12">
+                    <form role="form" method="post" action="enviar_csustancias">
+                        <div class="container-fluid">
+                            <div class="jumbotron">
+                                <h1 class="app-top app-login-title">Cuestionario sobre consumo de sustancias</h1>
+                                <p>Por favor lee atentamente cada una de las preguntas y contesta de la manera más sincera. Una vez que pulses el botón envíar, no podrás realizar cambios ni volver a contestar el test.</p>
+                                <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                                <input type="hidden" name="username" value="<%=datos[2]%>">
+                                <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                                <input type="hidden" name="test" value="<%=datos[0]%>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="label-control">
+                                1. ¿Cuáles sustancias ha consumido en el último año (12 meses anteriores a esta encuesta)? Puede elegir varias opciones
+                            </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp1" value="01.Alochol">01. Alcohol </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp1" value="02.Tabaco">02. Tabaco</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp1" value="03.Marihuana">03. Marihuana</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp1" value="04.Medicamentos SIN PRESCRIPCIÓN MÉDICA">04. Medicamentos SIN PRESCRIPCIÓN MÉDICA (antidepresivos, tranquilizantes, estimulantes).</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp1" value="05.Otras sustancias">05. Otras sustancias (cocaína, crack, speed, cristal, heroína, cemento, resistol, thinner, poppers, peyote, LSD)</label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label-control">
+                                2. Escriba en la línea la cantidad de tiempo (en años) que lleva consumiendo las sustancias que eligió en la pregunta 1.
+                            </label>
+                            <div class="textbox">
+                                <label>01. Alcohol
+                                    <input type="number" name="resp2a" class="form-control" min="0" max="80" value="0" required>
+                                </label>
+                            </div>
+                            <div class="textbox">
+                                <label>02. Tabaco
+                                    <input type="number" name="resp2b" class="form-control" min="0" max="80" value="0" required>
+                                </label>
+                            </div>
+                            <div class="textbox">
+                                <label>03. Marihuana
+                                    <input type="number" name="resp2c" class="form-control" min="0" max="80" value="0" required>
+                                </label>
+                            </div>
+                            <div class="textbox">
+                                <label>04. Medicamentos SIN PRESCRIPCIÓN MÉDICA (antidepresivos, tranquilizantes, estimulantes).
+                                    <input type="number" name="resp2d" class="form-control" min="0" max="80" value="0" required>
+                                </label>
+                            </div>
+                            <div class="textbox">
+                                <label>05. Otras sustancias (cocaína, crack, speed, cristal, heroína, cemento, resistol, thinner, poppers, peyote, LSD)
+                                    <input type="number" name="resp2e" class="form-control" min="0" max="80" value="0" required>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                3. Si usted eligió en la pregunta 1 la opción de alcohol mencione si su consumo en el último año fue:
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="1.Diariamente">a) Diariamente</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="2.2 o 3 veces por semana">b) 2 o 3 veces por semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="3.1 vez a la semana">c) 1 vez a la semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="4.Alguna vez al mes">d) Alguna vez al mes</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="5.Alguna vez al año">e) Alguna vez al año</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp3" value="6.No consumí alcohol">f) No consumí alcohol</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                4. Si usted eligió en la pregunta 1 la opción de tabaco mencione si su consumo en el último año fue:
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="1.Diariamente">a) Diariamente</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="2.2 o 3 veces por semana">b) 2 o 3 veces por semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="3.1 vez a la semana">c) 1 vez a la semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="4.Alguna vez al mes">d) Alguna vez al mes</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="5.Alguna vez al año">e) Alguna vez al año</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp4" value="6.No consumí tabaco">f) No consumí tabaco</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                5. Si usted eligió en la pregunta 1 la opción de marihuana mencione si su consumo en el último año fue:
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="1.Diariamente">a) Diariamente</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="2.2 o 3 veces por semana">b) 2 o 3 veces por semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="3.1 vez a la semana">c) 1 vez a la semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="4.Alguna vez al mes">d) Alguna vez al mes</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="5.Alguna vez al año">e) Alguna vez al año</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp5" value="6.No consumí marihuana">f) No consumí marihuana</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                6. Si usted eligió en la pregunta 1 la opción de medicamentos SIN PRESCRIPCIÓN MÉDICA mencione si su consumo en el último año fue:
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="1.Diariamente">a) Diariamente</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="2.2 o 3 veces por semana">b) 2 o 3 veces por semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="3.1 vez a la semana">c) 1 vez a la semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="4.Alguna vez al mes">d) Alguna vez al mes</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="5.Alguna vez al año">e) Alguna vez al año</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp6" value="6.No consumí medicamentos sin prescripción médica">f) No consumí medicamentos sin prescripción médica</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                7. Si usted eligió en la pregunta 1 la opción de otras sustancias mencione si su consumo en el último año fue:
+                            </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="1.Diariamente">a) Diariamente</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="2.2 o 3 veces por semana">b) 2 o 3 veces por semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="3.1 vez a la semana">c) 1 vez a la semana</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="4.Alguna vez al mes">d) Alguna vez al mes</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="5.Alguna vez al año">e) Alguna vez al año</label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="resp7" value="6.No consumí otras sustancias">f) No consumí otras sustancias</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                8. Su padre, madre o hermanos has presentado alguno de los siguientes problemas (puede elegir más de una opción)?:
+                            </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp8" value="01.Consumo o abuso de alcohol">01. Consumo o abuso de alcohol</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp8" value="02.Consumo o abuso de tabaco">02. Consumo o abuso de tabaco</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp8" value="03.Consumo o abuso de marihuana">03. Consumo o abuso de marihuana</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp8" value="04.Consumo o abuso de medicamentos SIN PRESCRIPCIÓN MÉDICA">04. Consumo o abuso de medicamentos SIN PRESCRIPCIÓN MÉDICA (antidepresivos, tranquilizantes. Estimulantes)</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp8" value="05.Consumo o abuso de otras sustancias">05. Consumo o abuso de otras sustancias (cocaína, crack, speed, cristal, heroína, cemento, resistol, thinner, poppers, peyote, LSD)</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp8" value="06.Nadie en mi familia presenta algún problema de consumo o abuso de sustancias">06. Nadie en mi familia presenta algún problema de consumo o abuso de sustancias.</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="label-control">
+                                9. Si usted ha consumido marihuana, medicamentos sin prescripción médica o tro tipo de sustancias (cocaína, crack, speed, cristal, heroína, cemento, resistol, thinner, poppers, peyote, LSD), SIN TOMAR EN CUENTA EL ALCOHOL O TABACO, señale si ha presentado alguno de los siguientes síntomas en los últimos 12 meses, puede señalar más de uno
+                            </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp9" value="01.Necesidad de consumir la sustancia que la que se tenía planeado">01. Necesidad de consumir la sustancia que la que se tenía planeado</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp9" value="02.Necesidad de tomar cada vez más cantidad de la sustancia para lograr el efecto deseado">02. Necesidad de tomar cada vez más cantidad de la sustancia para lograr el efecto deseado</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp9" value="03.Consumir más cantidad de la sustancia que la que se tenía planeado">03. Consumir más cantidad de la sustancia que la que se tenía planeado</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp9" value="04.Pasar mucho tiempo del día en actividades que ayuden a obtener la sustancia">04. Pasar mucho tiempo del día en actividades que ayuden a obtener la sustancia</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp9" value="05.Dejar de realizar actividades importantes por consumir la sustancia">05. Dejar de realizar actividades importantes por consumir la sustancia (estudio, trabajo, cuidado del hogar y los hijos).</label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="resp9" value="06. Continuar el consumo de la sustancia a pesar de saber que está realizando ya algún daño a su cuerpo o su mente">06. Continuar el consumo de la sustancia a pesar de saber que está realizando ya algún daño a su cuerpo o su mente.</label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Panel-->
+    </div>
+    <!--Container-->
+
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
