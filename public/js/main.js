@@ -1,3 +1,27 @@
+function desplegarPregunta(input) {
+    var respSi = document.getElementsByName("resp1");
+    var respNo = document.getElementsByName("resp2");
+    if (input.value == 'A.SÍ') {
+        for (i = 0; i < respSi.length; i++) {
+            respSi.item(i).required = true;
+            respSi.item(i).disabled = false;
+            respSi.item(i).checked = false;
+            respSi.item(i).type = "radio";
+            respNo.item(i).disabled = true;
+            respNo.item(i).checked = false;
+        }
+    } else if (input.value == 'B.NO') {
+        for (i = 0; i < respSi.length; i++) {
+            respNo.item(i).required = true;
+            respNo.item(i).disabled = false;
+            respNo.item(i).checked = false;
+            respNo.item(i).type = "radio";
+            respSi.item(i).disabled = true;
+            respSi.item(i).checked = false;
+        }
+    }
+}
+
 /// validateNombre(input)
 /// Valida que los input de tipo texto donde se introduce un nombre o un apellido
 /// sean correctos

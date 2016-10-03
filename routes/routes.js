@@ -28,7 +28,6 @@ connection.connect(function (error) {
 /// Consultas SQL del sistema
 ///
 /// SELECT queries
-///
 var selectAlumno_Info = 'SELECT Clave_unica, Facultad, Carrera, Intentos_Ingreso, Semestre \
 FROM alumno \
 WHERE Clave_unica = ?';
@@ -41,11 +40,8 @@ WHERE Nombre_Usuario = ? AND Nombre_Test = ? AND Fecha = ? AND Contestado = "No"
 var selectTestPendientesUsuario = 'SELECT * \
 FROM test_usuario \
 WHERE Nombre_Test = ? AND Fecha = ? AND Nombre_Usuario = ?';
-///
-//var selectSolicitar = 'SELECT * FROM solicitud_test WHERE Nombre_Test = ? AND Nombre_Usuario = ? AND Aceptada = \'No\';';
 var selectSolicitar = 'SELECT * FROM solicitud_test WHERE Nombre_Test = ? AND Nombre_Usuario = ? AND Aceptada = "No";';
 var selectAllQuestions_Test = 'SELECT Numero, Pregunta FROM pregunta_test WHERE Nombre_Test = ? ORDER BY Numero;';
-/*var selectRespuestas_Test = 'SELECT Numero_Pregunta, group_concat(Respuesta SEPARATOR \'#\') AS Respuestas, group_concat(Puntuacion SEPARATOR \'#\') AS Puntuaciones \*/
 var selectRespuestas_Test = 'SELECT Numero_Pregunta, group_concat(Numero_Respuesta SEPARATOR \'#\') AS Numero, group_concat(Respuesta SEPARATOR \'#\') AS Respuestas, group_concat(Puntuacion SEPARATOR \'#\') AS Puntuaciones \
 FROM respuesta_pregunta \
 WHERE Nombre_Test = ? \
@@ -53,14 +49,11 @@ GROUP BY Numero_Pregunta \
 ORDER BY Numero_Respuesta;';
 var selectPreguntas_Test = 'SELECT Pregunta FROM pregunta_test WHERE Nombre_Test = ?';
 var selectNumPreg = 'SELECT Numero FROM pregunta_test WHERE Nombre_Test = ? AND Pregunta LIKE ?;';
-//var selectPregRes_Folio = 'SELECT Pregunta, Respuesta, Puntuacion FROM pregunta_respuesta WHERE Folio = ?;';
-///
 var selectPregRes_Folio = 'SELECT GROUP_CONCAT(pt.Pregunta SEPARATOR \'#\') AS Preguntas, Respuestas, Puntuaciones, Puntuacion_Total, Diagnostico \
 FROM resultado AS rt \
 INNER JOIN test_usuario AS tu ON rt.Folio = tu.Folio \
 INNER JOIN pregunta_test AS pt ON pt.Nombre_Test = tu.Nombre_Test \
 WHERE rt.Folio = ?;';
-///
 var selectTestVerification = 'SELECT * FROM test_usuario WHERE Nombre_Aplicador = ? AND Nombre_Usuario = ? AND Nombre_Test = ? AND Fecha = ?;';
 var selectResultados = 'SELECT r.Folio, tu.Nombre_Test, a.Nombre AS NombreAp, a.Apellidos AS ApellidosAp, u.Nombre AS NombreUs, u.Apellidos AS ApellidosUs, DATE_FORMAT(tu.Fecha, \'%d/%m/%Y\') AS FechaSol, DATE_FORMAT(tu.FechaContestado, \'%d/%m/%Y\') AS FechaCon \
 FROM resultado AS r \
@@ -88,10 +81,6 @@ FROM usuario \
 INNER JOIN alumno \
 ON usuario.CveUnica = alumno.Clave_unica \
 WHERE usuario.NombreUsuario = ?';
-/*var selectFacultad_Carreras = 'SELECT NombreCarrera AS Carrera FROM facultad_carrera WHERE Nombre_Facultad = ?;';
-var selectCarrera = 'SELECT * FROM facultad_carrera WHERE NombreCarrera = ?;';
-var selectFacultades = 'SELECT * FROM facultad;';
-var selectFacultad = 'SELECT * FROM facultad WHERE Nombre = ?;';*/
 var selectFacultad_Carreras = 'SELECT NombreCarrera AS Carrera FROM facultad_carrera WHERE Nombre_Facultad = ? AND Eliminado = "No";';
 var selectCarrera = 'SELECT * FROM facultad_carrera WHERE NombreCarrera = ? AND Eliminado = "No"';
 var selectFacultades = 'SELECT * FROM facultad WHERE Eliminado = "No"';
@@ -102,22 +91,15 @@ var selectNumPreg_Test = 'SELECT * FROM pregunta_test WHERE Nombre_Test = ? AND 
 FROM test_pregunta\
 INNER JOIN respuesta_pregunta ON test_pregunta.Pregunta = respuesta_pregunta.Pregunta\
 WHERE test_pregunta.Nombre_Test = ?;';*/
-/*var selectTest = 'SELECT Nombre, Descripcion FROM test';
-var selectTest_Name = 'SELECT * FROM test WHERE Nombre = ?';*/
 var selectTest = 'SELECT Nombre, Descripcion FROM test WHERE Eliminado = "No"';
 var selectTest_Name = 'SELECT * FROM test WHERE Nombre = ? AND Eliminado = "No"';
 var selectQuestions = 'SELECT Numero, Pregunta \
 FROM pregunta_test \
 WHERE Nombre_Test = ? \
 ORDER BY Numero DESC;';
-//var existTestQuery = 'SELECT * FROM test WHERE Nombre = ?';
 var existTestQuery = 'SELECT * FROM test WHERE Nombre = ? AND Eliminado = "No"';
 var checkUser = 'SELECT * FROM usuario WHERE NombreUsuario = ? AND Password = ?';
 var checkUserName = 'SELECT NombreUsuario, Nombre, Apellidos, Correo, Sexo, FechaNacimiento, TienePareja, TieneHijos, ViveCon, DependeDe, ActividadFisica, PosicionHijo, PadreMedico, EscolPaterna, EscolMaterna, EsAlumno, CveUnica FROM usuario WHERE NombreUsuario = ?';
-/*var checkAplicador = 'SELECT * FROM aplicador WHERE NombreUsuario = ? and Password = ?';
-var checkAplicadorName = 'SELECT * FROM aplicador WHERE NombreUsuario = ?';
-var selectAplicadores = 'SELECT NombreUsuario, Nombre, Apellidos, Telefono, Correo, Privilegios FROM aplicador';
-var selectAplicadoresNoAdmin = 'SELECT NombreUsuario FROM aplicador WHERE Privilegios != \'administrativos\';';*/
 var checkAplicador = 'SELECT * FROM aplicador WHERE NombreUsuario = ? and Password = ? AND Eliminado = "No"';
 var checkAplicadorName = 'SELECT * FROM aplicador WHERE NombreUsuario = ? AND Eliminado = "No"';
 var selectAplicadores = 'SELECT NombreUsuario, Nombre, Apellidos, Telefono, Correo, Privilegios FROM aplicador WHERE Eliminado = "No"';
@@ -127,31 +109,12 @@ FROM test_usuario \
 INNER JOIN test ON test_usuario.Nombre_Test = test.Nombre \
 INNER JOIN aplicador ON aplicador.NombreUsuario = test_usuario.Nombre_Aplicador \
 WHERE test_usuario.Contestado = \'No\' AND test_usuario.Nombre_Usuario = ?';
-///
 var countTestPendientes = 'SELECT COUNT(*) AS testPendientes \
 FROM test_usuario \
 WHERE Contestado = \'No\'';
 var countSolicitudesPendientes = 'SELECT COUNT(*) AS numSolicitudes \
 FROM solicitud_test \
 WHERE Aceptada = \'No\'';
-///
-/*var pendingAplicadorTest = 'SELECT usuario.Nombre, usuario.Apellidos, test.Nombre AS Test, DATE_FORMAT(test_usuario.Fecha,\'%d/%m/%Y\') AS Fecha \
-FROM test_usuario \
-INNER JOIN test ON test_usuario.Nombre_Test = test.Nombre \
-INNER JOIN usuario ON usuario.NombreUsuario = test_usuario.Nombre_Usuario \
-INNER JOIN aplicador ON aplicador.NombreUsuario = test_usuario.Nombre_Aplicador \
-WHERE test_usuario.Contestado = \'No\' AND aplicador.NombreUsuario = ?';
-var answeredAplicadorTest = 'SELECT usuario.Nombre, usuario.Apellidos, test.Nombre AS Test, DATE_FORMAT(test_usuario.Fecha,\'%d/%m/%Y\') AS Fecha, DATE_FORMAT(test_usuario.FechaContestado,\'%d/%m/%Y\') AS FechaContestado, test_usuario.Folio \
-FROM test_usuario \
-INNER JOIN test ON test_usuario.Nombre_Test = test.Nombre \
-INNER JOIN usuario ON usuario.NombreUsuario = test_usuario.Nombre_Usuario \
-INNER JOIN aplicador ON aplicador.NombreUsuario = test_usuario.Nombre_Aplicador \
-WHERE test_usuario.Contestado = \'Si\' AND aplicador.NombreUsuario = ?';
-var answeredUserTest = 'SELECT aplicador.Nombre, aplicador.Apellidos, test.Nombre AS Test, DATE_FORMAT(test_usuario.Fecha,\'%d/%m/%Y\') AS Fecha \
-FROM test_usuario \
-INNER JOIN test ON test_usuario.Nombre_Test = test.Nombre \
-INNER JOIN aplicador ON aplicador.NombreUsuario = test_usuario.Nombre_Aplicador \
-WHERE test_usuario.Contestado = \'Si\' AND test_usuario.Nombre_Usuario = ?';*/
 var pendingAplicadorTest = 'SELECT usuario.NombreUsuario, usuario.Nombre, usuario.Apellidos, test.Nombre AS Test, DATE_FORMAT(test_usuario.Fecha,\'%d/%m/%Y\') AS Fecha \
 FROM test_usuario \
 INNER JOIN test ON test_usuario.Nombre_Test = test.Nombre \
@@ -174,28 +137,20 @@ var selectCurrentPassword1 = 'SELECT * FROM aplicador WHERE NombreUsuario = ? AN
 ///
 /// INSERT queries
 ///
-//var insertResultado_Test = 'INSERT INTO resultado_test (Nombre_Aplicador, Nombre_Usuario, Fecha) VALUES(?,?,?);';
 var insertResultado_Test = 'INSERT INTO resultado (Respuestas, Puntuaciones, Puntuacion_Total, Diagnostico) VALUES (?, ?, ?, ?);';
-//var insertAudit = 'INSERT INTO audit VALUES(?,?,?);';
-//var insertPregRes_Audit = 'INSERT INTO pregunta_respuesta VALUES(?,?,?,?);';
 var insertSolicitud = 'INSERT INTO solicitud_test VALUES (?,?,?,?,?);';
-//var insertCarrera = 'INSERT INTO facultad_carrera VALUES (?,?);';
-//var insertFacultad = 'INSERT INTO facultad VALUES (?);';
 var insertCarrera = 'INSERT INTO facultad_carrera VALUES (?,?,"No");';
 var insertFacultad = 'INSERT INTO facultad VALUES (?,"No");';
 var insertAlumno = 'INSERT INTO alumno VALUES (?,?,?,?,?);';
 var insertPregunta = 'INSERT INTO pregunta_test VALUES (?,?,?);';
-//var insertTest = 'INSERT INTO test (Nombre, Descripcion) VALUES (?,?)'
 var insertTest = 'INSERT INTO test (Nombre, Descripcion, Eliminado) VALUES (?,?,"No")'
 var sendTest = 'INSERT INTO test_usuario (Nombre_Aplicador, Nombre_Usuario, Nombre_Test, Fecha, Contestado) VALUES (?,?,?,?,?)';
 var insertUser = 'INSERT INTO usuario (NombreUsuario, Nombre, Apellidos, Correo, Sexo, FechaNacimiento, Password) VALUES(?, ?, ?, ?, ?, ?, ?)';
-//var insertAplicador = 'INSERT INTO aplicador (NombreUsuario, Nombre, Apellidos, Telefono, Correo, Privilegios, Password, Eliminado) VALUES (?,?,?,?,?,?,?,?)';
 var insertAplicador = 'INSERT INTO aplicador (NombreUsuario, Nombre, Apellidos, Telefono, Correo, Privilegios, Password, Eliminado) VALUES (?,?,?,?,?,?,?,"No")';
 var insertRespuesta = 'INSERT INTO respuesta_pregunta VALUES (?,?,?,?,?);';
 ///
 /// UPDATE queries
 ///
-//var updateTestUsuario = 'UPDATE test_usuario SET Contestado = \'Si\', FechaContestado = ?, Folio = ? WHERE Nombre_Aplicador = ? AND Nombre_Usuario = ? AND Nombre_Test = ? AND Fecha = ?;';
 var updateTestUsuario = 'UPDATE test_usuario SET Contestado = \'Si\', FechaContestado = ?, Folio = ? WHERE Nombre_Aplicador = ? AND Nombre_Usuario = ? AND Nombre_Test = ? AND Fecha = ? AND Contestado = \'No\';';
 var updateSolicitudStatus = 'UPDATE solicitud_test SET Aceptada = ? WHERE Nombre_Usuario = ?, Nombre_Aplicador = ?, Nombre_Test = ?;';
 var updateCveUsuario = 'UPDATE usuario SET CveUnica = ? WHERE NombreUsuario = ?;';
@@ -208,19 +163,15 @@ var updateUserPassword1 = 'UPDATE aplicador SET Password = ? WHERE NombreUsuario
 /// DELETE queries
 ///
 var deleteSolicitud = 'DELETE FROM solicitud_test WHERE Nombre_Usuario = ? AND Nombre_Aplicador = ? AND Nombre_test = ? AND Fecha = ? AND Aceptada = \'No\';';
-//var deleteCarrera = 'DELETE FROM facultad_carrera WHERE Nombre_Facultad = ? AND NombreCarrera = ?;';
 var deleteCarrera = 'UPDATE facultad_carrera \
 SET Eliminado = "Si" \
 WHERE Nombre_Facultad = ? AND NombreCarrera = ?';
-//var deleteFacultad = 'DELETE FROM facultad WHERE Nombre = ?;';
 var deleteFacultad = 'UPDATE facultad \
 SET Eliminado = "Si" \
 WHERE Nombre = ?';
-//var deleteAplicador = 'DELETE FROM aplicador WHERE NombreUsuario = ?;';
 var deleteAplicador = 'UPDATE aplicador \
 SET Eliminado = "Si" \
 WHERE NombreUsuario = ?';
-//var deleteTest = 'DELETE FROM test WHERE Nombre = ?;';
 var deleteTest = 'UPDATE test \
 SET Eliminado = "Si" \
 WHERE Nombre = ?';
@@ -276,7 +227,7 @@ module.exports = function (app) {
             }
         ));
 
-	/// POST
+    /// POST
     /// Consulta los datos del usuario seleccionado
     ///
     app.post('/datos_usuario', function (req, res) {
@@ -428,6 +379,7 @@ module.exports = function (app) {
         }
 
     });
+
     /// POST    
     /// Genera un reporte en PDF de los resultados obtenidos
     ///
@@ -461,12 +413,9 @@ module.exports = function (app) {
                                     var diagnostico = resultado[0].Diagnostico;
                                     var y = 200;
 
-
                                     doc.image('public/img/logo.png')
                                         .font('Times-Roman')
                                         .fontSize(12)
-
-
                                         .text('Nombre del test: ' + reporte[0].Nombre_Test, 160, 80)
                                         .text('Aplicador: ' + reporte[0].NombreAp + ' ' + reporte[0].ApellidosAp)
                                         .text('Contestado por: ' + reporte[0].NombreUs + ' ' + reporte[0].ApellidosUs)
@@ -485,14 +434,15 @@ module.exports = function (app) {
                                             y = 80;
                                         }
                                     }
+
                                     doc
                                         .moveDown()
                                         .text('Diagnostico: ' + diagnostico)
                                         .text('Puntuacón total: ' + puntuacionTotal);
+
                                     var raiz = __dirname.toString().replace("\\routes", '');
                                     doc.pipe(fs.createWriteStream(raiz + '/public/files/file_' + folio + '_.pdf'));
                                     doc.end();
-
 
                                     setTimeout(function () {
                                         var filePath = raiz + '/public/files/file_' + folio + '_.pdf';
@@ -507,7 +457,7 @@ module.exports = function (app) {
                                 }
                             });
                         } else {
-                            res.send('No se encontró el documento con el folio ' + folio + ' intentalo nuevamente');
+                            res.send('No se ecnontró el documento con el folio ' + folio + ' intentalo nuevamente');
                         }
                     });
                 } else {
@@ -517,8 +467,6 @@ module.exports = function (app) {
         } else {
             res.redirect('/');
         }
-
-
     });
 
     /// GET
@@ -533,7 +481,6 @@ module.exports = function (app) {
             connection.query(checkAplicadorName, username, function (errorApp, resultApp) {
                 if (errorApp) throw errorApp;
                 if (resultApp.length > 0) {
-
                     var appData = JSON.parse(JSON.stringify(resultApp));
                     if (appData[0].Privilegios == 'administrativos') apppriv = true;
                     connection.query(selectResultados, [folio], function (errorFol, resultFol) {
@@ -576,8 +523,6 @@ module.exports = function (app) {
         } else {
             res.redirect('/');
         }
-
-
     });
 
     /// GET
@@ -1011,7 +956,7 @@ module.exports = function (app) {
         var facultad = req.body.facSeleccionada;
         var carrera = req.body.carreraSeleccionada;
         var data = [facultad, carrera];
-        console.log(data);
+
         connection.query(selectCarrera, [carrera], function (errorCarr, resultCarr) {
             if (errorCarr) throw errorCarr;
             if (resultCarr.length > 0) {
@@ -1191,7 +1136,6 @@ module.exports = function (app) {
             res.redirect('/');
         }
     });
-
 
     /// GET
     /// Muestra la interfaz para consultar facultades
@@ -1411,16 +1355,14 @@ module.exports = function (app) {
         }
     });
 
+    /*
     /// GET
     /// CONSULTAR preguntas y respuestas
     ///
     app.get('/consultarpregres', function (req, res) {
-        var privilegios = false;
         var username = req.cookies.name;
-        var testSeleccionado = req.query.test;
 
-        res.redirect('/workspace');
-        /*connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
+        connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
             if (errorApp) throw errorApp;
             if (resultApp.length > 0) {
                 var appData = JSON.parse(JSON.stringify(resultApp));
@@ -1430,47 +1372,19 @@ module.exports = function (app) {
                     if (error) throw error;
                     if (result.length > 0) {
                         var test = JSON.parse(JSON.stringify(result));
-                        connection.query(selectAllQuestions_Test, [testSeleccionado], function (errorTest, resultTest) {
-                            if (errorTest) throw errorTest;
-                            if (resultTest.length > 0) {
-                                var preguntas = JSON.parse(JSON.stringify(resultTest));
-                                connection.query(selectRespuestas_Test, [testSeleccionado], function (errorPregs, resultPregs) {
-                                    if (errorPregs) throw errorPregs;
-                                    if (resultPregs.length > 0) {
-                                        var respuestas = JSON.parse(JSON.stringify(resultPregs));
-                                        console.log(respuestas);
-                                        var respuesta_puntuacion = [[], []];
-                                        for (i = 0; i < respuestas.length; i++) {
-                                            var sRespuestas = respuestas[i][0].split("#");
-                                            var sPuntuaciones = respuestas[i][1].split("#");
-
-                                            respuesta_puntuacion[0].push(sRespuestas);
-                                            respuesta_puntuacion[1].push(sPuntuaciones);
-                                            console.log(respuesta_puntuacion);
-                                        }
-                                        res.render('consultarpregres', {
-                                            title: 'Consultar preguntas y respuestas',
-                                            usuario: username,
-                                            test: test,
-                                            apppriv: privilegios,
-                                            priv: 'app'
-                                        });
-                                    } else {
-
-                                    }
-                                });
-
-                            } else {
-
-                            }
+                        res.render('consultarpregres', {
+                            title: 'Consultar preguntas y respuestas',
+                            usuario: username,
+                            apppriv: privilegios,
+                            priv: 'app',
+                            test: test
                         });
-
                     } else {
                         res.render('consultarpregres', {
                             title: 'Consultar preguntas y respuestas',
                             usuario: username,
                             apppriv: privilegios,
-                            errorMessage: 'No existe el test seleccionado',
+                            errorMessage: 'No hay test disponibles para consultar',
                             priv: 'app'
                         });
                     }
@@ -1478,7 +1392,49 @@ module.exports = function (app) {
             } else {
                 res.redirect('/');
             }
-        });*/
+        });
+    });
+
+    app.get('/search_preg_res', function (req, res) {
+        var username = req.cookies.name;
+        var testSeleccionado = req.query.test;
+        var privilegios = false;
+
+        connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
+            if (errorApp) throw errorApp;
+            if (resultApp.length > 0) {
+                var appData = JSON.parse(JSON.stringify(resultApp));
+                if (appData[0].Privilegios == 'administrativos')
+                    privilegios = true;
+                connection.query(selectAllQuestions_Test, [testSeleccionado], function (errorTest, resultTest) {
+                    if (errorTest) throw errorTest;
+                    if (resultTest.length > 0) {
+                        var preguntas = JSON.parse(JSON.stringify(resultTest));
+                        connection.query(selectRespuestas_Test, [testSeleccionado], function (errorPregs, resultPregs) {
+                            if (errorPregs) throw errorPregs;
+                            if (resultPregs.length > 0) {
+                                var respuestas = JSON.parse(JSON.stringify(resultPregs));
+                                res.render('consultarpregres', {
+                                    title: 'Consultar preguntas y respuestas',
+                                    usuario: username,
+                                    preguntas: preguntas,
+                                    respuestas: respuestas,
+                                    apppriv: privilegios,
+                                    priv: 'app'
+                                });
+                            } else {
+                                res.send('No hay respuestas');
+                            }
+                        });
+
+                    } else {
+                        res.send('No hay preguntas');
+                    }
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
     });
 
     ///
@@ -1625,8 +1581,6 @@ module.exports = function (app) {
             console.log(exception);
             res.redirect('/agregarpregunta');
         }
-
-
     });
 
     ///
@@ -1641,9 +1595,7 @@ module.exports = function (app) {
         var username = req.cookies.name;
         var puntuacion = req.query.puntuacion;
 
-        console.log(testSeleccionado);
         pregunta = pregunta.split(".")[0] + '%';
-        console.log(pregunta);
         connection.query(selectNumPreg, [testSeleccionado, pregunta], function (errorR, resultR) {
             if (errorR) throw errorR;
             if (resultR.length > 0) {
@@ -1728,6 +1680,7 @@ module.exports = function (app) {
             }
         });
     });
+    */
 
     /// GET /selecciontest
     /// Selecciona el test definido por el administrador para
@@ -1805,7 +1758,7 @@ module.exports = function (app) {
     });
 
     ///
-    /// GET y POST de la página /eliminartest
+    /// GET y POST de la página /consultartest
     /// Realiza la consulta de todos los test dados de alta en la base de datos
     app.get('/consultartest', function (req, res) {
         var username = req.cookies.name;
@@ -2045,7 +1998,10 @@ module.exports = function (app) {
         }
     });
 
-	app.post('/enviar_csustancias', function (req, res) {
+    /// POST
+    /// Envia el cuestionario de consumo de sustancias
+    ///
+    app.post('/enviar_csustancias', function (req, res) {
         var test = req.body.test;
         var username = req.body.username;
         var aplicador = req.body.aplicador;
@@ -2159,8 +2115,8 @@ module.exports = function (app) {
             }
         });
     });
-	
-	///
+
+    ///
     /// POST de la página /enviaraudit
     /// Envía el cuestionario AUDIT
     app.post('/enviaraudit', function (req, res) {
@@ -2232,7 +2188,7 @@ module.exports = function (app) {
             res.send('No has completado todas las preguntas del test, regresa a la página anterior y contesta el test correctamente.');
         }
     });
-	
+
     /// POST de la página /enviar_adaptacion
     /// Envía el cuestionario de adaptación social
     ///
@@ -2915,6 +2871,9 @@ module.exports = function (app) {
         }
     });
 
+    ///
+    /// POST de la página /contestartest
+    ///
     app.post('/contestartest', function (req, res) {
         var test = req.body.test;
         var aplicador = req.body.username;
@@ -3016,8 +2975,8 @@ module.exports = function (app) {
             res.redirect('/');
         }
     });
-	
-	///
+
+    ///
     /// GET y POST de la página agregar aplicador
     ///
     app.get('/agregar', function (req, res) {
@@ -3116,9 +3075,10 @@ module.exports = function (app) {
         } else {
             res.redirect('/');
         }
+
     });
 
-    //
+    ///
     /// GET y POST para eliminar un aplicador
     ///
     app.get('/eliminar', function (req, res) {
@@ -3374,7 +3334,6 @@ module.exports = function (app) {
         });
     });
 
-
     ///
     /// GET y POST de la página directorio
     ///
@@ -3383,7 +3342,6 @@ module.exports = function (app) {
             if (errorApp) throw errorApp;
             if (resultApp.length > 0) {
                 var aplicadores = JSON.parse(JSON.stringify(resultApp));
-                console.log(aplicadores);
                 res.render('directorio', {
                     title: 'Directorio',
                     app: aplicadores
@@ -3391,22 +3349,22 @@ module.exports = function (app) {
             }
         });
     });
-	
-	///
-	///
-	///GET del cambio de contraseña de aplicador con permisos generales y administrativos
-	///Se usa el mismo metodo pero se verifican los privilegios del medico
-	///
-	app.get('/cambiarapp', function (req, res) {
+
+    ///
+    ///
+    ///GET del cambio de contraseña de aplicador con permisos generales y administrativos
+    ///Se usa el mismo metodo pero se verifican los privilegios del medico
+    ///
+    app.get('/cambiarapp', function (req, res) {
         var username = req.cookies.name;
-		var apppriv = false;
+        var apppriv = false;
 
         connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
             if (errorApp) {                
                 throw errorApp;
             }
             if (resultApp.length > 0) {
-				var priv = 'app';
+                var priv = 'app';
                 var appData = JSON.parse(JSON.stringify(resultApp));
                 if (appData[0].Privilegios == "administrativos") apppriv = true;
                 connection.query(selectTest, function (errorAlgo, resultAlgo) {
@@ -3415,11 +3373,11 @@ module.exports = function (app) {
                         var string = JSON.stringify(resultAlgo);
                         var selectJson = JSON.parse(string);
                         console.log(selectJson);
-						console.log(apppriv);
+                        console.log(apppriv);
                         res.render('cambiarapp', {
                             title: 'Cambiar la contraseña',
                             usuario: req.cookies.name,
-							apppriv: apppriv,
+                            apppriv: apppriv,
                                     priv: priv,
                             test: selectJson
                         });
@@ -3429,7 +3387,7 @@ module.exports = function (app) {
                         res.render('cambiarapp', {
                             title: 'Cambiar la contraseña',
                             usuario: req.cookies.name,
-							apppriv: apppriv,
+                            apppriv: apppriv,
                                     priv: priv
                        });
                         app.locals.errorMessage = '';
@@ -3441,11 +3399,11 @@ module.exports = function (app) {
             }
         });
     });
-	
-	
-	/*app.get('/cambiarapp1', function (req, res) {
+    
+    
+    /*app.get('/cambiarapp1', function (req, res) {
         var username = req.cookies.name;
-		var apppriv = false;
+        var apppriv = false;
 
         connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
             if (errorApp) {                
@@ -3457,15 +3415,15 @@ module.exports = function (app) {
                     if (resultAlgo.length > 0) {
                         var string = JSON.stringify(resultAlgo);
                         var selectJson = JSON.parse(string);
-						var appData = JSON.parse(JSON.stringify(resultAlgo));
-						if (appData[0].Privilegios == 'administrativos')
-							apppriv = true,
+                        var appData = JSON.parse(JSON.stringify(resultAlgo));
+                        if (appData[0].Privilegios == 'administrativos')
+                            apppriv = true,
                         console.log(selectJson);
-						console.log(apppriv);
+                        console.log(apppriv);
                         res.render('cambiarapp1', {
                             title: 'Cambiar la contraseña',
                             usuario: req.cookies.name,
-							apppriv: apppriv,
+                            apppriv: apppriv,
                             test: selectJson
                         });
                         app.locals.errorMessage = '';
@@ -3474,7 +3432,7 @@ module.exports = function (app) {
                         res.render('cambiarapp1', {
                             title: 'Cambiar la contraseña',
                             usuario: req.cookies.name,
-							apppriv: apppriv
+                            apppriv: apppriv
                        });
                         app.locals.errorMessage = '';
                         app.locals.succesfulMessage = '';
@@ -3485,10 +3443,10 @@ module.exports = function (app) {
             }
         });
     });
-	
-	
-	
-	app.post('/cambiarapp1', function (req, res) {
+    
+    
+    
+    app.post('/cambiarapp1', function (req, res) {
         var username = req.cookies.name;
         var pass = req.body.oldpasswordapp;
         var passwordOld =  encrypt(username, pass);
@@ -3497,8 +3455,8 @@ module.exports = function (app) {
 
         console.log("User: " + username);
         console.log("PasswordOld: " + passwordOld);
-		console.log("NEW: "+passNew);
-		try
+        console.log("NEW: "+passNew);
+        try
         {   
             connection.query(checkAplicadorName, [username], function (errorApp, resultApp)
             {
@@ -3521,27 +3479,27 @@ module.exports = function (app) {
                             {                                
                                 connection.query(updateUserPassword1, [passwordNew, username], function (errorIns, resultIns) 
                                 {
-									console.log("Hola1\n");
+                                    console.log("Hola1\n");
                                     if (errorIns) 
                                     {
                                         throw errorIns;
-										console.log("Hola2\n\n");
+                                        console.log("Hola2\n\n");
                                     }
                                     else
                                     {
                                         if (resultIns.affectedRows > 0) 
                                         {
-											console.log("Hola3\n");
+                                            console.log("Hola3\n");
                                             app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
                                             res.redirect('/cambiarapp1');                                                    
-											console.log("Hola5\n\n");
+                                            console.log("Hola5\n\n");
                                         }
                                         else
                                         {
                                             app.locals.errorMessage = 'No es posible Cambiar la Contraseña , intentalo nuevamente';
                                             res.redirect('/cambiarapp1');                                                
                                         }
-										//app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
+                                        //app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
                                     }
                                 });
                             }
@@ -3558,7 +3516,7 @@ module.exports = function (app) {
                     }
                 }
             });   
-				console.log("PasswordNew: " + passwordNew);
+                console.log("PasswordNew: " + passwordNew);
         } 
         catch (error) 
         {            
@@ -3569,7 +3527,7 @@ module.exports = function (app) {
             });
         }
     });*/
-	///
+    ///
     /// GET de la página cambiar contraseña del usuario
     ///
 
@@ -3609,9 +3567,9 @@ module.exports = function (app) {
         });
     });    
 
-	///
-	///POST para el cambio de contraseña de los usuarios
-	///
+    ///
+    ///POST para el cambio de contraseña de los usuarios
+    ///
     app.post('/cambiar', function (req, res) {
         var username = req.cookies.name;
         var pass = req.body.oldpassword;
@@ -3686,11 +3644,11 @@ module.exports = function (app) {
             });
         }
     });
-	
-	///
-	///POST para el cambio de contraseña de los medicos generales y administrativos
-	///
-	app.post('/cambiarapp', function (req, res) {
+    
+    ///
+    ///POST para el cambio de contraseña de los medicos generales y administrativos
+    ///
+    app.post('/cambiarapp', function (req, res) {
         var username = req.cookies.name;
         var pass = req.body.oldpasswordapp;
         var passwordOld =  encrypt(username, pass);
@@ -3699,8 +3657,8 @@ module.exports = function (app) {
 
         console.log("User: " + username);
         console.log("PasswordOld: " + passwordOld);
-		console.log("NEW: "+passNew);
-		try
+        console.log("NEW: "+passNew);
+        try
         {   
             connection.query(checkAplicadorName, [username], function (errorApp, resultApp)
             {
@@ -3723,27 +3681,27 @@ module.exports = function (app) {
                             {                                
                                 connection.query(updateUserPassword1, [passwordNew, username], function (errorIns, resultIns) 
                                 {
-									console.log("Hola1\n");
+                                    console.log("Hola1\n");
                                     if (errorIns) 
                                     {
                                         throw errorIns;
-										console.log("Hola2\n\n");
+                                        console.log("Hola2\n\n");
                                     }
                                     else
                                     {
                                         if (resultIns.affectedRows > 0) 
                                         {
-											console.log("Hola3\n");
+                                            console.log("Hola3\n");
                                             app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
                                             res.redirect('/cambiarapp');                                                    
-											console.log("Hola5\n\n");
+                                            console.log("Hola5\n\n");
                                         }
                                         else
                                         {
                                             app.locals.errorMessage = 'No es posible Cambiar la Contraseña , intentalo nuevamente';
                                             res.redirect('/cambiarapp');                                                
                                         }
-										//app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
+                                        //app.locals.succesfulMessage = 'Su Cambio de Contraseña, se Realizó Correctamente';
                                     }
                                 });
                             }
@@ -3760,7 +3718,7 @@ module.exports = function (app) {
                     }
                 }
             });   
-				console.log("PasswordNew: " + passwordNew);
+                console.log("PasswordNew: " + passwordNew);
         } 
         catch (error) 
         {            
@@ -3771,7 +3729,7 @@ module.exports = function (app) {
             });
         }
     });
-	
+
     ///
     /// GET y POST de la página login
     ///
@@ -3871,24 +3829,6 @@ module.exports = function (app) {
                 succesfulMessage: ''
             });
         }
-    });
-
-    ///
-    /// Método GET y POST  del test audit
-    ///
-    app.get('/audit', function (req, res) {
-        res.render('audit', {
-            title: 'Test AUDIT'
-        });
-    });
-
-    ///
-    /// Método GET y POST  del test plutchik
-    ///
-    app.get('/plutchik', function (req, res) {
-        res.render('plutchik', {
-            title: 'Test Plutchik'
-        });
     });
 
     ///
@@ -4041,41 +3981,42 @@ module.exports = function (app) {
         var username = req.cookies.name;
         var apppriv = false;
 
-        connection.query(checkAplicadorName, [username], function (error, result) {
-            if (error) throw error;
-            if (result.length > 0) {
-                var appData = JSON.parse(JSON.stringify(result));
-                if (appData[0].Privilegios == 'administrativos')
-                    apppriv = true;
-                connection.query(selectSolicitudes, [username], function (errorSol, resultSol) {
-                    if (errorSol) throw errorSol;
-                    if (resultSol.length > 0) {
-                        var solicitudes = JSON.parse(JSON.stringify(resultSol));
-                        console.log(solicitudes);
-                        res.render('solicitudes', {
-                            title: 'Solicitudes',
-                            usuario: username,
-                            solicitudes: solicitudes,
-                            apppriv: apppriv
-                        });
-                        app.locals.errorMessage = '';
-                        app.locals.succesfulMessage = '';
-                    } else {
-                        res.render('solicitudes', {
-                            title: 'Solicitudes',
-                            usuario: username,
-                            apppriv: apppriv
-                        });
-                        app.locals.errorMessage = '';
-                        app.locals.succesfulMessage = '';
-                    }
-                });
-            } else {
-                res.redirect('/');
-            }
-        });
-
-
+        if (typeof (username) != 'undefined') {
+            connection.query(checkAplicadorName, [username], function (error, result) {
+                if (error) throw error;
+                if (result.length > 0) {
+                    var appData = JSON.parse(JSON.stringify(result));
+                    if (appData[0].Privilegios == 'administrativos')
+                        apppriv = true;
+                    connection.query(selectSolicitudes, [username], function (errorSol, resultSol) {
+                        if (errorSol) throw errorSol;
+                        if (resultSol.length > 0) {
+                            var solicitudes = JSON.parse(JSON.stringify(resultSol));
+                            res.render('solicitudes', {
+                                title: 'Solicitudes',
+                                usuario: username,
+                                solicitudes: solicitudes,
+                                apppriv: apppriv
+                            });
+                            app.locals.errorMessage = '';
+                            app.locals.succesfulMessage = '';
+                        } else {
+                            res.render('solicitudes', {
+                                title: 'Solicitudes',
+                                usuario: username,
+                                apppriv: apppriv
+                            });
+                            app.locals.errorMessage = '';
+                            app.locals.succesfulMessage = '';
+                        }
+                    });
+                } else {
+                    res.redirect('/');
+                }
+            });
+        } else {
+            res.redirect('/');
+        }
     });
 
     /// POST
@@ -4086,7 +4027,7 @@ module.exports = function (app) {
         var aplicador = req.cookies.name;
         var test = req.body.test;
         var fechaSolicitud = req.body.fechaSolicitud.split("/");
-        var fecha = new Date().toISOString().split('T')[0];
+        var fecha = getFechaActual();
         fechaSolicitud = fechaSolicitud[2] + '-' + fechaSolicitud[1] + '-' + fechaSolicitud[0];
         var appTest = [aplicador, username, test, fecha, 'No'];
         var delSol = [username, aplicador, test, fechaSolicitud];
@@ -4112,10 +4053,9 @@ module.exports = function (app) {
     /// Método GET y POST de la ruta del perfil del usuario
     ///
     app.get('/perfil', function (req, res) {
-        ///Verificamos si el usuario es un aplicador
         var username = req.cookies.name;
 
-        try {
+        if (typeof (username) != 'undefined') {
             connection.query(checkAplicadorName, [username], function (error, rows) {
                 if (error) throw error;
                 if (rows.length > 0) {
@@ -4141,7 +4081,6 @@ module.exports = function (app) {
                                     if (errorAlu) throw errorAlu;
                                     if (resultAlu.length > 0) {
                                         var studentData = JSON.parse(JSON.stringify(resultAlu));
-                                        console.log(studentData);
                                         connection.query(selectFacultades, function (errorFac, resultFac) {
                                             if (errorFac) throw errorFac;
                                             if (resultFac.length > 0) {
@@ -4162,6 +4101,8 @@ module.exports = function (app) {
                                                             carreras: carreras,
                                                             carSeleccionada: studentData[0].Carrera,
                                                         });
+                                                        app.locals.errorMessage = '';
+                                                        app.locals.succesfulMessage = '';
 
                                                     } else {
                                                         res.render('perfil', {
@@ -4234,19 +4175,12 @@ module.exports = function (app) {
                     });
                 }
             });
-        } catch (exception) {
-            console.log(exception);
-            res.render('perfil', {
-                title: 'Perfil de ' + username,
-                usuario: username,
-                datos: appData
-            });
-            app.locals.errorMessage = '';
-            app.locals.succesfulMessage = '';
+        } else {
+            res.redirect('/');
         }
     });
 
-    ///
+    /// POST
     /// Actualiza el perfil del usuario
     ///
     app.post('/perfil', function (req, res) {
@@ -4263,88 +4197,86 @@ module.exports = function (app) {
         var esAlumno = req.body.esAlumno;
         var updateData = [pareja, hijos, viveCon, dependeDe, actFisica, lugarHijo, padreMed, escolPaterna, escolMaterna, esAlumno, username];
         var data = [req.body.nombre, req.body.apellidos, req.body.telefono, req.body.correo, req.cookies.name];
-        console.log(updateData);
 
-        try {
-            connection.query(checkAplicadorName, [username], function (error, result) {
-                if (error) throw error;
-                if (result.length > 0) {
-                    connection.query(updateAplicador, data, function (errorUpdateApp, resultUpdateApp) {
-                        if (errorUpdateApp) throw errorUpdateApp;
-                        if (resultUpdateApp.affectedRows > 0) {
-                            app.locals.succesfulMessage = 'Datos actualizados correctamente';
-                            res.redirect('/perfil');
-                        } else {
-                            app.locals.errorMessage = 'No se pudieron actualizar los datos, intentalo nuevamente';
-                            res.redirect('/perfil');
-                        }
-                    });
-                } else {
-                    connection.query(checkUserName, [username], function (errorUser, resultUser) {
-                        if (errorUser) throw errorUser;
-                        if (resultUser.length > 0) {
-                            var userData = JSON.parse(JSON.stringify(resultUser));
-                            connection.query(updateUser, updateData, function (errorUpdate, resultUpdate) {
-                                if (errorUpdate) throw errorUpdate;
-                                if (resultUpdate.affectedRows > 0) {
-                                    app.locals.succesfulMessage = 'Datos del perfil actualizados correctamente';
-                                    res.redirect('/perfil');
-                                } else {
-                                    app.locals.errorMessage = 'Error al actualizar la información de tu perfil, vuelve a intentarlo';
-                                    res.redirect('/perfil');
-                                }
-                            });
-                        } else {
-                            res.redirect('/');
-                        }
-                    });
-                }
-            });
-        } catch (exception) {
-            console.log(exception);
-            res.redirect('perfil');
-        }
+        connection.query(checkAplicadorName, [username], function (error, result) {
+            if (error) throw error;
+            if (result.length > 0) {
+                connection.query(updateAplicador, data, function (errorUpdateApp, resultUpdateApp) {
+                    if (errorUpdateApp) throw errorUpdateApp;
+                    if (resultUpdateApp.affectedRows > 0) {
+                        app.locals.succesfulMessage = 'Datos actualizados correctamente';
+                        res.redirect('/perfil');
+                    } else {
+                        app.locals.errorMessage = 'No se pudieron actualizar los datos, intentalo nuevamente';
+                        res.redirect('/perfil');
+                    }
+                });
+            } else {
+                connection.query(checkUserName, [username], function (errorUser, resultUser) {
+                    if (errorUser) throw errorUser;
+                    if (resultUser.length > 0) {
+                        var userData = JSON.parse(JSON.stringify(resultUser));
+                        connection.query(updateUser, updateData, function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                app.locals.succesfulMessage = 'Datos del perfil actualizados correctamente';
+                                res.redirect('/perfil');
+                            } else {
+                                app.locals.errorMessage = 'Error al actualizar la información de tu perfil, vuelve a intentarlo';
+                                res.redirect('/perfil');
+                            }
+                        });
+                    } else {
+                        res.redirect('/');
+                    }
+                });
+            }
+        });
     });
 
     ///
-    ///Método GET y POST para la solicitud de test del usuario
+    /// GET para la solicitud de test del usuario
     ///
     app.get('/solicitar', function (req, res) {
         var username = req.cookies.name;
 
-        connection.query(checkUserName, username, function (errorUs, resultUs) {
-            if (errorUs) throw errorUs;
-            if (resultUs.length > 0) {
-                connection.query(selectTest, function (error, result) {
-                    if (error) throw error;
-                    if (result.length > 0) {
-                        var string = JSON.stringify(result);
-                        var selectJson = JSON.parse(string);
-                        console.log(selectJson);
-                        res.render('solicitar', {
-                            title: 'Solicitar test',
-                            usuario: req.cookies.name,
-                            test: selectJson
-                        });
-                        app.locals.errorMessage = '';
-                        app.locals.succesfulMessage = '';
-                    } else {
-                        res.render('solicitar', {
-                            title: 'Solicitar test',
-                            usuario: req.cookies.name
-                        });
-                        app.locals.errorMessage = '';
-                        app.locals.succesfulMessage = '';
-                    }
-                });
-            } else {
-                res.redirect('/');
-            }
-        });
-
-
+        if (typeof (username) != 'undefined') {
+            connection.query(checkUserName, username, function (errorUs, resultUs) {
+                if (errorUs) throw errorUs;
+                if (resultUs.length > 0) {
+                    connection.query(selectTest, function (error, result) {
+                        if (error) throw error;
+                        if (result.length > 0) {
+                            var string = JSON.stringify(result);
+                            var selectJson = JSON.parse(string);
+                            res.render('solicitar', {
+                                title: 'Solicitar test',
+                                usuario: username,
+                                test: selectJson
+                            });
+                            app.locals.errorMessage = '';
+                            app.locals.succesfulMessage = '';
+                        } else {
+                            res.render('solicitar', {
+                                title: 'Solicitar test',
+                                usuario: username
+                            });
+                            app.locals.errorMessage = '';
+                            app.locals.succesfulMessage = '';
+                        }
+                    });
+                } else {
+                    res.redirect('/');
+                }
+            });
+        } else {
+            res.redirect('/');
+        }
     });
 
+    /// POST
+    /// Solicita un nuevo test al aplicador seleccionado
+    ///
     app.post('/solicitar', function (req, res) {
         var test = req.body.test;
         var aplicador = req.body.aplicador;
@@ -4471,19 +4403,6 @@ function checkSuccesfulStudent(data) {
     return false;
 }
 
-/// calcularTotal(puntuaciones)
-/// Calcula la puntuación total para un test a partir de un
-/// arreglo de puntuaciones
-function calcularTotal(puntuaciones) {
-    var total = 0;
-    puntuaciones.forEach(
-        function addNumber(value) {
-            total += parseInt(value, 10);
-        }
-    );
-    return total;
-}
-
 /// calcularTotalBornout(puntuaciones)
 /// Calcula la puntuación total para el test Bornout
 /// regresa un string con los tres resultados
@@ -4505,6 +4424,20 @@ function calcularTotalBornout(puntuaciones) {
     resultado = 'SAE=' + totalSAE.toString() + '#' + "SD=" + totalSD.toString() + '#' + "SRP=" + totalSR.toString();
 
     return resultado;
+}
+
+/// calcularTotal(puntuaciones)
+/// Calcula la puntuación total para un test a partir de un
+/// arreglo de puntuaciones
+function calcularTotal(puntuaciones) {
+    var total = 0;
+
+    puntuaciones.forEach(
+        function addNumber(value) {
+            total += parseInt(value, 10);
+        }
+    );
+    return total;
 }
 
 /// calcularTotalTDAH(puntuaciones)

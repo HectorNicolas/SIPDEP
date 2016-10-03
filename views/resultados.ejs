@@ -88,13 +88,13 @@
                                                             <% for(i=0;i<preguntas.length;i++){ %>
                                                                 <tr>
                                                                     <th>
-                                                                        <%=preguntas[i].Pregunta%>
+                                                                        <%=preguntas[i]%>
                                                                     </th>
                                                                     <th>
-                                                                        <%=preguntas[i].Respuesta%>
+                                                                        <%=respuestas[i]%>
                                                                     </th>
                                                                     <th>
-                                                                        <%=preguntas[i].Puntuacion%>
+                                                                        <%=puntuacion[i]%>
                                                                     </th>
                                                                 </tr>
                                                                 <% } %>
@@ -108,10 +108,10 @@
                                                         <button class="btn btn-primary" type="submit" form="Imprimir">Imprimir</button>
                                                     </div>
                                                     <div class="col-sm-4 col-md-4 col-lg-4"><strong>Dianostico: </strong>
-                                                        <%=reporte[0].Diagnostico%>
+                                                        <%=diagnostico%>
                                                     </div>
                                                     <div class="col-sm-4 col-md-4 col-lg-4"><strong>Puntuación total: </strong>
-                                                        <%=reporte[0].PuntuacionTotal%>
+                                                        <%=puntuacionTotal%>
                                                     </div>
                                                 </div>
                                             </div>
