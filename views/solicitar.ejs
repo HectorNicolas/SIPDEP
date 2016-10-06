@@ -41,12 +41,31 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <h2 class="panel-title">
-                                            <%= test[i].Nombre %>
+                                            Solicitar test
                                         </h2>
-                                                    <input type="hidden" value="<%=test[i].Nombre%>" name="test">
                                                 </div>
                                                 <div class="panel-body">
-                                                    <%= test[i].Descripcion %>
+                                                    <div class="form-group">
+                                                        <label for="">Selecciona el test que quieres solicitar</label>
+                                                        <select name="test" class="form-control">
+                                                            <option disabled selected>
+                                                                Selecciona un test
+                                                            </option>
+                                                            <%if(typeof(test) != 'undefined'){
+                                                                for(i=0;i<test.length;i++){%>
+                                                                <option>
+                                                                    <%=test[i].Nombre%>
+                                                                </option>
+                                                                <%}%>
+                                                                    <%}%>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Ingresa el nombre del aplicador</label>
+                                                        <input type="text" name="aplicador" class="form-control" placeholder="Ingresa el nombre del aplicador" required oninput="validateUsername(this)">
+
+                                                    </div>
                                                 </div>
                                                 <div class="panel-footer">
                                                     <div class="row">
@@ -54,7 +73,7 @@
                                                             <button class="btn btn-primary" type="submit">Solicitar</button>
                                                         </div>
                                                         <div class="col-sm-6 col-md-5 col-lg-5">
-                                                            <input type="text" name="aplicador" class="form-control" placeholder="Ingresa el nombre del aplicador" required oninput="validateUsername(this)">
+
                                                         </div>
                                                     </div>
                                                 </div>

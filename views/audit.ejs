@@ -20,11 +20,10 @@
             <div class="panel-body">
                 <div class="container col-xs-12">
                     <form role="form" method="post" action="/enviaraudit">
-                        <div class="container col-xs-12">
+                        <div class="container-fluid">
                             <div class="jumbotron">
                                 <h1 class="app-top app-login-title">AUDIT</h1>
-                                <p class="alert alert-info">Por favor lee atentamente cada una de las respuntas y contesta de la manera más sincera.Una vez que pulses el botón envíar, no podrás realizar cambios ni volver a contestar el test.</p>
-
+                                <p>Por favor lee atentamente cada una de las preguntas y contesta de la manera más sincera. Una vez que pulses el botón envíar, no podrás realizar cambios ni volver a contestar el test.</p>
                                 <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
                                 <input type="hidden" name="username" value="<%=datos[2]%>">
                                 <input type="hidden" name="aplicador" value="<%=datos[1]%>">
@@ -33,7 +32,7 @@
                         </div>
                         <div class="form-group">
                             <label for="" class="label-control">
-                                1. ¿Con qué frecuencia consume alguna bebida alcohólica?
+                                <%=preguntas[0].Pregunta%>
                             </label>
                             <input type="hidden" name="preg1" value="1. ¿Con qué frecuencia consume alguna bebida alcohólica?">
                             <div class="radio">
@@ -60,7 +59,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                2. ¿Cuántas consumiciones de bebidas alcohólicas suele realizar en un día de consumo normal?
+                                <%=preguntas[1].Pregunta%>
                             </label>
                             <input type="hidden" name="preg2" value="2. ¿Cuántas consumiciones de bebidas alcohólicas suele realizar en un día de consumo normal?">
 
@@ -88,7 +87,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                3. ¿Con qué frecuencia toma 6 o más bebidas alcohólicas en una sola ocasión de consumo?
+                                <%=preguntas[2].Pregunta%>
                             </label>
                             <input type="hidden" name="preg3" value="3. ¿Con qué frecuencia toma 6 o más bebidas alcohólicas en una sola ocasión de consumo?">
 
@@ -116,7 +115,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                4. ¿Con qué frecuencia en el curso del último año ha sido incapaz de parar de beber una vez había empezado?
+                                <%=preguntas[3].Pregunta%>
                             </label>
                             <input type="hidden" name="preg4" value="4. ¿Con qué frecuencia en el curso del último año ha sido incapaz de parar de beber una vez había empezado?">
 
@@ -144,7 +143,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                5. ¿Con qué frecuencia en el curso del último año no pudo hacer lo que se esperaba de usted porque había bebido?
+                                <%=preguntas[4].Pregunta%>
                             </label>
                             <input type="hidden" name="preg5" value="5. ¿Con qué frecuencia en el curso del último año no pudo hacer lo que se esperaba de usted porque había bebido?">
 
@@ -172,7 +171,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                6. ¿Con qué frecuencia en el curso del último año ha necesitado beber en ayunas para recuperarse después de haber bebido mucho el día anterior?
+                                <%=preguntas[5].Pregunta%>
                             </label>
                             <input type="hidden" name="preg6" value="6. ¿Con qué frecuencia en el curso del último año ha necesitado beber en ayunas para recuperarse después de haber bebido mucho el día anterior?">
 
@@ -196,7 +195,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                7. ¿Con qué frecuencia en el curso del último año ha tenido remordimientos o sentimientos de culpa después de haber bebido?
+                                <%=preguntas[6].Pregunta%>
                             </label>
                             <input type="hidden" name="preg7" value="7. ¿Con qué frecuencia en el curso del último año ha tenido remordimientos o sentimientos de culpa después de haber bebido?">
 
@@ -220,7 +219,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                8. ¿Con qué frecuencia en el curso del último año no ha podido recordar lo que sucedió la noche anterior porque había estado bebiendo?
+                                <%=preguntas[7].Pregunta%>
                             </label>
                             <input type="hidden" name="preg8" value="8. ¿Con qué frecuencia en el curso del último año no ha podido recordar lo que sucedió la noche anterior porque había estado bebiendo?">
 
@@ -244,7 +243,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                9. ¿Usted o alguna otra persona han resultado heridos porque usted había bebido?
+                                <%=preguntas[8].Pregunta%>
                             </label>
                             <input type="hidden" name="preg9" value="9. ¿Usted o alguna otra persona han resultado heridos porque usted había bebido?">
 
@@ -264,7 +263,7 @@
 
                         <div class="form-group">
                             <label for="" class="label-control">
-                                10. ¿Algún familiar, amigo, médico o profesional sanitario ha mostrado preocupación por su consumo de bebidas alcohólicas o le ha sugerido que deje de beber?
+                                <%=preguntas[9].Pregunta%>
                             </label>
                             <input type="hidden" name="preg10" value="10. ¿Algún familiar, amigo, médico o profesional sanitario ha mostrado preocupación por su consumo de bebidas alcohólicas o le ha sugerido que deje de beber?">
 

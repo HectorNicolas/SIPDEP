@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="container col-xs-12">
+                    <form role="form" method="post" action="/enviar_adaptacion">
+                        <div class="container-fluid">
+                            <div class="jumbotron">
+                                <h1 class="app-top app-login-title">
+                                Escala Autoaplicada de Adaptación Social
+                                </h1>
+                                <p>Por favor, responda a estas sencillas preguntas, teniendo en cuenta su opinión en este momento. Una vez que hayas enviado el test, no podrás volver a contestarlo.</p>
+                                <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                                <input type="hidden" name="username" value="<%=datos[2]%>">
+                                <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                                <input type="hidden" name="test" value="<%=datos[0]%>">
+                            </div>
+                        </div>
+                        <%if(typeof(preguntas) != 'undefined)'){%>
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[0].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" required name="resp0" value="A.SÍ" onclick="desplegarPregunta(this)">Sí
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" required name="resp0" value="B.NO" onclick="desplegarPregunta(this)">No
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label name="lbResp1" class="label-control">
+                                    Si la respuesta es «sí»:
+                                    <br>
+                                    <%=preguntas[1].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label name="lbResp1" class="radio">
+                                        <input type="radio" name="resp1" id="resp1" value="3.Mucho">A. Mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label name="lbResp1" class="radio">
+                                        <input type="radio" name="resp1" id="resp1" value="2.Moderadamente">Moderadamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label name="lbResp1" class="radio">
+                                        <input type="radio" name="resp1" id="resp1" value="1.Un poco">Un poco
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label name="lbResp1" class="radio">
+                                        <input type="radio" name="resp1" id="resp1" value="0.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label name="lbResp2" class="label-control">
+                                    Si la respuesta es «no»:
+                                    <br>
+                                    <%=preguntas[2].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label name="lbResp2" class="radio">
+                                        <input type="radio" name="resp2" value="3.Mucho">A. Mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label name="lbResp2" class="radio">
+                                        <input type="radio" name="resp2" value="2.Moderadamente">Moderadamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label name="lbResp2" class="radio">
+                                        <input type="radio" name="resp2" value="1.Un poco">Un poco
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label name="lbResp2" class="radio">
+                                        <input type="radio" name="resp2" value="0.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[3].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp3" value="3.Disfruta mucho">Disfruta mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp3" value="2.Disfruta bastante">Disfruta bastante
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp3" value="1.Disfruta tan sólo un poco">Disfruta tan sólo un poco
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp3" value="0.No disfruta en absoluto">No disfruta en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[4].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp4" value="3.Mucho">A. Mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp4" value="2.Moderadamente">Moderadamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp4" value="1.Un poco">Un poco
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp4" value="0.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[5].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp5" value="3.Muy buena">Muy buena
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp5" value="2.Buena">Buena
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp5" value="1.Aceptable">Aceptable
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp5" value="0.Insatisfactoria">Insatisfactoria
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[6].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp6" value="3.Muy frecuentemente">Muy frecuentemente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp6" value="2.Frecuentemente">Frecuentemente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp6" value="1.Raras veces">Raras veces
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp6" value="0.Nunca">Nunca
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[7].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp7" value="3.Muy buenas">Muy buenas
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp7" value="2.Buenas">Buenas
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp7" value="1.Aceptables">Aceptables
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp7" value="0.Insatisfactorias">Insatisfactorias
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[8].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp8" value="3.Muchas personas">Muchas personas
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp8" value="2.Algunas personas">Algunas personas
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp8" value="1.Tan sólo unas pocas personas">Tan sólo unas pocas personas
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp8" value="0.Nadie">Nadie
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[9].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp9" value="3.Muy activamente">Muy activamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp9" value="2.Activamente">Activamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp9" value="1.De forma moderadamente activa">De forma moderadamente activa
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp9" value="0.De ninguna forma activa">De ninguna forma activa
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[10].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp10" value="3.Muy buenas">Muy buenas
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp10" value="2.Buenas">Buenas
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp10" value="1.Aceptables">Aceptables
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp10" value="0.Insatisfactorias">Insatisfactorias
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[11].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp11" value="3.Gran valor">Gran valor
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp11" value="2.Bastante valor">Bastante valor
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp11" value="1.Tan sólo un poco de valor">Tan sólo un poco de valor
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp11" value="0.Ningún valor en absoluto">Ningún valor en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[12].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp12" value="3.Muy a menudo">Muy a menudo
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp12" value="2.A menudo">A menudo
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp12" value="1.Raras veces">Raras veces
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp12" value="0.Nunca">Nunca
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[13].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp13" value="3.Siempre">Siempre
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp13" value="2.La mayor parte del tiempo">La mayor parte del tiempo
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp13" value="1.Raras veces">Raras veces
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp13" value="0.Nunca">Nunca
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[14].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp14" value="3.Plenamente">Plenamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp14" value="2.Moderadamente">Moderadamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp14" value="1.Ligeramente">Ligeramente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp14" value="0.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[15].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp15" value="3.Mucho">Mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp15" value="2.Moderadamente">Moderadamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp15" value="1.No mucho">No mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp15" value="0.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[16].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp16" value="3.Mucho">Mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp16" value="2.Moderadamente">Moderadamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp16" value="1.Tan sólo ligeramente">Tan sólo ligeramente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp16" value="0.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[17].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp17" value="0.Siempre">Siempre
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp17" value="1.A menudo">A menudo
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp17" value="2.A veces">A veces
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp17" value="3.Nunca">Nunca
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[18].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp18" value="0.Siempre">Siempre
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp18" value="1.A menudo">A menudo
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp18" value="2.A veces">A veces
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp18" value="3.Nunca">Nunca
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[19].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp19" value="0.Muy importante">Muy importante
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp19" value="1.Moderadamente importante">Moderadamente importante
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp19" value="2.No muy importante">No muy importante
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp19" value="3.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[20].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp20" value="0.Siempre">Siempre
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp20" value="1.A menudo">A menudo
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp20" value="2.A veces">A veces
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp20" value="3.Nunca">Nunca
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="label-control">
+                                    <%=preguntas[21].Pregunta%>
+                                </label>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp21" value="0.En gran medida">En gran medida
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp21" value="1.Moderadamente">Moderadamente
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp21" value="2.No mucho">No mucho
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label class="radio">
+                                        <input type="radio" required name="resp21" value="3.Nada en absoluto">Nada en absoluto
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Enviar</button>
+                            </div>
+                            <%}%>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--Panel-->
+    </div>
+    <!--Container-->
+
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+    <% include partials/head.ejs %>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+    <br>
+    <div class="container">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <form role="form" method="post" action="/enviar_ansiedad">
+                        <div class="jumbotron">
+                            <h1 class="app-top app-login-title">
+                               Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)
+                            </h1>
+                            <p>Instrucciones: A continuación encontrará unas frases que se utilizan corrientemente para describirse uno a sí mismo. Lea cada frase y señale la respuesta que indique mejor cómo se siente usted ahora mismo, en este momento. No hay respuestas buenas ni malas. No emplee demasiado tiempo en cada frase y conteste señalando la respuesta que mejor describa su situación presente.
+                            </p>
+                            <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                            <input type="hidden" name="username" value="<%=datos[2]%>">
+                            <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                            <input type="hidden" name="test" value="<%=datos[0]%>">
+                        </div>
+                        <%if(typeof(preguntas) != 'undefined'){%>
+                            <%for(i=0;i<preguntas.length;i++){%>
+                                <div class="form-group">
+                                    <label class="label-control">
+                                        <%=preguntas[i].Pregunta%>
+                                            <%var sResp = 'resp' + (i+1).toString();%>
+                                    </label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="<%=sResp%>" value="0.Nada" required>Nada
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="<%=sResp%>" value="1.Algo" required>Algo
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="<%=sResp%>" value="2.Bastante" required>Bastante
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="<%=sResp%>" value="3.Mucho" required>Mucho
+                                        </label>
+                                    </div>
+                                </div>
+                                <%}%>
+                </div>
+                <%}%>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Enviar</button>
+                    </div>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+    <!--Panel-->
+    </div>
+    <!--Container-->
+
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
+    </script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

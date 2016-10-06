@@ -25,26 +25,30 @@
                     <form action="/selecciontest" method="get" role="form" class="form-inline">
                         <div class="form-group">
                             <label>Selecciona el test:</label>
-                            <select class="form-control" name="test">
-                                <% if(typeof(test) != 'undefined'){ %>
-                                    <% for(i=0;i<test.length;i++){ %>
-                                        <% if(typeof(testSeleccionado) != 'undefined'){ %>
-                                            <%if(test[i] == testSeleccionado){%>
-                                                <option selected>
-                                                    <%= test[i].Nombre %>
-                                                </option>
-                                                <%}else{%>
-                                                    <option>
-                                                        <%= test[i].Nombre %>
-                                                    </option>
-                                                    <%}} else{%>
-                                                        <option>
+                            <select class="form-control" name="test" onchange="this.form.submit();">
+                                <%if(typeof(testSeleccionado) == 'undefined'){%>
+                                    <option selected disabled>
+                                        Selecciona un test
+                                    </option>
+                                    <%}%>
+                                        <%if(typeof(test) != 'undefined'){ %>
+                                            <% for(i=0;i<test.length;i++){ %>
+                                                <% if(typeof(testSeleccionado) != 'undefined'){ %>
+                                                    <%if(test[i] == testSeleccionado){%>
+                                                        <option selected>
                                                             <%= test[i].Nombre %>
                                                         </option>
-                                                        <%} } }%>
+                                                        <%}else{%>
+                                                            <option>
+                                                                <%= test[i].Nombre %>
+                                                            </option>
+                                                            <%}} else{%>
+                                                                <option>
+                                                                    <%= test[i].Nombre %>
+                                                                </option>
+                                                                <%} } }%>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Seleccionar</button>
                     </form>
                 </div>
                 <br>

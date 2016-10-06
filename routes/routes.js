@@ -1,4 +1,4 @@
-﻿/// Autor: Jesús Asael Hernández García
+/// Autor: Jesús Asael Hernández García
 /// Email: azzaeelhg@gmail.com
 //  Fecha: 15/05/2016
 
@@ -28,25 +28,28 @@ connection.connect(function (error) {
 /// Consultas SQL del sistema
 ///
 /// SELECT queries
-var selectSolicitar = 'SELECT * FROM solicitud_test WHERE Nombre_Test = ? AND Nombre_Usuario = ? AND Aceptada = \'No\';';
+var selectSolicitar = 'SELECT * FROM solicitud_test WHERE Nombre_Test = ? AND Nombre_Usuario = ? AND Aceptada = "No";';
 var selectAllQuestions_Test = 'SELECT Numero, Pregunta FROM pregunta_test WHERE Nombre_Test = ? ORDER BY Numero;';
-var selectRespuestas_Test = 'SELECT Numero_Pregunta, group_concat(Respuesta SEPARATOR \'#\') AS Respuestas, group_concat(Puntuacion SEPARATOR \'#\') AS Puntuaciones \
+var selectRespuestas_Test = 'SELECT Numero_Pregunta, group_concat(Numero_Respuesta SEPARATOR \'#\') AS Numero, group_concat(Respuesta SEPARATOR \'#\') AS Respuestas, group_concat(Puntuacion SEPARATOR \'#\') AS Puntuaciones \
 FROM respuesta_pregunta \
 WHERE Nombre_Test = ? \
 GROUP BY Numero_Pregunta \
 ORDER BY Numero_Respuesta;';
 var selectPreguntas_Test = 'SELECT Pregunta FROM pregunta_test WHERE Nombre_Test = ?';
 var selectNumPreg = 'SELECT Numero FROM pregunta_test WHERE Nombre_Test = ? AND Pregunta LIKE ?;';
-var selectPregRes_Folio = 'SELECT Pregunta, Respuesta, Puntuacion FROM pregunta_respuesta WHERE Folio = ?;';
+var selectPregRes_Folio = 'SELECT GROUP_CONCAT(pt.Pregunta SEPARATOR \'#\') AS Preguntas, Respuestas, Puntuaciones, Puntuacion_Total, Diagnostico \
+FROM resultado AS rt \
+INNER JOIN test_usuario AS tu ON rt.Folio = tu.Folio \
+INNER JOIN pregunta_test AS pt ON pt.Nombre_Test = tu.Nombre_Test \
+WHERE rt.Folio = ?;';
 var selectTestVerification = 'SELECT * FROM test_usuario WHERE Nombre_Aplicador = ? AND Nombre_Usuario = ? AND Nombre_Test = ? AND Fecha = ?;';
-var selectResultados = 'SELECT r.Folio, tu.Nombre_Test, a.Nombre AS NombreAp, a.Apellidos AS ApellidosAp, u.Nombre AS NombreUs, u.Apellidos AS ApellidosUs, DATE_FORMAT(tu.Fecha, \'%d/%m/%Y\') AS FechaSol, DATE_FORMAT(r.Fecha, \'%d/%m/%Y\') AS FechaCon, audit.PuntuacionTotal, audit.Diagnostico \
-FROM resultado_test AS r \
-INNER JOIN aplicador AS a ON a.NombreUsuario = r.Nombre_Aplicador \
-INNER JOIN usuario AS u ON u.NombreUsuario = r.Nombre_Usuario \
+var selectResultados = 'SELECT r.Folio, tu.Nombre_Test, a.Nombre AS NombreAp, a.Apellidos AS ApellidosAp, u.Nombre AS NombreUs, u.Apellidos AS ApellidosUs, DATE_FORMAT(tu.Fecha, \'%d/%m/%Y\') AS FechaSol, DATE_FORMAT(tu.FechaContestado, \'%d/%m/%Y\') AS FechaCon \
+FROM resultado AS r \
 INNER JOIN test_usuario AS tu ON tu.Folio = r.Folio \
-INNER JOIN audit ON audit.Folio = r.Folio \
+INNER JOIN aplicador AS a ON a.NombreUsuario = tu.Nombre_Aplicador \
+INNER JOIN usuario AS u ON u.NombreUsuario = tu.Nombre_Usuario \
 WHERE r.Folio = ?;';
-var selectFolio = 'SELECT Folio FROM resultado_test ORDER BY Folio DESC;';
+var selectFolio = 'SELECT Folio FROM resultado ORDER BY Folio DESC;';
 var selectSolicitudes = 'SELECT solicitud_test.Nombre_Usuario, usuario.Nombre, usuario.Apellidos, solicitud_test.Nombre_Test, DATE_FORMAT(solicitud_test.Fecha,\'%d/%m/%Y\') AS Fecha \
 FROM solicitud_test \
 INNER JOIN usuario ON usuario.NombreUsuario = solicitud_test.Nombre_Usuario \
@@ -114,7 +117,7 @@ WHERE test_usuario.Contestado = \'Si\' AND test_usuario.Nombre_Usuario = ?';
 ///
 /// INSERT queries
 ///
-var insertResultado_Test = 'INSERT INTO resultado_test (Nombre_Aplicador, Nombre_Usuario, Fecha) VALUES(?,?,?);';
+var insertResultado_Test = 'INSERT INTO resultado (Respuestas, Puntuaciones, Puntuacion_Total, Diagnostico) VALUES (?, ?, ?, ?);';
 var insertAudit = 'INSERT INTO audit VALUES(?,?,?);';
 var insertPregRes_Audit = 'INSERT INTO pregunta_respuesta VALUES(?,?,?,?);';
 var insertSolicitud = 'INSERT INTO solicitud_test VALUES (?,?,?,?,?);';
@@ -130,7 +133,7 @@ var insertRespuesta = 'INSERT INTO respuesta_pregunta VALUES (?,?,?,?,?);';
 ///
 /// UPDATE queries
 ///
-var updateTestUsuario = 'UPDATE test_usuario SET Contestado = \'Si\', FechaContestado = ?, Folio = ? WHERE Nombre_Aplicador = ? AND Nombre_Usuario = ? AND Nombre_Test = ? AND Fecha = ?;';
+var updateTestUsuario = 'UPDATE test_usuario SET Contestado = \'Si\', FechaContestado = ?, Folio = ? WHERE Nombre_Aplicador = ? AND Nombre_Usuario = ? AND Nombre_Test = ? AND Fecha = ? AND Contestado = \'No\';';
 var updateSolicitudStatus = 'UPDATE solicitud_test SET Aceptada = ? WHERE Nombre_Usuario = ?, Nombre_Aplicador = ?, Nombre_Test = ?;';
 var updateCveUsuario = 'UPDATE usuario SET CveUnica = ? WHERE NombreUsuario = ?;';
 var updateAlumno = 'UPDATE alumno SET Facultad = ?, Carrera = ?, Intentos_Ingreso = ?, Semestre = ? WHERE Clave_unica = ?';
@@ -206,7 +209,6 @@ module.exports = function (app) {
         var doc = new PDFDocument();
         var fechaHora = getHoraActual();
 
-
         connection.query(checkAplicadorName, username, function (errorApp, resultApp) {
             if (errorApp) throw errorApp;
             if (resultApp.length > 0) {
@@ -220,7 +222,12 @@ module.exports = function (app) {
                         connection.query(selectPregRes_Folio, [folio], function (errorPreg, resultPreg) {
                             if (errorPreg) throw errorPreg;
                             if (resultPreg.length > 0) {
-                                var preguntas = JSON.parse(JSON.stringify(resultPreg));
+                                var resultado = JSON.parse(JSON.stringify(resultPreg));
+                                var preguntas = resultado[0].Preguntas.split("#");
+                                var respuestas = resultado[0].Respuestas.split("#");
+                                var puntuaciones = resultado[0].Puntuaciones.split("#");
+                                var puntuacionTotal = resultado[0].Puntuacion_Total;
+                                var diagnostico = resultado[0].Diagnostico;
                                 var y = 200;
 
                                 doc.image('public/img/logo.png')
@@ -234,27 +241,24 @@ module.exports = function (app) {
                                     .text('Fecha y hora de impresión: ' + fechaHora);
 
                                 for (i = 0; i < preguntas.length; i++) {
-                                    doc.text(preguntas[i].Pregunta, 80, y, {
+                                    doc.text(preguntas[i], 80, y, {
                                             align: 'left'
                                         })
-                                        .text(preguntas[i].Respuesta);
+                                        .text(respuestas[i]);
                                     y += 60;
                                 }
 
                                 doc
                                     .moveDown()
-                                    .text('Diagnostico: ' + reporte[0].Diagnostico + '      ' + 'Puntuacón total: ' + reporte[0].PuntuacionTotal);
+                                    .text('Diagnostico: ' + diagnostico)
+                                    .text('Puntuacón total: ' + puntuacionTotal);
 
                                 var raiz = __dirname.toString().replace("\\routes", '');
                                 doc.pipe(fs.createWriteStream(raiz + '/public/files/file.pdf'));
                                 doc.end();
 
-
-                                console.log(raiz);
-
                                 setTimeout(function () {
                                     var filePath = raiz + '/public/files/file.pdf';
-                                    console.log(filePath);
                                     fs.readFile(filePath, function (err, data) {
                                         res.contentType("application/pdf");
                                         res.send(data);;
@@ -286,9 +290,8 @@ module.exports = function (app) {
         connection.query(checkAplicadorName, username, function (errorApp, resultApp) {
             if (errorApp) throw errorApp;
             if (resultApp.length > 0) {
-                var priv = 'app';
                 var appData = JSON.parse(JSON.stringify(resultApp));
-                if (appData[0].Privilegios == true) apppriv = true;
+                if (appData[0].Privilegios == 'administrativos') apppriv = true;
                 connection.query(selectResultados, [folio], function (errorFol, resultFol) {
                     if (errorFol) throw errorFol;
                     if (resultFol.length > 0) {
@@ -296,32 +299,30 @@ module.exports = function (app) {
                         connection.query(selectPregRes_Folio, [folio], function (errorPreg, resultPreg) {
                             if (errorPreg) throw errorPreg;
                             if (resultPreg.length > 0) {
-                                var preguntas = JSON.parse(JSON.stringify(resultPreg));
+                                var resultado = JSON.parse(JSON.stringify(resultPreg));
+                                var preguntas = resultado[0].Preguntas.split("#");
+                                var respuestas = resultado[0].Respuestas.split("#");
+                                var puntuaciones = resultado[0].Puntuaciones.split("#");
+                                var puntuacionTotal = resultado[0].Puntuacion_Total;
+                                var diagnostico = resultado[0].Diagnostico;
                                 res.render('resultados', {
                                     title: 'Resultados para el Folio' + folio,
                                     usuario: username,
                                     apppriv: apppriv,
-                                    priv: priv,
+                                    priv: 'app',
                                     reporte: reporte,
-                                    preguntas: preguntas
+                                    preguntas: preguntas,
+                                    respuestas: respuestas,
+                                    puntuacion: puntuaciones,
+                                    puntuacionTotal: puntuacionTotal,
+                                    diagnostico: diagnostico
                                 });
                             } else {
-                                res.render('resultados', {
-                                    title: 'Resultados para el Folio' + folio,
-                                    usuario: username,
-                                    apppriv: apppriv,
-                                    priv: priv,
-                                    reporte: reporte
-                                });
+                                res.send('Error al procesar solicitud, intentalo nuevamente.');
                             }
                         });
                     } else {
-                        res.render('resultados', {
-                            title: 'Resultados para el Folio' + folio,
-                            usuario: username,
-                            apppriv: apppriv,
-                            priv: priv
-                        });
+                        res.send('Error al procesar solicitud, intentalo nuevamente.');
                     }
                 });
             } else {
@@ -334,7 +335,6 @@ module.exports = function (app) {
     /// Actualiza los datos de un usuario que también es estudiante
     /// 
     app.post('/actestudiante', function (req, res) {
-        console.log(req.body);
         var cve = req.body.cveunica;
         var carrera = req.body.carrera;
         var intentos = req.body.intentos;
@@ -391,8 +391,6 @@ module.exports = function (app) {
             console.log(exception);
             res.redirect('/perfil');
         }
-
-
     });
 
     /// GET
@@ -467,7 +465,6 @@ module.exports = function (app) {
                                     if (errorCarrs) throw errorCarrs;
                                     if (resultCarrs.length > 0) {
                                         var carrs = JSON.parse(JSON.stringify(resultCarrs));
-                                        console.log(carrs);
                                         res.render('perfil', {
                                             title: 'Perfil de ' + username,
                                             usuario: username,
@@ -1073,12 +1070,9 @@ module.exports = function (app) {
     /// CONSULTAR preguntas y respuestas
     ///
     app.get('/consultarpregres', function (req, res) {
-        var privilegios = false;
         var username = req.cookies.name;
-        var testSeleccionado = req.query.test;
 
-        res.redirect('/workspace');
-        /*connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
+        connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
             if (errorApp) throw errorApp;
             if (resultApp.length > 0) {
                 var appData = JSON.parse(JSON.stringify(resultApp));
@@ -1088,47 +1082,19 @@ module.exports = function (app) {
                     if (error) throw error;
                     if (result.length > 0) {
                         var test = JSON.parse(JSON.stringify(result));
-                        connection.query(selectAllQuestions_Test, [testSeleccionado], function (errorTest, resultTest) {
-                            if (errorTest) throw errorTest;
-                            if (resultTest.length > 0) {
-                                var preguntas = JSON.parse(JSON.stringify(resultTest));
-                                connection.query(selectRespuestas_Test, [testSeleccionado], function (errorPregs, resultPregs) {
-                                    if (errorPregs) throw errorPregs;
-                                    if (resultPregs.length > 0) {
-                                        var respuestas = JSON.parse(JSON.stringify(resultPregs));
-                                        console.log(respuestas);
-                                        var respuesta_puntuacion = [[], []];
-                                        for (i = 0; i < respuestas.length; i++) {
-                                            var sRespuestas = respuestas[i][0].split("#");
-                                            var sPuntuaciones = respuestas[i][1].split("#");
-
-                                            respuesta_puntuacion[0].push(sRespuestas);
-                                            respuesta_puntuacion[1].push(sPuntuaciones);
-                                            console.log(respuesta_puntuacion);
-                                        }
-                                        res.render('consultarpregres', {
-                                            title: 'Consultar preguntas y respuestas',
-                                            usuario: username,
-                                            test: test,
-                                            apppriv: privilegios,
-                                            priv: 'app'
-                                        });
-                                    } else {
-
-                                    }
-                                });
-
-                            } else {
-
-                            }
+                        res.render('consultarpregres', {
+                            title: 'Consultar preguntas y respuestas',
+                            usuario: username,
+                            apppriv: privilegios,
+                            priv: 'app',
+                            test: test
                         });
-
                     } else {
                         res.render('consultarpregres', {
                             title: 'Consultar preguntas y respuestas',
                             usuario: username,
                             apppriv: privilegios,
-                            errorMessage: 'No existe el test seleccionado',
+                            errorMessage: 'No hay test disponibles para consultar',
                             priv: 'app'
                         });
                     }
@@ -1136,8 +1102,51 @@ module.exports = function (app) {
             } else {
                 res.redirect('/');
             }
-        });*/
+        });
     });
+
+    app.get('/search_preg_res', function (req, res) {
+        var username = req.cookies.name;
+        var testSeleccionado = req.query.test;
+        var privilegios = false;
+
+        connection.query(checkAplicadorName, [username], function (errorApp, resultApp) {
+            if (errorApp) throw errorApp;
+            if (resultApp.length > 0) {
+                var appData = JSON.parse(JSON.stringify(resultApp));
+                if (appData[0].Privilegios == 'administrativos')
+                    privilegios = true;
+                connection.query(selectAllQuestions_Test, [testSeleccionado], function (errorTest, resultTest) {
+                    if (errorTest) throw errorTest;
+                    if (resultTest.length > 0) {
+                        var preguntas = JSON.parse(JSON.stringify(resultTest));
+                        connection.query(selectRespuestas_Test, [testSeleccionado], function (errorPregs, resultPregs) {
+                            if (errorPregs) throw errorPregs;
+                            if (resultPregs.length > 0) {
+                                var respuestas = JSON.parse(JSON.stringify(resultPregs));
+                                res.render('consultarpregres', {
+                                    title: 'Consultar preguntas y respuestas',
+                                    usuario: username,
+                                    preguntas: preguntas,
+                                    respuestas: respuestas,
+                                    apppriv: privilegios,
+                                    priv: 'app'
+                                });
+                            } else {
+                                res.send('No hay respuestas');
+                            }
+                        });
+
+                    } else {
+                        res.send('No hay preguntas');
+                    }
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
+    });
+
 
     ///
     /// Agregar preguntas y respuestas a los test
@@ -1299,9 +1308,7 @@ module.exports = function (app) {
         var username = req.cookies.name;
         var puntuacion = req.query.puntuacion;
 
-        console.log(testSeleccionado);
         pregunta = pregunta.split(".")[0] + '%';
-        console.log(pregunta);
         connection.query(selectNumPreg, [testSeleccionado, pregunta], function (errorR, resultR) {
             if (errorR) throw errorR;
             if (resultR.length > 0) {
@@ -1515,17 +1522,23 @@ module.exports = function (app) {
                 var appData = JSON.parse(JSON.stringify(resultApp));
                 if (appData[0].Privilegios == 'administrativos')
                     privilegios = true;
-                res.render('eliminartest', {
-                    title: 'Eliminar test',
-                    usuario: req.cookies.name,
-                    priv: 'app',
-                    apppriv: privilegios,
-                    errorMessage: app.locals.errorMessage,
-                    succesfulMessage: app.locals.succesfulMessage
+                connection.query(selectTest, function (errorTest, resultTest) {
+                    if (errorTest) throw errorTest;
+                    if (resultTest.length > 0) {
+                        var test = JSON.parse(JSON.stringify(resultTest));
+                        res.render('eliminartest', {
+                            title: 'Eliminar test',
+                            usuario: req.cookies.name,
+                            priv: 'app',
+                            apppriv: privilegios,
+                            test: test,
+                            errorMessage: app.locals.errorMessage,
+                            succesfulMessage: app.locals.succesfulMessage
+                        });
+                        app.locals.errorMessage = '';
+                        app.locals.succesfulMessage = '';
+                    }
                 });
-                app.locals.errorMessage = '';
-                app.locals.succesfulMessage = '';
-
             } else {
                 res.redirect('/');
             }
@@ -1572,8 +1585,6 @@ module.exports = function (app) {
                 connection.query(selectTest, function (error, result) {
                     if (error) throw error;
                     if (result.length > 0) {
-                        console.log('Hola');
-
                         var test = JSON.parse(JSON.stringify(result));
                         res.render('agregartest', {
                             title: 'Agregar test',
@@ -1649,105 +1660,439 @@ module.exports = function (app) {
     });
 
     ///
-    /// GET y POST de la página /contestaraudit
+    /// GET y POST de la página /enviaraudit
     ///
     app.post('/enviaraudit', function (req, res) {
         var test = req.body.test;
         var username = req.body.username;
         var aplicador = req.body.aplicador;
-        var respuestas = [];
+        var respuestas = "";
         var fecha = new Date().toISOString().split('T')[0];
-        var folio = 0;
         var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
 
-        respuestas.push(req.body.resp1);
-        respuestas.push(req.body.resp2);
-        respuestas.push(req.body.resp3);
-        respuestas.push(req.body.resp4);
-        respuestas.push(req.body.resp5);
-        respuestas.push(req.body.resp6);
-        respuestas.push(req.body.resp7);
-        respuestas.push(req.body.resp8);
-        respuestas.push(req.body.resp9);
-        respuestas.push(req.body.resp10);
-        var preguntas = [];
-        preguntas.push(req.body.preg1);
-        preguntas.push(req.body.preg2);
-        preguntas.push(req.body.preg3);
-        preguntas.push(req.body.preg4);
-        preguntas.push(req.body.preg5);
-        preguntas.push(req.body.preg6);
-        preguntas.push(req.body.preg7);
-        preguntas.push(req.body.preg8);
-        preguntas.push(req.body.preg9);
-        preguntas.push(req.body.preg10);
-        var puntuacion = [];
-        puntuacion.push(respuestas[0].split(".")[0]);
-        puntuacion.push(respuestas[1].split(".")[0]);
-        puntuacion.push(respuestas[2].split(".")[0]);
-        puntuacion.push(respuestas[3].split(".")[0]);
-        puntuacion.push(respuestas[4].split(".")[0]);
-        puntuacion.push(respuestas[5].split(".")[0]);
-        puntuacion.push(respuestas[6].split(".")[0]);
-        puntuacion.push(respuestas[7].split(".")[0]);
-        puntuacion.push(respuestas[8].split(".")[0]);
-        puntuacion.push(respuestas[9].split(".")[0]);
-        var total = calcularTotal(puntuacion);
+        respuestas = req.body.resp1 + '#' + req.body.resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5 + '#' +
+            req.body.resp6 + '#' + req.body.resp7 + '#' + req.body.resp8 + '#' + req.body.resp9 + '#' + req.body.resp10;
+
+        puntuacion = req.body.resp1.split(".")[0] + '#' + req.body.resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0] + '#' + req.body.resp6.split(".")[0] + '#' +
+            req.body.resp7.split(".")[0] + '#' + req.body.resp8.split(".")[0] + '#' + req.body.resp9.split(".")[0] + '#' +
+            req.body.resp10.split(".")[0];
+
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalAudit(puntuaciones);
         var diagnostico = diagnosticoAudit(total);
+        total = total.toString(10);
 
-        connection.query(insertResultado_Test, [aplicador, username, fecha], function (errorRes, resultRes) {
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
             if (errorRes) throw errorRes;
             if (resultRes.affectedRows > 0) {
                 connection.query(selectFolio, function (errorFolio, resultFolio) {
                     if (errorFolio) throw errorFolio;
                     if (resultFolio.length > 0) {
-                        folio = resultFolio[0].Folio;
-                        var aPreg = [
-                                            [folio, preguntas[0], respuestas[0], puntuacion[0]], [folio, preguntas[1], respuestas[1], puntuacion[1]], [folio, preguntas[2], respuestas[2], puntuacion[2]], [folio, preguntas[3], respuestas[3], puntuacion[3]], [folio, preguntas[4], respuestas[4], puntuacion[4]], [folio, preguntas[5], respuestas[5], puntuacion[5]], [folio, preguntas[6], respuestas[6], puntuacion[6]], [folio, preguntas[7], respuestas[7], puntuacion[7]], [folio, preguntas[8], respuestas[8], puntuacion[8]], [folio, preguntas[9], respuestas[9], puntuacion[9]],
-                                            ];
-                        connection.query(insertAudit, [folio, total, diagnostico], function (errorAudit, resultAudit) {
-                            if (errorAudit) throw errorAudit;
-                            if (resultAudit.affectedRows > 0) {
-                                connection.query(insertPregRes_Audit, aPreg[0], function (errorp1, resultp1) {
-                                    if (errorp1) throw errorp1;
-                                    connection.query(insertPregRes_Audit, aPreg[1], function (errorp2, resultp2) {
-                                        if (errorp2) throw errorp2;
-                                        connection.query(insertPregRes_Audit, aPreg[2], function (errorp3, resultp3) {
-                                            if (errorp3) throw errorp3;
-                                            connection.query(insertPregRes_Audit, aPreg[3], function (errorp4, resultp4) {
-                                                if (errorp4) throw errorp4;
-                                                connection.query(insertPregRes_Audit, aPreg[4], function (errorp5, resultp5) {
-                                                    if (errorp5) throw errorp5;
-                                                    connection.query(insertPregRes_Audit, aPreg[5], function (errorp6, resultp6) {
-                                                        if (errorp6) throw errorp6;
-                                                        connection.query(insertPregRes_Audit, aPreg[6], function (errorp7, resultp7) {
-                                                            if (errorp7) throw errorp7;
-                                                            connection.query(insertPregRes_Audit, aPreg[7], function (errorp8, resultp8) {
-                                                                if (errorp8) throw errorp8;
-                                                                connection.query(insertPregRes_Audit, aPreg[8], function (errorp9, resultp9) {
-                                                                    if (errorp9) throw errorp9;
-                                                                    connection.query(insertPregRes_Audit, aPreg[9], function (errorp10, resultp10) {
-                                                                        if (errorp10) throw errorp10;
-                                                                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorup, resultup) {
-                                                                            if (errorup) throw errorup;
-                                                                        });
-                                                                    });
-                                                                });
-                                                            });
-                                                        });
-                                                    });
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
                             }
                         });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
                     }
                 });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
             }
         });
-        res.redirect('/workspace');
+    });
+
+    /// POST de la página /enviar_adaptacion
+    ///
+    ///
+    app.post('/enviar_adaptacion', function (req, res) {
+        var test = req.body.test;
+        var username = req.body.username;
+        var aplicador = req.body.aplicador;
+        var respuestas = "";
+        var fecha = new Date().toISOString().split('T')[0];
+        var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
+        var resp1 = "0.No contestada";
+        var resp2 = "0.No contestada";
+
+        if (typeof (req.body.resp1) != 'undefined')
+            resp1 = req.body.resp1;
+        if (typeof (req.body.resp2) != 'undefined')
+            resp2 = req.body.resp2;
+
+        respuestas = req.body.resp0 + '#' +
+            resp1 + '#' + resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5 + '#' +
+            req.body.resp6 + '#' + req.body.resp7 + '#' + req.body.resp8 + '#' + req.body.resp9 + '#' + req.body.resp10 + '#' +
+            req.body.resp11 + '#' + req.body.resp12 + '#' + req.body.resp13 + '#' + req.body.resp14 + '#' + req.body.resp15 + '#' +
+            req.body.resp16 + '#' + req.body.resp17 + '#' + req.body.resp18 + '#' + req.body.resp19 + '#' + req.body.resp20 + '#' +
+            req.body.resp21;
+
+        puntuacion = 0 + "#" +
+            resp1.split(".")[0] + '#' + resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0] + '#' + req.body.resp6.split(".")[0] + '#' +
+            req.body.resp7.split(".")[0] + '#' + req.body.resp8.split(".")[0] + '#' + req.body.resp9.split(".")[0] + '#' +
+            req.body.resp10.split(".")[0] + '#' + req.body.resp11.split(".")[0] + '#' + req.body.resp12.split(".")[0] + '#' +
+            req.body.resp13.split(".")[0] + '#' + req.body.resp14.split(".")[0] + '#' + req.body.resp15.split(".")[0] + '#' +
+            req.body.resp16.split(".")[0] + '#' + req.body.resp17.split(".")[0] + '#' + req.body.resp18.split(".")[0] + '#' +
+            req.body.resp19.split(".")[0] + '#' + req.body.resp20.split(".")[0] + '#' + req.body.resp21.split(".")[0];
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalAudit(puntuaciones);
+        var diagnostico = diagnosticoAdaptacion(total);
+
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
+            if (errorRes) throw errorRes;
+            if (resultRes.affectedRows > 0) {
+                connection.query(selectFolio, function (errorFolio, resultFolio) {
+                    if (errorFolio) throw errorFolio;
+                    if (resultFolio.length > 0) {
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
+                            }
+                        });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
+                    }
+                });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
+            }
+        });
+    });
+
+    /// POST de la página /enviar_orientacion
+    ///
+    ///
+    app.post('/enviar_orientacion', function (req, res) {
+        var test = req.body.test;
+        var username = req.body.username;
+        var aplicador = req.body.aplicador;
+        var respuestas = "";
+        var fecha = new Date().toISOString().split('T')[0];
+        var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
+
+        respuestas =
+            req.body.resp1 + '#' + req.body.resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5;
+
+        puntuacion =
+            req.body.resp1.split(".")[0] + '#' + req.body.resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0];
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalAudit(puntuaciones);
+        var diagnostico = "No hay diagnostico predefinido para este cuestionario";
+
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
+            if (errorRes) throw errorRes;
+            if (resultRes.affectedRows > 0) {
+                connection.query(selectFolio, function (errorFolio, resultFolio) {
+                    if (errorFolio) throw errorFolio;
+                    if (resultFolio.length > 0) {
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
+                            }
+                        });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
+                    }
+                });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
+            }
+        });
+    });
+
+    /// POST de la página /enviar_estrasgo
+    ///
+    ///
+    app.post('/enviar_ansiedad', function (req, res) {
+        var test = req.body.test;
+        var username = req.body.username;
+        var aplicador = req.body.aplicador;
+        var respuestas = "";
+        var fecha = new Date().toISOString().split('T')[0];
+        var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
+
+        respuestas =
+            req.body.resp1 + '#' + req.body.resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5 + '#' +
+            req.body.resp6 + '#' + req.body.resp7 + '#' + req.body.resp8 + '#' + req.body.resp9 + '#' + req.body.resp10 + '#' +
+            req.body.resp11 + '#' + req.body.resp12 + '#' + req.body.resp13 + '#' + req.body.resp14 + '#' + req.body.resp15 + '#' +
+            req.body.resp16 + '#' + req.body.resp17 + '#' + req.body.resp18 + '#' + req.body.resp19 + '#' + req.body.resp20;
+
+        puntuacion =
+            req.body.resp1.split(".")[0] + '#' + req.body.resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0] + '#' + req.body.resp6.split(".")[0] + '#' +
+            req.body.resp7.split(".")[0] + '#' + req.body.resp8.split(".")[0] + '#' + req.body.resp9.split(".")[0] + '#' +
+            req.body.resp10.split(".")[0] + '#' + req.body.resp11.split(".")[0] + '#' + req.body.resp12.split(".")[0] + '#' +
+            req.body.resp13.split(".")[0] + '#' + req.body.resp14.split(".")[0] + '#' + req.body.resp15.split(".")[0] + '#' +
+            req.body.resp16.split(".")[0] + '#' + req.body.resp17.split(".")[0] + '#' + req.body.resp18.split(".")[0] + '#' +
+            req.body.resp19.split(".")[0] + '#' + req.body.resp20.split(".")[0];
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalAudit(puntuaciones);
+        var diagnostico = "No hay un diagnostico predefinido para el test actual";
+
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
+            if (errorRes) throw errorRes;
+            if (resultRes.affectedRows > 0) {
+                connection.query(selectFolio, function (errorFolio, resultFolio) {
+                    if (errorFolio) throw errorFolio;
+                    if (resultFolio.length > 0) {
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
+                            }
+                        });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
+                    }
+                });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
+            }
+        });
+    });
+
+    /// 
+    /// POST de la página /enviar_eamdzc
+    ///
+    app.post('/enviar_eamdzc', function (req, res) {
+        var test = req.body.test;
+        var username = req.body.username;
+        var aplicador = req.body.aplicador;
+        var respuestas = "";
+        var fecha = new Date().toISOString().split('T')[0];
+        var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
+
+        respuestas =
+            req.body.resp1 + '#' + req.body.resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5 + '#' +
+            req.body.resp6 + '#' + req.body.resp7 + '#' + req.body.resp8 + '#' + req.body.resp9 + '#' + req.body.resp10 + '#' +
+            req.body.resp11 + '#' + req.body.resp12 + '#' + req.body.resp13 + '#' + req.body.resp14 + '#' + req.body.resp15 + '#' +
+            req.body.resp16 + '#' + req.body.resp17 + '#' + req.body.resp18 + '#' + req.body.resp19 + '#' + req.body.resp20;
+
+        puntuacion =
+            req.body.resp1.split(".")[0] + '#' + req.body.resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0] + '#' + req.body.resp6.split(".")[0] + '#' +
+            req.body.resp7.split(".")[0] + '#' + req.body.resp8.split(".")[0] + '#' + req.body.resp9.split(".")[0] + '#' +
+            req.body.resp10.split(".")[0] + '#' + req.body.resp11.split(".")[0] + '#' + req.body.resp12.split(".")[0] + '#' +
+            req.body.resp13.split(".")[0] + '#' + req.body.resp14.split(".")[0] + '#' + req.body.resp15.split(".")[0] + '#' +
+            req.body.resp16.split(".")[0] + '#' + req.body.resp17.split(".")[0] + '#' + req.body.resp18.split(".")[0] + '#' +
+            req.body.resp19.split(".")[0] + '#' + req.body.resp20.split(".")[0];
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalAudit(puntuaciones);
+        var diagnostico = diagnosticoDepresion(total);
+
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
+            if (errorRes) throw errorRes;
+            if (resultRes.affectedRows > 0) {
+                connection.query(selectFolio, function (errorFolio, resultFolio) {
+                    if (errorFolio) throw errorFolio;
+                    if (resultFolio.length > 0) {
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
+                            }
+                        });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
+                    }
+                });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
+            }
+        });
+    });
+
+    ///
+    /// POST para la página /enviar_dn
+    ///
+    app.post('/enviar_dn', function (req, res) {
+        var test = req.body.test;
+        var username = req.body.username;
+        var aplicador = req.body.aplicador;
+        var respuestas = "";
+        var fecha = new Date().toISOString().split('T')[0];
+        var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
+
+        respuestas =
+            req.body.resp1 + '#' + req.body.resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5 + '#' +
+            req.body.resp6 + '#' + req.body.resp7 + '#' + req.body.resp8;
+
+        puntuacion =
+            req.body.resp1.split(".")[0] + '#' + req.body.resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0] + '#' + req.body.resp6.split(".")[0] + '#' +
+            req.body.resp7.split(".")[0] + '#' + req.body.resp8.split(".")[0];
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalAudit(puntuaciones);
+        var diagnostico = diagnosticoNicotina(total);
+
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
+            if (errorRes) throw errorRes;
+            if (resultRes.affectedRows > 0) {
+                connection.query(selectFolio, function (errorFolio, resultFolio) {
+                    if (errorFolio) throw errorFolio;
+                    if (resultFolio.length > 0) {
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
+                            }
+                        });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
+                    }
+                });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
+            }
+        });
+    });
+
+    /// POST de la página /enviar_estrasgo
+    ///
+    ///
+    app.post('/enviar_escala', function (req, res) {
+        var test = req.body.test;
+        var username = req.body.username;
+        var aplicador = req.body.aplicador;
+        var respuestas = "";
+        var fecha = new Date().toISOString().split('T')[0];
+        var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
+
+        respuestas =
+            req.body.resp1 + '#' + req.body.resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5 + '#' +
+            req.body.resp6 + '#' + req.body.resp7 + '#' + req.body.resp8 + '#' + req.body.resp9 + '#' + req.body.resp10 + '#' +
+            req.body.resp11 + '#' + req.body.resp12 + '#' + req.body.resp13 + '#' + req.body.resp14 + '#' + req.body.resp15;
+
+        puntuacion =
+            req.body.resp1.split(".")[0] + '#' + req.body.resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0] + '#' + req.body.resp6.split(".")[0] + '#' +
+            req.body.resp7.split(".")[0] + '#' + req.body.resp8.split(".")[0] + '#' + req.body.resp9.split(".")[0] + '#' +
+            req.body.resp10.split(".")[0] + '#' + req.body.resp11.split(".")[0] + '#' + req.body.resp12.split(".")[0] + '#' +
+            req.body.resp13.split(".")[0] + '#' + req.body.resp14.split(".")[0] + '#' + req.body.resp15.split(".")[0];
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalAudit(puntuaciones);
+        var diagnostico = diagnosticoEscalaSuicida(total);
+
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
+            if (errorRes) throw errorRes;
+            if (resultRes.affectedRows > 0) {
+                connection.query(selectFolio, function (errorFolio, resultFolio) {
+                    if (errorFolio) throw errorFolio;
+                    if (resultFolio.length > 0) {
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
+                            }
+                        });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
+                    }
+                });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
+            }
+        });
+    });
+
+    /// POST de la página /enviar_estrasgo
+    ///
+    ///
+    app.post('/enviar_tdah', function (req, res) {
+        var test = req.body.test;
+        var username = req.body.username;
+        var aplicador = req.body.aplicador;
+        var respuestas = "";
+        var fecha = new Date().toISOString().split('T')[0];
+        var fechaAplicacion = req.body.fechaAplicacion;
+        var puntuacion = "";
+        var folio = 0;
+
+        respuestas =
+            req.body.resp1 + '#' + req.body.resp2 + '#' + req.body.resp3 + '#' + req.body.resp4 + '#' + req.body.resp5 + '#' +
+            req.body.resp6 + '#' + req.body.resp7 + '#' + req.body.resp8 + '#' + req.body.resp9 + '#' + req.body.resp10 + '#' +
+            req.body.resp11 + '#' + req.body.resp12 + '#' + req.body.resp13 + '#' + req.body.resp14 + '#' + req.body.resp15 +
+            req.body.resp16 + '#' + req.body.resp17 + '#' + req.body.resp18;
+
+        puntuacion =
+            req.body.resp1.split(".")[0] + '#' + req.body.resp2.split(".")[0] + '#' + req.body.resp3.split(".")[0] + '#' +
+            req.body.resp4.split(".")[0] + '#' + req.body.resp5.split(".")[0] + '#' + req.body.resp6.split(".")[0] + '#' +
+            req.body.resp7.split(".")[0] + '#' + req.body.resp8.split(".")[0] + '#' + req.body.resp9.split(".")[0] + '#' +
+            req.body.resp10.split(".")[0] + '#' + req.body.resp11.split(".")[0] + '#' + req.body.resp12.split(".")[0] + '#' +
+            req.body.resp13.split(".")[0] + '#' + req.body.resp14.split(".")[0] + '#' + req.body.resp15.split(".")[0] + '#' +
+            req.body.resp16.split(".")[0] + '#' + req.body.resp17.split(".")[0] + '#' + req.body.resp18.split(".")[0];
+
+        var puntuaciones = puntuacion.split("#");
+        var total = calcularTotalTDAH(puntuaciones);
+        var diagnostico = diagnosticoTDAH(total);
+
+        total = total.split("#");
+        total = total[0] + ' ' + total[1];
+
+        connection.query(insertResultado_Test, [respuestas, puntuacion, total, diagnostico], function (errorRes, resultRes) {
+            if (errorRes) throw errorRes;
+            if (resultRes.affectedRows > 0) {
+                connection.query(selectFolio, function (errorFolio, resultFolio) {
+                    if (errorFolio) throw errorFolio;
+                    if (resultFolio.length > 0) {
+                        var result = JSON.parse(JSON.stringify(resultFolio));
+                        folio = result[0].Folio;
+                        connection.query(updateTestUsuario, [fecha, folio, aplicador, username, test, fechaAplicacion], function (errorUpdate, resultUpdate) {
+                            if (errorUpdate) throw errorUpdate;
+                            if (resultUpdate.affectedRows > 0) {
+                                res.redirect('/workspace');
+                            }
+                        });
+                    } else {
+                        res.send('Error, no se proceso correctamente la solicitud, intentalo nuevamente.');
+                    }
+                });
+            } else {
+                res.send('No se pudieron guardar tus respuestas, vuelve al test anterior y envialo nuevamente.');
+            }
+        });
     });
 
     ///
@@ -1760,16 +2105,74 @@ module.exports = function (app) {
         var fecha = req.body.fechaAplicacion.split("/");
         fecha = fecha[2] + '-' + fecha[1] + '-' + fecha[0];
         var datos = [test, aplicador, username, fecha];
+        var preguntas = [];
 
-        if (test == 'AUDIT') {
-            res.render('audit', {
-                title: 'Test AUDIT',
-                usuario: username,
-                datos: datos
-            });
-        } else {
-            res.redirect('/workspace');
-        }
+        connection.query(selectPreguntas_Test, [test], function (errorPreg, resultPreg) {
+            if (errorPreg) throw errorPreg;
+            if (resultPreg.length > 0) {
+                preguntas = JSON.parse(JSON.stringify(resultPreg));
+                if (test == 'AUDIT') {
+                    res.render('audit', {
+                        title: 'Test AUDIT',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+                } else if (test == 'Escala Autoaplicada de Adaptación Social (Social Adaptation Self-evaluation Scale, SASS)') {
+                    res.render('adaptacion_social', {
+                        title: 'Test Escala Autoaplicada de Adaptación Social',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+                } else if (test == 'Escala Autoaplicada para la Medida de la Depresión de Zung y Conde') {
+                    res.render('eamdzc', {
+                        title: 'Test Escala Autoaplicada para la Medida de la Depresión de Zung y Conde',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+                } else if (test == 'Test de Fagerstrom de Dependencia de Nicotina') {
+                    res.render('dependencia_nicotina', {
+                        title: 'Test de Fagerström de Dependencia de Nicotina',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+                } else if (test == 'Cuestionario autoaplicable de Orientación sexual de Almonte-Herskovic') {
+                    res.render('orientacion_sexual', {
+                        title: 'Cuestionario autoaplicable de Orientación sexual de Almonte-Herskovic',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+                } else if (test == 'Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)') {
+                    res.render('ansiedad', {
+                        title: 'Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+                } else if (test == 'Escala de Riesgo Suicida de Plutchik') {
+                    res.render('escala_suicida', {
+                        title: 'Escala de Riesgo Suicida de Plutchik',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+
+                } else if (test == 'Escala de Cribado de TDAH en Adultos (ASRS-V1.1)') {
+                    res.render('tdah', {
+                        title: 'Escala de Riesgo Suicida de Plutchik',
+                        usuario: username,
+                        datos: datos,
+                        preguntas: preguntas
+                    });
+                } else {
+                    res.send('No se ha encontrado el test que buscas...');
+                }
+            }
+        });
     });
 
     ///
@@ -1989,6 +2392,9 @@ module.exports = function (app) {
         });
     });
 
+    ///
+    /// POST de la página /individual
+    /// Aplica un nuevo test al usuario ingresado por el aplicador
     app.post('/individual', function (req, res) {
         var aplicador = req.cookies.name;
         var usuario = req.body.username;
@@ -2056,15 +2462,6 @@ module.exports = function (app) {
     });
 
     ///
-    /// GET y POST de la página test
-    ///
-    app.get('/test', function (req, res) {
-        res.render('test', {
-            title: 'Test'
-        });
-    });
-
-    ///
     /// GET y POST de la página directorio
     ///
     app.get('/directorio', function (req, res) {
@@ -2072,7 +2469,6 @@ module.exports = function (app) {
             if (errorApp) throw errorApp;
             if (resultApp.length > 0) {
                 var aplicadores = JSON.parse(JSON.stringify(resultApp));
-                console.log(aplicadores);
                 res.render('directorio', {
                     title: 'Directorio',
                     app: aplicadores
@@ -2123,7 +2519,6 @@ module.exports = function (app) {
 
     /*Método para registrar un usuario*/
     app.post('/signup', function (req, res) {
-        console.log(req.body);
         var nombre = req.body.nombre;
         var apellidos = req.body.apellidos;
         var correo = req.body.correo;
@@ -2223,7 +2618,7 @@ module.exports = function (app) {
     app.get('/workspace', function (req, res) {
         var username = req.cookies.name;
         /// Verifica si el usuario es un aplicador o un usuario normal para definir
-        /// que interfaz mostrar
+        /// que interfaz1696: mostrar
         var apppriv = false;
         connection.query(checkAplicadorName, [username], function (error, rows) {
             if (error) throw error;
@@ -2298,7 +2693,6 @@ module.exports = function (app) {
                                 connection.query(answeredUserTest, [req.cookies.name], function (errorAns, resultAns) {
                                     if (errorAns) throw errorAns;
                                     if (resultAns.length > 0) {
-                                        console.log('Si hay test contestados');
                                         var stringAns = JSON.stringify(resultAns);
                                         var answeredJson = JSON.parse(stringAns);
                                         res.render('workspace', {
@@ -2364,7 +2758,6 @@ module.exports = function (app) {
                     if (errorSol) throw errorSol;
                     if (resultSol.length > 0) {
                         var solicitudes = JSON.parse(JSON.stringify(resultSol));
-                        console.log(solicitudes);
                         res.render('solicitudes', {
                             title: 'Solicitudes',
                             usuario: username,
@@ -2454,7 +2847,6 @@ module.exports = function (app) {
                                     if (errorAlu) throw errorAlu;
                                     if (resultAlu.length > 0) {
                                         var studentData = JSON.parse(JSON.stringify(resultAlu));
-                                        console.log(studentData);
                                         connection.query(selectFacultades, function (errorFac, resultFac) {
                                             if (errorFac) throw errorFac;
                                             if (resultFac.length > 0) {
@@ -2475,6 +2867,8 @@ module.exports = function (app) {
                                                             carreras: carreras,
                                                             carSeleccionada: studentData[0].Carrera,
                                                         });
+                                                        app.locals.errorMessage = '';
+                                                        app.locals.succesfulMessage = '';
 
                                                     } else {
                                                         res.render('perfil', {
@@ -2576,7 +2970,6 @@ module.exports = function (app) {
         var esAlumno = req.body.esAlumno;
         var updateData = [pareja, hijos, viveCon, dependeDe, actFisica, lugarHijo, padreMed, escolPaterna, escolMaterna, esAlumno, username];
         var data = [req.body.nombre, req.body.apellidos, req.body.telefono, req.body.correo, req.cookies.name];
-        console.log(updateData);
 
         try {
             connection.query(checkAplicadorName, [username], function (error, result) {
@@ -2633,7 +3026,6 @@ module.exports = function (app) {
                     if (result.length > 0) {
                         var string = JSON.stringify(result);
                         var selectJson = JSON.parse(string);
-                        console.log(selectJson);
                         res.render('solicitar', {
                             title: 'Solicitar test',
                             usuario: req.cookies.name,
@@ -2654,11 +3046,10 @@ module.exports = function (app) {
                 res.redirect('/');
             }
         });
-
-
     });
 
     app.post('/solicitar', function (req, res) {
+        console.log(req.body);
         var test = req.body.test;
         var aplicador = req.body.aplicador;
         var username = req.cookies.name;
@@ -2725,8 +3116,8 @@ function encrypt(user, pass) {
 function crearConexion() {
     var connection = mysql.createConnection({
         host: 'localhost',
-        user: '',
-        password: '',
+        user: 'asael',
+        password: 'password12++',
         database: 'sipdep',
         port: 3306,
         multipleStatements: true
@@ -2764,17 +3155,59 @@ function checkSuccesfulStudent(data) {
     return false;
 }
 
-/// calcularTotal(puntuaciones)
+/// calcularTotalAudit(puntuaciones)
 /// Calcula la puntuación total para un test a partir de un
 /// arreglo de puntuaciones
-function calcularTotal(puntuaciones) {
+function calcularTotalAudit(puntuaciones) {
     var total = 0;
+
     puntuaciones.forEach(
         function addNumber(value) {
             total += parseInt(value, 10);
         }
     );
     return total;
+}
+
+/// calcularTotalTDAH(puntuaciones)
+/// Calcula la puntuación total para el test TDAH a partir de un
+/// arreglo de puntuaciones
+function calcularTotalTDAH(puntuaciones) {
+    var partA = 0;
+    var partB = 0;
+    var total = "";
+
+    for (i = 0; i < puntuaciones.length; i++) {
+        if (i < 6) {
+            if (((i == 0 || i == 1 || i == 2) && (puntuaciones[i] >= 2 && puntuaciones[i] <= 4)) || ((i == 3 || i == 4 || i == 5) && (puntuaciones[i] >= 3 && puntuaciones[i] <= 4))) {
+                partA++;
+            }
+        } else {
+            if (((i == 6 || i == 7 || i == 9 || i == 10 || i == 12 || i == 13 || i == 14 || i == 16) && (puntuaciones[i] >= 3 && puntuaciones[i] <= 4)) ||
+                ((i == 8 || i == 11 || i == 15 || i == 17) && (puntuaciones[i] >= 3 && puntuaciones[i] <= 4))) {
+                partB++;
+            }
+        }
+    }
+
+    total = 'A=' + partA.toString(10) + '#B=' + partB.toString(10);
+    return total;
+}
+
+/// diagnosticoTDAH(total)
+/// Regresa el diagnostico para el test TDAH, dependiendo de la puntuación total de A y B
+///
+function diagnosticoTDAH(total) {
+    var diagnostico = "El paciente no tiene síntomas acordes con el TDAH en adultos.";
+    var resultado = total.split("#");
+    var partA = resultado[0].split("=")[1];
+    var partB = resultado[1].split("=")[1];
+
+    if (partA >= 4) {
+        diagnostico = "El paciente tiene síntomas acordes con el TDAH en adultos y debe ampliarse la investigación.";
+    }
+
+    return diagnostico;
 }
 
 /// diagnosticoAudit(total)
@@ -2790,6 +3223,76 @@ function diagnosticoAudit(total) {
         diagnostico = "Zona 3. Consejo simple más terapia breve y monitorización continuada";
     } else if (total >= 20) {
         diagnostico = "Zona 4. Derivación al especialista para una evaluación diagnóstica y tratamiento";
+    }
+
+    return diagnostico;
+}
+
+/// diagnosticoAdaptacion(total)
+/// Regresa el diagnostico para el test adaptación social, dependiendo de la puntuación total
+///
+function diagnosticoAdaptacion(total) {
+    var diagnostico = "Puntuacion entre 25 y 34";
+
+    if (total >= 35 && total <= 52) {
+        diagnostico = "Normalidad";
+    } else if (total < 25) {
+        diagnostico = "Desadaptación social patente";
+    } else if (total > 55) {
+        diagnostico = "Superadaptación (patológico)";
+    }
+
+    return diagnostico;
+}
+
+/// diagnosticoDepresion(total)
+/// Regresa el diagnostico para el test depresion de zung y conde, dependiendo de la puntuación total
+///
+function diagnosticoDepresion(total) {
+    var diagnostico = "";
+
+    if (total >= 25 && total <= 49) {
+        diagnostico = "Rango normal";
+    } else if (total >= 50 && total <= 59) {
+        diagnostico = "Ligeramente deprimido";
+    } else if (total >= 60 && total <= 69) {
+        diagnostico = "Moderadamente deprimido";
+    } else if (total > 70) {
+        diagnostico = "Severamente deprimido";
+    }
+
+    return diagnostico;
+}
+
+/// diagnosticoEscalaSuicida(total)
+/// Regresa el diagnostico para el test de escala de riesgo suicida de Plutchik, dependiendo de la puntuación total
+///
+function diagnosticoEscalaSuicida(total) {
+    var diagnostico = "";
+
+    if (total >= 6) {
+        diagnostico = "Existe un riesgo de suicidio en el paciente";
+    } else {
+        diagnostico = "No existe riesgo de suicidio en el paciente";
+    }
+
+    return diagnostico;
+}
+
+/// diagnosticoNicotina(total)
+/// Regresa el diagnostico para el test de dependencia de nicotina, dependiendo de la puntuación total
+///
+function diagnosticoNicotina(total) {
+    var diagnostico = "";
+
+    if (total == 1 || total == 2) {
+        diagnostico = "El fumador es poco dependiente de la nicotina";
+    } else if (total == 3 || total == 4) {
+        diagnostico = "El fumador tiene una dependencia media";
+    } else if (total >= 5 && total <= 7) {
+        diagnostico = "El fumador tiene una dependencia moderada";
+    } else if (total >= 8) {
+        diagnostico = "El fumador es altamente dependiente de la nicotina";
     }
 
     return diagnostico;
