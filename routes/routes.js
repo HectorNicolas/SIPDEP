@@ -81,7 +81,7 @@ FROM usuario \
 INNER JOIN alumno \
 ON usuario.CveUnica = alumno.Clave_unica \
 WHERE usuario.NombreUsuario = ?';
-var selectFacultad_Carreras = 'SELECT NombreCarrera AS Carrera FROM facultad_carrera WHERE Nombre_Facultad = ? AND Eliminado = "No";';
+var selectFacultad_Carreras = 'SELECT NombreCarrera AS Carrera FROM facultad_carrera WHERE Nombre_Facultad = ?; //AND Eliminado = "No";';
 var selectCarrera = 'SELECT * FROM facultad_carrera WHERE NombreCarrera = ? AND Eliminado = "No"';
 var selectFacultades = 'SELECT * FROM facultad WHERE Eliminado = "No"';
 var selectFacultad = 'SELECT * FROM facultad WHERE Nombre = ? AND Eliminado = "No"';
@@ -1942,60 +1942,43 @@ module.exports = function (app) {
     /// Agrega un nuevo test a la base de datos
     ///
     app.post('/agregartest', function (req, res) {
+        //Eliminar los saltos de linea de la descripción del test
         var descripcion = req.body.descripcion.toString().replace('\r\n', '');
-        var test = req.body.nombre;
-        var username = req.cookies.name;
-
-        if (typeof (username) != 'undefined') {
-            if (test.length > 0 && test.length < 101) {
-                connection.query(checkAplicadorName, username, function (errApp, resApp) {
-                    if (errApp) throw errApp;
-                    if (resApp.length > 0) {
-                        connection.query(selectTest_Name, test, function (errorTest, resultTest) {
-                            if (errorTest) throw errorTest;
-                            if (resultTest.length > 0) {
-                                res.render('agregartest', {
-                                    title: 'Agregar test',
-                                    usuario: username,
-                                    errorMessage: 'El test ' + test + ' ya existe',
-                                    succesfulMessage: ''
-                                });
-                            } else {
-                                connection.query(insertTest, [username, descripcion], function (error, result) {
-                                    if (error) throw error;
-                                    if (result.affectedRows > 0) {
-                                        res.render('agregartest', {
-                                            title: 'Agregar test',
-                                            usuario: username,
-                                            errorMessage: '',
-                                            succesfulMessage: 'Test agregado correctamente'
-                                        });
-                                    } else {
-                                        res.render('agregartest', {
-                                            title: 'Agregar test',
-                                            usuario: username,
-                                            errorMessage: 'No se pudo agregar el test, vuelve a intentarlo',
-                                            succesfulMessage: ''
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    } else {
-                        res.redirect('/');
-                    }
-                });
-            } else {
+        connection.query(selectTest_Name, req.body.nombre, function (errorTest, resultTest) {
+            if (errorTest) throw errorTest;
+            if (resultTest.length > 0) {
+                app.locals.errorMessage = 'El test ' + req.body.nombre + ' ya existe';
                 res.render('agregartest', {
                     title: 'Agregar test',
-                    usuario: username,
-                    errorMessage: 'Verifica que la longitud de letras del nombre del test sea mayor a 0 y menor a 101.',
-                    succesfulMessage: ''
+                    usuario: req.cookies.name,
+                    errorMessage: app.locals.errorMessage,
+                    succesfulMessage: app.locals.succesfulMessage
+                });
+            } else {
+                connection.query(insertTest, [req.body.nombre, descripcion], function (error, result) {
+                    if (error) throw error;
+                    if (result.affectedRows > 0) {
+                        app.locals.succesfulMessage = 'Test agregado correctamente';
+                        res.render('agregartest', {
+                            title: 'Agregar test',
+                            usuario: req.cookies.name,
+                            errorMessage: app.locals.errorMessage,
+                            succesfulMessage: app.locals.succesfulMessage
+                        });
+                    } else {
+                        app.locals.errorMessage = 'No se pudo agregar el test, vuelve a intentarlo';
+                        res.render('agregartest', {
+                            title: 'Agregar test',
+                            usuario: req.cookies.name,
+                            errorMessage: app.locals.errorMessage,
+                            succesfulMessage: app.locals.succesfulMessage
+                        });
+                    }
                 });
             }
-        } else {
-            res.redirect('/');
-        }
+        });
+        app.locals.errorMessage = '';
+        app.locals.succesfulMessage = '';
     });
 
     /// POST
