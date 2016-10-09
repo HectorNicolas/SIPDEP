@@ -161,12 +161,3 @@ function validateCveUnica(input) {
         input.setCustomValidity("");
     }
 }
-
-////////
-function validateCad(input){
-	var aux = document.getElementById("eliminado").value;
-	if(aux == no)
-		input.setCustomValidity("Hola1");
-	else
-		input.setCustomValidity("Hola2");
-}

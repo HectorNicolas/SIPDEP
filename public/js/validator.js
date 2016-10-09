@@ -1,5 +1,27 @@
 $(document).ready(function () {
 	//validacion de la form de signup
+	$('#loginForm').validate({
+		rules: {
+			username: {
+				required: true,
+				pattern: /^[a-zA-Z]*[.|_][a-zA-Z]*$/
+			},
+			password: {
+				required: true,
+				pattern: /^[^\s]+$/
+			}
+		},
+		messages: {
+			username: {
+				required: "Por favor escribe tu nombre de usuario",
+				pattern: "Tu nombre de usuario solo puede contener palabras separadas de '.'' o '_'"
+			},
+			password: {
+				required: "Por favor escribe una contraseña",
+				pattern: "Las contraseñas no deben contener espacios"
+			}
+		}
+	})
 	$('#signupForm').validate({
 		rules: {
 			nombre: {
@@ -55,28 +77,6 @@ $(document).ready(function () {
 			},
 			fechaNAC: "Por favor selecciona una fecha valida",
 			sexo: "Por favor selecciona un Sexo"
-		}
-	})
-	$('#loginForm').validate({
-		rules: {
-			username: {
-				required: true,
-				pattern: /^[a-zA-Z]*[.|_][a-zA-Z]*$/
-			},
-			password: {
-				required: true,
-				pattern: /^[^\s]+$/
-			}
-		},
-		messages: {
-			username: {
-				required: "Por favor escribe tu nombre de usuario",
-				pattern: "Tu nombre de usuario solo puede contener palabras separadas de '.'' o '_'"
-			},
-			password: {
-				required: "Por favor escribe una contraseña",
-				pattern: "Las contraseñas no deben contener espacios"
-			}
 		}
 	})
 	$('#passChangeForm').validate({

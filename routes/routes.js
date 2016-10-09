@@ -1942,43 +1942,60 @@ module.exports = function (app) {
     /// Agrega un nuevo test a la base de datos
     ///
     app.post('/agregartest', function (req, res) {
-        //Eliminar los saltos de linea de la descripción del test
         var descripcion = req.body.descripcion.toString().replace('\r\n', '');
-        connection.query(selectTest_Name, req.body.nombre, function (errorTest, resultTest) {
-            if (errorTest) throw errorTest;
-            if (resultTest.length > 0) {
-                app.locals.errorMessage = 'El test ' + req.body.nombre + ' ya existe';
-                res.render('agregartest', {
-                    title: 'Agregar test',
-                    usuario: req.cookies.name,
-                    errorMessage: app.locals.errorMessage,
-                    succesfulMessage: app.locals.succesfulMessage
-                });
-            } else {
-                connection.query(insertTest, [req.body.nombre, descripcion], function (error, result) {
-                    if (error) throw error;
-                    if (result.affectedRows > 0) {
-                        app.locals.succesfulMessage = 'Test agregado correctamente';
-                        res.render('agregartest', {
-                            title: 'Agregar test',
-                            usuario: req.cookies.name,
-                            errorMessage: app.locals.errorMessage,
-                            succesfulMessage: app.locals.succesfulMessage
+        var test = req.body.nombre;
+        var username = req.cookies.name;
+
+        if (typeof (username) != 'undefined') {
+            if (test.length > 0 && test.length < 101) {
+                connection.query(checkAplicadorName, username, function (errApp, resApp) {
+                    if (errApp) throw errApp;
+                    if (resApp.length > 0) {
+                        connection.query(selectTest_Name, test, function (errorTest, resultTest) {
+                            if (errorTest) throw errorTest;
+                            if (resultTest.length > 0) {
+                                res.render('agregartest', {
+                                    title: 'Agregar test',
+                                    usuario: username,
+                                    errorMessage: 'El test ' + test + ' ya existe',
+                                    succesfulMessage: ''
+                                });
+                            } else {
+                                connection.query(insertTest, [username, descripcion], function (error, result) {
+                                    if (error) throw error;
+                                    if (result.affectedRows > 0) {
+                                        res.render('agregartest', {
+                                            title: 'Agregar test',
+                                            usuario: username,
+                                            errorMessage: '',
+                                            succesfulMessage: 'Test agregado correctamente'
+                                        });
+                                    } else {
+                                        res.render('agregartest', {
+                                            title: 'Agregar test',
+                                            usuario: username,
+                                            errorMessage: 'No se pudo agregar el test, vuelve a intentarlo',
+                                            succesfulMessage: ''
+                                        });
+                                    }
+                                });
+                            }
                         });
                     } else {
-                        app.locals.errorMessage = 'No se pudo agregar el test, vuelve a intentarlo';
-                        res.render('agregartest', {
-                            title: 'Agregar test',
-                            usuario: req.cookies.name,
-                            errorMessage: app.locals.errorMessage,
-                            succesfulMessage: app.locals.succesfulMessage
-                        });
+                        res.redirect('/');
                     }
                 });
+            } else {
+                res.render('agregartest', {
+                    title: 'Agregar test',
+                    usuario: username,
+                    errorMessage: 'Verifica que la longitud de letras del nombre del test sea mayor a 0 y menor a 101.',
+                    succesfulMessage: ''
+                });
             }
-        });
-        app.locals.errorMessage = '';
-        app.locals.succesfulMessage = '';
+        } else {
+            res.redirect('/');
+        }
     });
 
     /// POST
@@ -2917,6 +2934,7 @@ module.exports = function (app) {
                                     preguntas: preguntas
                                 });
                             } else if (test == 'Escala de Riesgo Suicida de Plutchik') {
+								console.log("Hola1\n");
                                 res.render('escala_suicida', {
                                     title: 'Escala de Riesgo Suicida de Plutchik',
                                     usuario: username,
@@ -2941,6 +2959,14 @@ module.exports = function (app) {
                             } else if (test == 'Cuestionario sobre consumo de sustancias') {
                                 res.render('csustancias', {
                                     title: 'Cuestionario sobre consumo de sustancias',
+                                    usuario: username,
+                                    datos: datos,
+                                    preguntas: preguntas
+                                });
+							} else if (test == 'MINI PLUS') {
+								console.log("Hola1\n");
+                                res.render('miniplus', {
+                                    title: 'MINI PLUS',
                                     usuario: username,
                                     datos: datos,
                                     preguntas: preguntas
