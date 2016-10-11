@@ -1355,7 +1355,6 @@ module.exports = function (app) {
         }
     });
 
-    /*
     /// GET
     /// CONSULTAR preguntas y respuestas
     ///
@@ -1680,7 +1679,6 @@ module.exports = function (app) {
             }
         });
     });
-    */
 
     /// GET /selecciontest
     /// Selecciona el test definido por el administrador para

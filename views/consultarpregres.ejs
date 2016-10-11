@@ -19,7 +19,7 @@
     <% include partials/appmenu.ejs %>
         <div class="container">
             <br>
-            <form action="/consultarpregres" method="get" role="form" class="form-inline">
+            <form action="/search_preg_res" method="get" role="form" class="form-inline">
                 <div class="form-group">
                     <label>Selecciona el test del que quieres consultar las preguntas y respuestas </label>
                     <select class="form-control" name="test" onchange="this.form.submit()">
@@ -49,19 +49,55 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Nombre del test</th>
-                        <th>Descripción</th>
+                        <th>Número</th>
+                        <th>Pregunta</th>
+
+
                     </tr>
                 </thead>
                 <tbody>
-                    <%  if (typeof(datos) != 'undefined' ){%>
-                        <% for(i=0;i<datos.length;i++){ %>
+                    <%  if (typeof(preguntas) != 'undefined' ){%>
+                        <% for(i=0;i<preguntas.length;i++){ %>
                             <tr>
                                 <th>
-                                    <%= datos[i].Nombre %>
+                                    <%= preguntas[i].Numero %>
+
                                 </th>
                                 <th>
-                                    <%= datos[i].Descripcion %>
+                                    <%= preguntas[i].Pregunta %>
+                                        <%if(typeof(respuestas) != 'undefined'){%>
+                                            <h3>Respuestas</h3>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Número</th>
+                                                        <th>Respuesta</th>
+                                                        <th>Puntuación</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%  var num_i = respuestas[i].Numero.split("#");
+                                                        var res_i = respuestas[i].Respuestas.split("#");
+                                                        var pun_i = respuestas[i].Puntuaciones.split("#");
+                                                    %>
+                                                        <%for(j=0;j<res_i.length;j++){ %>
+                                                            <tr>
+                                                                <th>
+                                                                    <%=num_i[j]%>
+                                                                </th>
+                                                                <th>
+                                                                    <%=res_i[j]%>
+                                                                </th>
+                                                                <th>
+                                                                    <%=pun_i[j]%>
+                                                                </th>
+                                                            </tr>
+
+                                                            <%}%>
+                                                </tbody>
+                                            </table>
+                                            <%}%>
+
                                 </th>
                             </tr>
                             <% } %>
