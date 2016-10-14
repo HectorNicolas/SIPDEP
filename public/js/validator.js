@@ -127,7 +127,7 @@ $(document).ready(function () {
 			newpassword2app: {
 				required: true,
 				pattern: /^[^\s]+$/,
-				equalTo: "#newpassword"
+				equalTo: "#newpasswordapp"
 			}
 		},
 		messages: {

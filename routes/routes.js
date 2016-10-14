@@ -1959,7 +1959,7 @@ module.exports = function (app) {
                                     succesfulMessage: ''
                                 });
                             } else {
-                                connection.query(insertTest, [username, descripcion], function (error, result) {
+                                connection.query(insertTest, [test, descripcion], function (error, result) {
                                     if (error) throw error;
                                     if (result.affectedRows > 0) {
                                         res.render('agregartest', {
@@ -3329,6 +3329,15 @@ module.exports = function (app) {
     app.get('/servicios', function (req, res) {
         res.render('servicios', {
             title: 'Servicios'
+        });
+    });
+
+    ///
+    /// GET y POST de la página test
+    ///
+    app.get('/test', function (req, res) {
+        res.render('test', {
+            title: 'Test'
         });
     });
 

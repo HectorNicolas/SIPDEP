@@ -1,8 +1,8 @@
 $(document).ready(function(e){
-    $('#inputApellidos').on('focusin', function(){
-        writeUser('inputApellidos');
+	$('#inputApellidos').on('focusin', function(){
+    	writeUser('inputApellidos');
     });
-    $('#inputUsername').on('focusin', function(){
+	$('#inputUsername').on('focusin', function(){
         writeUser('inputUsername');
     });
 });

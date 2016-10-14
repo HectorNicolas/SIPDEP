@@ -154,6 +154,9 @@
 #passChangeFormApp .error{
     color: #FF0000;
 }
+#addAplForm .error{
+	color: #FF0000;
+}
 
 /*Small*/
 @media only screen and (min-width : 480px) {
