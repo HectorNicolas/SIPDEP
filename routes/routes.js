@@ -3333,15 +3333,6 @@ module.exports = function (app) {
     });
 
     ///
-    /// GET y POST de la página test
-    ///
-    app.get('/test', function (req, res) {
-        res.render('test', {
-            title: 'Test'
-        });
-    });
-
-    ///
     /// GET y POST de la página directorio
     ///
     app.get('/directorio', function (req, res) {
