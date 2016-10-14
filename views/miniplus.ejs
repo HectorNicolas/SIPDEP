@@ -21,12 +21,16 @@
 
             <div class="panel-body">
                 <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <form role="form" method="post" action="/enviar_ansiedad">
+                    <form role="form" method="post" action="/enviar_miniplus">
                         <div class="jumbotron">
                             <h1 class="app-top app-login-title">
-                               Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)
+                               MINI PLUS
                             </h1>
-                            <p>Instrucciones: A continuación encontrará unas frases que se utilizan corrientemente para describirse uno a sí mismo. Lea cada frase y señale la respuesta que indique mejor cómo se siente usted ahora mismo, en este momento. No hay respuestas buenas ni malas. No emplee demasiado tiempo en cada frase y conteste señalando la respuesta que mejor describa su situación presente.
+                            <p>
+								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
                             </p>
                             <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
                             <input type="hidden" name="username" value="<%=datos[2]%>">
@@ -36,30 +40,17 @@
                         <%if(typeof(preguntas) != 'undefined'){%>
                             <%for(i=0;i<preguntas.length;i++){%>
                                 <div class="form-group">
-                                    <label class="label-control">
-                                        <%=preguntas[i].Pregunta%>
-                                            <%var sResp = 'resp' + (i+1).toString();%>
-                                    </label>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="<%=sResp%>" value="0.Nada" required>Nada
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="<%=sResp%>" value="1.Algo" required>Algo
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="<%=sResp%>" value="2.Bastante" required>Bastante
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="<%=sResp%>" value="3.Mucho" required>Mucho
-                                        </label>
-                                    </div>
+                                    <div class="form-group">
+									<label for="" class="label-control">
+										<%=preguntas[0].Pregunta%>
+									</label>
+										<br>Esta area es para la preguntas del MINI PLUS<br>
+										Esta area es para la preguntas del MINI PLUS<br>
+										Esta area es para la preguntas del MINI PLUS<br>
+										Esta area es para la preguntas del MINI PLUS<br>
+										Esta area es para la preguntas del MINI PLUS<br>
+										Esta area es para la preguntas del MINI PLUS<br>
+									</div>
                                 </div>
                                 <%}%>
                 </div>

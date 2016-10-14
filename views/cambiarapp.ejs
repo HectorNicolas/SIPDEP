@@ -8,6 +8,8 @@
 		<!--<![endif]-->
         <head> <% include partials/head.ejs %> 
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js "></script>
+			<script src="js/vendor/jquery.validate.js"></script>
+            <script src="js/vendor/additional-methods.js"></script>
 			<script type="text/javascript" src="js/validator.js"></script>
 			<script type="text/javascript" src="js/validations.js"></script>
 		</head>
@@ -26,7 +28,7 @@
             <div class="panel-heading">
                 <h2 class="panel-title">Cambio de contraseña</h2>
             </div>
-			<form class="form-horizontal" method="post" action="/cambiarapp">
+			<form class="form-horizontal" id="passChangeFormApp" method="post" action="/cambiarapp">
             <div class="panel-body">
                 <% if (errorMessage.length > 0) { %>
                     <div class="alert alert-danger">

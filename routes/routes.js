@@ -81,7 +81,7 @@ FROM usuario \
 INNER JOIN alumno \
 ON usuario.CveUnica = alumno.Clave_unica \
 WHERE usuario.NombreUsuario = ?';
-var selectFacultad_Carreras = 'SELECT NombreCarrera AS Carrera FROM facultad_carrera WHERE Nombre_Facultad = ?; //AND Eliminado = "No";';
+var selectFacultad_Carreras = 'SELECT NombreCarrera AS Carrera FROM facultad_carrera WHERE Nombre_Facultad = ? AND Eliminado = "No";';
 var selectCarrera = 'SELECT * FROM facultad_carrera WHERE NombreCarrera = ? AND Eliminado = "No"';
 var selectFacultades = 'SELECT * FROM facultad WHERE Eliminado = "No"';
 var selectFacultad = 'SELECT * FROM facultad WHERE Nombre = ? AND Eliminado = "No"';

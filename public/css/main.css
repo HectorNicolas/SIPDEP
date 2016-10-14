@@ -151,6 +151,10 @@
     color: #FF0000;
 }
 
+#passChangeFormApp .error{
+    color: #FF0000;
+}
+
 /*Small*/
 @media only screen and (min-width : 480px) {
     .app-registro{
