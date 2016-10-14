@@ -1,11 +1,14 @@
 $(document).ready(function(e){
-	$('#inputApellidos').on('focusin', function(){
-    	writeUser();
+    $('#inputApellidos').on('focusin', function(){
+        writeUser('inputApellidos');
+    });
+    $('#inputUsername').on('focusin', function(){
+        writeUser('inputUsername');
     });
 });
 
 
-function writeUser() {
+function writeUser(ID) {
     var nombre = document.getElementById("nombre").value.split(" ")
     var apellidos = document.getElementById("apellidos").value.split(" ");
     var username = nombre[0] + '.' + apellidos[0];
@@ -18,6 +21,6 @@ function writeUser() {
     username = username.replace("ú", "u");
 
     if (nombre.length != 0 && apellidos.length != 0 && username != ".") {
-        $('#inputApellidos').val(username);
+        $('#' + ID).val(username);
     }
 }
