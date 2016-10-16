@@ -9,64 +9,63 @@
 
 <head>
     <% include partials/head.ejs %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jQueryMain.js"></script>
 </head>
 
 <body>
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
+<div id="tabs">
+    <ul class="tab">
+        <li><a href="#tabs-1">Instrucciones Generales</a></li>
+        <li><a href="#tabs-2">Modulo A</a></li>
+    </ul>
+    <div id="tabs-1" class="tabcontent">
+        <p>Aqui irian las instrucciones generales del test MINIPLUS</p>
+    </div>
+    <div id="tabs-2" class="tabcontent">
     <br>
-    <div class="container">
-        <div class="panel panel-default">
-
-            <div class="panel-body">
-                <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <form role="form" method="post" action="/enviar_miniplus">
-                        <div class="jumbotron">
-                            <h1 class="app-top app-login-title">
-                               MINI PLUS
-                            </h1>
-                            <p>
-								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-								Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-                            </p>
-                            <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
-                            <input type="hidden" name="username" value="<%=datos[2]%>">
-                            <input type="hidden" name="aplicador" value="<%=datos[1]%>">
-                            <input type="hidden" name="test" value="<%=datos[0]%>">
-                        </div>
-                        <%if(typeof(preguntas) != 'undefined'){%>
-                            <%for(i=0;i<preguntas.length;i++){%>
-                                <div class="form-group">
-                                    <div class="form-group">
-									<label for="" class="label-control">
-										<%=preguntas[0].Pregunta%>
-									</label>
-										<br>Esta area es para la preguntas del MINI PLUS<br>
-										Esta area es para la preguntas del MINI PLUS<br>
-										Esta area es para la preguntas del MINI PLUS<br>
-										Esta area es para la preguntas del MINI PLUS<br>
-										Esta area es para la preguntas del MINI PLUS<br>
-										Esta area es para la preguntas del MINI PLUS<br>
-									</div>
-                                </div>
-                                <%}%>
-                </div>
-                <%}%>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Enviar</button>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <form role="form" method="post" action="/enviar_miniplus">
+                            <div class="jumbotron">
+                                <h1 class="app-desc app-login-title alert alert-success">
+                                    Episodio Depresivo Mayor
+                                </h1>
+                                <p>
+                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                </p>
+                                <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                                <input type="hidden" name="username" value="<%=datos[2]%>">
+                                <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                                <input type="hidden" name="test" value="<%=datos[0]%>">
+                            <!--jumbotron-->
+                            </div>    
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Enviar</button>
+                            </div>
+                        </form>
+                    <!--container-->
                     </div>
-                    </form>
-
+                <!--panel-body-->
+                </div>
+            <!--Panel-default-->
             </div>
+        <!--Container-->
         </div>
+    <!--Tabs2-->
     </div>
-    <!--Panel-->
-    </div>
-    <!--Container-->
-
+<!--tabs-->
+</div>
+    
     <script>
         window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')
     </script>

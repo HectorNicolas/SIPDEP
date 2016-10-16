@@ -5,6 +5,7 @@ $(document).ready(function(e){
 	$('#inputUsername').on('focusin', function(){
         writeUser('inputUsername');
     });
+    $( "#tabs" ).tabs();
 });
 
 
