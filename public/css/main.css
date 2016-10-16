@@ -51,6 +51,10 @@
     font-size: 18px;
 }
 
+.app-info{
+    font-size: 15px;
+}
+
 .app-btn{
      display: inline-block;
 }

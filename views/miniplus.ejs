@@ -34,24 +34,48 @@
                     <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <form role="form" method="post" action="/enviar_miniplus">
                             <div class="jumbotron">
-                                <h1 class="app-desc app-login-title alert alert-success">
-                                    Episodio Depresivo Mayor
-                                </h1>
-                                <p>
-                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-                                    Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
-                                </p>
-                                <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
-                                <input type="hidden" name="username" value="<%=datos[2]%>">
-                                <input type="hidden" name="aplicador" value="<%=datos[1]%>">
-                                <input type="hidden" name="test" value="<%=datos[0]%>">
+                                <div id="tabs2">
+                                    <ul class="tab">
+                                        <li><a href="#tabsMod-1">Instrucciones del Modulo</a></li>
+                                        <li><a href="#tabsMod-2">Entrevista</a></li>
+                                    </ul>
+                                    <div id="tabsMod-1" class="tabcontent">
+                                        <br>
+                                        <label class="app-info app-login-title alert alert-danger">
+                                        (➨ SIGNIFICA: IR A LAS CASILLAS DIAGNÓSTICAS, CIRCULAR NO EN CADA UNA Y CONTINUAR CON EL SIGUIENTE MÓDULO)
+                                        </label>    
+                                        <label class="app-info app-login-title alert alert-warning">
+                                            PARA PACIENTES QUE PAREZCEN ESTAR PSICÓTICOS ANTES DE COMENZAR LA ENTREVISTA, O DE LOS QUE SE SOSPECHE QUE TENGAN ESQUIZOFRENIA, POR FAVOR SIGA EL SIGUIENTE ORDEN PARA ADMINISTRAR LOS MÓDULOS.
+                                        </label>
+                                        <label class="app-info alert alert-info">
+                                            1)  PARTE 1 DEL MÓDULO M (TRASTORNOS PSICÓTICOS M1–M18). <br>
+                                            2)  SECCIONES A-D (DEPRESIÓN A (HIPO)MANÍACO). <br>
+                                            3)  PARTE 2 MÓDULO M (TRASTORNOS PSICÓTICOS M19–M23). <br>
+                                            4)   TODOS LOS DEMÁS MÓDULOS EN LA SECUENCIA USUAL.
+                                         </label>
+                                         <label class="app-info app-login-title alert alert-warning">
+                                            PARA PACIENTES QUE PAREZCEN ESTAR PSICÓTICOS ANTES DE COMENZAR LA ENTREVISTA, O DE LOS QUE SE SOSPECHE QUE TENGAN ESQUIZOFRENIA, POR FAVOR SIGA EL SIGUIENTE ORDEN PARA ADMINISTRAR LOS MÓDULOS.
+                                        </label>
+                                    </div>
+                                    <div id="tabsMod-2" class="tabcontent">
+                                        <h1 class="app-desc app-login-title alert alert-success">Episodio Depresivo Mayor</h1>
+                                        <p>
+                                            Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                            Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                            Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                            Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
+                                        </p>
+                                        <input type="hidden" name="fechaAplicacion" value="<%=datos[3]%>">
+                                        <input type="hidden" name="username" value="<%=datos[2]%>">
+                                        <input type="hidden" name="aplicador" value="<%=datos[1]%>">
+                                        <input type="hidden" name="test" value="<%=datos[0]%>">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">Enviar</button>
+                                        </div>
+                                    </div>    
+                                </div>
                             <!--jumbotron-->
-                            </div>    
-                            <div class="form-group">
-                                <button class="btn btn-primary" type="submit">Enviar</button>
-                            </div>
+                             </div>
                         </form>
                     <!--container-->
                     </div>

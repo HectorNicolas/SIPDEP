@@ -6,6 +6,7 @@ $(document).ready(function(e){
         writeUser('inputUsername');
     });
     $( "#tabs" ).tabs();
+    $( "#tabs2").tabs();
 });
 
 
