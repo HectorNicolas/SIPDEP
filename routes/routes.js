@@ -2969,23 +2969,30 @@ module.exports = function (app) {
 									preguntas: preguntas
 								});
 							} else if (test == 'MINI PLUS') {
-								connection.query(selectRespuestas_Test, [test], function (errorPregs, resultPregs) {
-									if (errorPregs) 
-										throw errorPregs;
-									if (resultPregs.length > 0) 
-									{
-										respuestas = JSON.parse(JSON.stringify(resultPregs));
-										//console.log("Mini plus llego!!");
-										res.render('miniplus', {
-											title: 'MINI PLUS',
-											usuario: username,
-											datos: datos,
-											preguntas: preguntas,
-											respuestas: respuestas
-										});
-										//console.log("Mini plus llego!! 2");
-									}
+								res.render('miniplus', {
+									title: 'MINI PLUS',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas,
 								});
+										//console.log("Mini plus llego!! 2");
+							/*connection.query(selectRespuestas_Test, [test], function (errorPregs, resultPregs) {
+								if (errorPregs) 
+									throw errorPregs;
+								if (resultPregs.length > 0) 
+								{
+									respuestas = JSON.parse(JSON.stringify(resultPregs));
+									//console.log("Mini plus llego!!");
+									res.render('miniplus', {
+										title: 'MINI PLUS',
+										usuario: username,
+										datos: datos,
+										preguntas: preguntas,
+										respuestas: respuestas
+									});
+									//console.log("Mini plus llego!! 2");
+								}
+							});*/
 							} else {
 								res.send('No se ha encontrado el test que buscas...');
 							}
