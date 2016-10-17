@@ -2880,107 +2880,125 @@ module.exports = function (app) {
         fecha = fecha[2] + '-' + fecha[1] + '-' + fecha[0];
         var datos = [test, aplicador, username, fecha];
         var preguntas = [];
+		var respuestas = [];
+		var testSeleccionado = req.query.test;
 
-        if (typeof (username) != 'undefined') {
-            connection.query(selectTestPendientesUsuario, [test, fecha, username], function (errTest, resTest) {
-                if (errTest) throw errTest;
-                if (resTest.length > 0) {
-                    connection.query(selectPreguntas_Test, [test], function (errorPreg, resultPreg) {
+        if (typeof (username) != 'undefined') 
+		{
+            connection.query(selectTestPendientesUsuario, [test, fecha, username], function (errTest, resTest) 
+			{
+                if (errTest) 
+					throw errTest;
+                if (resTest.length > 0) 
+				{
+                    connection.query(selectPreguntas_Test, [test], function (errorPreg, resultPreg) 
+					{
                         if (errorPreg) throw errorPreg;
                         if (resultPreg.length > 0) {
                             preguntas = JSON.parse(JSON.stringify(resultPreg));
-                            if (test == 'AUDIT') {
-                                res.render('audit', {
-                                    title: 'Test AUDIT',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'Escala Autoaplicada de Adaptación Social (Social Adaptation Self-evaluation Scale, SASS)') {
-                                res.render('adaptacion_social', {
-                                    title: 'Test Escala Autoaplicada de Adaptación Social',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'Escala Autoaplicada para la Medida de la Depresión de Zung y Conde') {
-                                res.render('eamdzc', {
-                                    title: 'Test Escala Autoaplicada para la Medida de la Depresión de Zung y Conde',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'Test de Fagerstrom de Dependencia de Nicotina') {
-                                res.render('dependencia_nicotina', {
-                                    title: 'Test de Fagerström de Dependencia de Nicotina',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'Cuestionario autoaplicable de Orientación sexual de Almonte-Herskovic') {
-                                res.render('orientacion_sexual', {
-                                    title: 'Cuestionario autoaplicable de Orientación sexual de Almonte-Herskovic',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)') {
-                                res.render('ansiedad', {
-                                    title: 'Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'Escala de Riesgo Suicida de Plutchik') {
+							if (test == 'AUDIT') {
+								res.render('audit', {
+									title: 'Test AUDIT',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'Escala Autoaplicada de Adaptación Social (Social Adaptation Self-evaluation Scale, SASS)') {
+								res.render('adaptacion_social', {
+									title: 'Test Escala Autoaplicada de Adaptación Social',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'Escala Autoaplicada para la Medida de la Depresión de Zung y Conde') {
+								res.render('eamdzc', {
+									title: 'Test Escala Autoaplicada para la Medida de la Depresión de Zung y Conde',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'Test de Fagerstrom de Dependencia de Nicotina') {
+								res.render('dependencia_nicotina', {
+									title: 'Test de Fagerström de Dependencia de Nicotina',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'Cuestionario autoaplicable de Orientación sexual de Almonte-Herskovic') {
+								res.render('orientacion_sexual', {
+									title: 'Cuestionario autoaplicable de Orientación sexual de Almonte-Herskovic',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)') {
+								res.render('ansiedad', {
+									title: 'Inventario de Ansiedad Estado-Rasgo (State-Trait Anxiety Inventory, STAI)',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'Escala de Riesgo Suicida de Plutchik') {
 								console.log("Hola1\n");
-                                res.render('escala_suicida', {
-                                    title: 'Escala de Riesgo Suicida de Plutchik',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
+								res.render('escala_suicida', {
+									title: 'Escala de Riesgo Suicida de Plutchik',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
 
-                            } else if (test == 'Escala de Cribado de TDAH en Adultos (ASRS-V1.1)') {
-                                res.render('tdah', {
-                                    title: 'Escala de Riesgo Suicida de Plutchik',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'MASLACH BURNOUT INVENTORY (MBI)') {
-                                res.render('bornout', {
-                                    title: 'MASLACH BURNOUT INVENTORY (MBI)',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else if (test == 'Cuestionario sobre consumo de sustancias') {
-                                res.render('csustancias', {
-                                    title: 'Cuestionario sobre consumo de sustancias',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
+							} else if (test == 'Escala de Cribado de TDAH en Adultos (ASRS-V1.1)') {
+								res.render('tdah', {
+									title: 'Escala de Riesgo Suicida de Plutchik',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'MASLACH BURNOUT INVENTORY (MBI)') {
+								res.render('bornout', {
+									title: 'MASLACH BURNOUT INVENTORY (MBI)',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
+							} else if (test == 'Cuestionario sobre consumo de sustancias') {
+								res.render('csustancias', {
+									title: 'Cuestionario sobre consumo de sustancias',
+									usuario: username,
+									datos: datos,
+									preguntas: preguntas
+								});
 							} else if (test == 'MINI PLUS') {
-								console.log("Hola1\n");
-                                res.render('miniplus', {
-                                    title: 'MINI PLUS',
-                                    usuario: username,
-                                    datos: datos,
-                                    preguntas: preguntas
-                                });
-                            } else {
-                                res.send('No se ha encontrado el test que buscas...');
-                            }
-                        }
+								connection.query(selectRespuestas_Test, [test], function (errorPregs, resultPregs) {
+									if (errorPregs) 
+										throw errorPregs;
+									if (resultPregs.length > 0) 
+									{
+										respuestas = JSON.parse(JSON.stringify(resultPregs));
+										//console.log("Mini plus llego!!");
+										res.render('miniplus', {
+											title: 'MINI PLUS',
+											usuario: username,
+											datos: datos,
+											preguntas: preguntas,
+											respuestas: respuestas
+										});
+										//console.log("Mini plus llego!! 2");
+									}
+								});
+							} else {
+								res.send('No se ha encontrado el test que buscas...');
+							}
+						}
                     });
-                } else {
-                    res.redirect('/workspace');
-                }
-            });
-        } else {
-            res.redirect('/');
-        }
+				}
+				else{
+					res.redirect('/workspace');
+				}
+			});
+        } 
+		else 
+			res.redirect('/');
     });
 
     ///

@@ -12,19 +12,85 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="js/jQueryMain.js"></script>
+	<script type="text/javascript">
+		
+	</script>
 </head>
 
 <body>
     <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
-<div id="tabs">
+	<div id="tabs">
     <ul class="tab">
         <li><a href="#tabs-1">Instrucciones Generales</a></li>
         <li><a href="#tabs-2">Modulo A</a></li>
     </ul>
     <div id="tabs-1" class="tabcontent">
-        <p>Aqui irian las instrucciones generales del test MINIPLUS</p>
+        <div id="contentPrimero">
+			La M.I.N.I. es una entrevista diagnóstica estructurada de breve duración que explora los principales trastornos psiquiátricos del
+			Eje I del DSM-IV y el ICD-10. Estudios de validez y de confiabilidad se han realizado comparando la M.I.N.I. con el SCID-P
+			para el DSM-III-R y el CIDI (una entrevista estructurada desarrollada por la Organización Mundial de Salud para entrevistadores
+			no clínicos para el ICD-10). Los resultados de estos estudios demuestran que la M.I.N.I. tiene un puntaje de validez y
+			confiabilidad aceptablemente alto, pero puede ser administrado en un período de tiempo mucho mas breve (promedio de 18.7 ±
+			11.6 minutos, media 15 minutos) que los instrumentos mencionados. Puede ser utilizada por clínicos luego de una breve sesión
+			de entrenamiento. Entrevistadores no clínicos deben recibir un entrenamiento mas intenso. La M.I.N.I. Plus es una edición mas
+			detallada de la M.I.N.I. Síntomas que sean mejor explicados por una causa médica o por el uso de alcohol o drogas no deberann
+			de MARCAR se como positivos en la M.I.N.I.<br>
+			
+		</div>
+		<br>
+		<h3><b>ENTREVISTA:</b></h3>
+		<div id="headerDivImg">
+			<div id="titleTextImg"><b>Clic en la imagen para mostrar/ocultar contenido</b><a id="imageDivLink" href="javascript:toggle1('contentDivImg', 'imageDivLink');"><img src="img/plus.png"></a></div>
+		</div><br>
+		<div id="contentDivImg">
+			Para mantener la entrevista lo mas breve posible, informe al paciente que va a realizar una entrevista clínica que es mas
+			estructurada de lo usual, en la cual se le van a hacer unas preguntas precisas sobre sus problemas psicológicos y las cuales
+			requieren unas respuestas de sí o no.
+		</div>
+		<h3><b>PRESENTACIÓN:</b></h3>
+		<div id="headerDivImg">
+			<div id="titleTextImg"><b>Clic en la imagen para mostrar/ocultar contenido</b><a id="imageDivLink1" href="javascript:toggle2('contentDivImg1', 'imageDivLink1');"><img src="img/plus.png"></a></div>
+		</div><br>
+		<div id="contentDivImg1">
+			La M.I.N.I. está dividida en módulos identificados por letras, cada una corresponde a una categoría diagnóstica.
+			<br>•Al comienzo de cada módulo (con excepción del módulo de los trastornos psicóticos), se presentan en un recuadro
+			gris, una o varias preguntas “filtro” correspondientes a los criterios diagnósticos principales del trastorno.
+			<br>•Al final de cada módulo, una o varias casillas diagnósticas, permiten al clínico indicar si se cumplen los criterios
+			diagnósticos.
+		</div>
+		<h3><b>CONVENIOS:</b></h3>
+		<div id="headerDivImg">
+			<div id="titleTextImg"><b>Clic en la imagen para mostrar/ocultar contenido</b><a id="imageDivLink2" href="javascript:toggle3('contentDivImg2', 'imageDivLink2');"><img src="img/plus.png"></a></div>
+		</div><br>
+		<div id="contentDivImg2">
+			<i>Las oraciones escritas en</i> « letra normal » deben ser leidas “palabra por palabra” al paciente de modo a regularizar la evaluación
+			de los criterios diagnósticos.<br><br>
+			<i>Las oraciones escritas en</i> « MAYÚSCULAS » no deben de leerse al paciente. Estas son las instrucciones para asistir al
+			entrevistador a calificar los algoritmos diagnósticos.<br><br>
+			<i>Las oraciones escritas en</i> « negrita » indican el período de tiempo que se explora. El entrevistador debe leerlas tantas veces
+			como sea necesario. Solo aquellos síntomas que ocurrieron durante el período de tiempo explorado, deben ser considerados al
+			marcar las respuestas.<br><br>
+			<i>Respuestas con una flecha encima</i> (➨) indican que no se cumple uno de los criterios necesarios para el diagnóstico. En este
+			caso, el entrevistador debe pasar directamente al final del módulo, circular « NO » en todas las casillas diagnósticas y continuar
+			con el siguiente módulo.<br><br>
+			Cuando los términos estan separados por una <i>barra</i>(/) el entrevistador debe leer solo aquellos síntomas presentados por el
+			paciente (por ejemplo, las preguntas, M20-M23).<br><br>
+			<i>Frases en (paréntesis)</i> son ejemplos clínicos de los síntomas evaluados. Pueden leerse para aclarar la pregunta
+		</div>
+		<h3><b>INTRUCCIONES DE ANOTACIÓN:</b></h3>
+		<div id="headerDivImg">
+			<div id="titleTextImg"><b>Clic en la imagen para mostrar/ocultar contenido</b><a id="imageDivLink3" href="javascript:toggle4('contentDivImg3', 'imageDivLink3');"><img src="img/plus.png"></a></div>
+		</div><br>
+		<div id="contentDivImg3">
+			Todas las preguntas deben ser mercadas. La anotación se hace a la derecha de la pregunta con un circulo SÍ o NO.<br><br>
+			El clínico debe asegurarse que cada dimensión de la pregunta haya sido tomada en cuenta por el paciente (por ejemplo, período
+			de tiempo, frecuencia, severidad, alternativas y/o).<br><br>
+			<u>Los síntomas que son mejor explicados por una causa médica o por el uso de alcohol o drogas no deben marcarse sí, en la M.I.N.I.</u><br>
+			La M.I.N.I. Plus tiene preguntas que explora estos problemas.
+		</div>
+		<br><br><br>
     </div>
     <div id="tabs-2" class="tabcontent">
     <br>
@@ -69,6 +135,42 @@
                                         <input type="hidden" name="username" value="<%=datos[2]%>">
                                         <input type="hidden" name="aplicador" value="<%=datos[1]%>">
                                         <input type="hidden" name="test" value="<%=datos[0]%>">
+										
+										<%if(typeof(preguntas) != 'undefined'){%>
+											<!--El for agrega las preguntas que estan en la base de datos-->
+											<%for(i=0;i<preguntas.length;i++){%>
+												<div class="form-group">
+													<div class="form-group">
+														<label for="" class="label-control">
+															<%=preguntas[i].Pregunta%>
+															<br>Aqui van las respuestas de la pregunta numero: <%=[i+1]%>
+															
+																<%=respuestas[i].Respuesta%>
+														</label>
+													</div>
+												</div>
+											<%}%>
+										<%}%>
+										<!--<%if(typeof(preguntas) != 'undefined'){%>-->
+										<!--<%if(typeof(respuestas)!= 'undefined'){%>-->
+												<!--El for agrega las preguntas que estan en la base de datos-->
+												<!--<%for(i=0;i<preguntas.length;i++){%>-->
+													<!--<%for(j=0;j<respuestas.length;j++){%>-->
+														<!--<div class="form-group">-->
+															<!--<div class="form-group">-->
+																<!--<label for="" class="label-control">-->
+																	<!--<%=preguntas[i].Pregunta%>-->
+																	<!--<label for="" class="label-control">-->
+																	<!--<%=respuestas[j].Respuesta%>-->
+																	<!--</label>-->
+																<!--</label>-->
+															<!--</div>-->
+														<!--</div>-->
+													<!--<%}%>-->
+												<!--<%}%>-->
+											<!--<%}%>-->
+										<!--<%}%>-->
+										
                                         <div class="form-group">
                                             <button class="btn btn-primary" type="submit">Enviar</button>
                                         </div>

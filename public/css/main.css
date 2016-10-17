@@ -54,7 +54,6 @@
 .app-info{
     font-size: 15px;
 }
-
 .app-btn{
      display: inline-block;
 }
@@ -192,6 +191,91 @@ ul.tab li a:focus, .active {background-color: #ccc;}
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+}
+
+/*.hidden>div {
+    display:none;
+}
+
+.visible>div {
+    display:block;
+}*/
+
+.slidingDiv {
+height:300px;
+background-color: #99CCFF;
+padding:20px;
+margin-top:10px;
+border-bottom:5px solid #3399FF;
+}
+
+.show_hide {
+display:none;
+}
+
+#contentPrimero
+{
+	background-color: #1B3257;
+	color: #FFFFFF;
+	border-style: solid;
+	border-color: #4C71C5;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin-top: 10px;
+}
+
+#contentDivImg
+{
+	display: none;
+	background-color: #1B3257;
+	color: #FFFFFF;
+	border-style: solid;
+	border-color: #4C71C5;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+#contentDivImg1
+{
+	display: none;
+	background-color: #1B3257;
+	color: #FFFFFF;
+	border-style: solid;
+	border-color: #4C71C5;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+#contentDivImg2
+{
+	display: none;
+	background-color: #1B3257;
+	color: #FFFFFF;
+	border-style: solid;
+	border-color: #4C71C5;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+#contentDivImg3
+{
+	display: none;
+	background-color: #1B3257;
+	color: #FFFFFF;
+	border-style: solid;
+	border-color: #4C71C5;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
 }
 
 /*Small*/
