@@ -7,6 +7,9 @@ $(document).ready(function(e){
     });
 	$( "#tabs" ).tabs();	
 	$( "#tabs2").tabs();
+	$('#start').on('click', function () {
+		muestraModulo('moduloA');
+	})
 });
 
 
@@ -81,4 +84,11 @@ function toggle4(showHideDiv3, switchImgTag3)
 			ele.style.display = "block";
 			imageEle.innerHTML = '<img src="img/minus.png"">';
 	}
+}
+
+function muestraModulo(nombre)
+{
+	$('#' + nombre).show();
+    $("#tabs2").tabs("option", "active", 1);
+    $("#start").hide();
 }

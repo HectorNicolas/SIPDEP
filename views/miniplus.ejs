@@ -24,7 +24,7 @@
 	<div id="tabs">
     <ul class="tab">
         <li><a href="#tabs-1">Instrucciones Generales</a></li>
-        <li><a href="#tabs-2">Modulo A</a></li>
+        <li><a href="#tabs-2">Entrevista</a></li>
     </ul>
     <div id="tabs-1" class="tabcontent">
         <div id="contentPrimero">
@@ -98,12 +98,11 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="container col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <form role="form" method="post" action="/enviar_miniplus">
                             <div class="jumbotron">
                                 <div id="tabs2">
                                     <ul class="tab">
                                         <li><a href="#tabsMod-1">Instrucciones del Modulo</a></li>
-                                        <li><a href="#tabsMod-2">Entrevista</a></li>
+                                        <li id="moduloA" hidden="true"><a href="#tabsMod-2">Entrevista</a></li>
                                     </ul>
                                     <div id="tabsMod-1" class="tabcontent">
                                         <br>
@@ -122,8 +121,10 @@
                                          <label class="app-info app-login-title alert alert-warning">
                                             PARA PACIENTES QUE PAREZCEN ESTAR PSICÓTICOS ANTES DE COMENZAR LA ENTREVISTA, O DE LOS QUE SE SOSPECHE QUE TENGAN ESQUIZOFRENIA, POR FAVOR SIGA EL SIGUIENTE ORDEN PARA ADMINISTRAR LOS MÓDULOS.
                                         </label>
+                                        <button class="btn btn-primary" id="start">Comenzar</button>
                                     </div>
                                     <div id="tabsMod-2" class="tabcontent">
+                                    <form role="form" method="post" action="/enviar_miniplus">
                                         <h1 class="app-desc app-login-title alert alert-success">Episodio Depresivo Mayor</h1>
                                         <p>
                                             Hola! Aqui debe de ir una explicación acerca de este test con sus modulos<br>
@@ -145,7 +146,7 @@
 															<%=preguntas[i].Pregunta%>
 															<br>Aqui van las respuestas de la pregunta numero: <%=[i+1]%>
 															
-																<!--<%=respuestas[i].Respuesta%>-->
+																
 														</label>
 													</div>
 												</div>
