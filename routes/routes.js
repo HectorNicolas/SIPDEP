@@ -2870,7 +2870,7 @@ module.exports = function (app) {
         }
     });
 
-    ///
+	///
     /// POST de la pagina /contestartest para miniPLUS
     ///
     app.post('/contestartestMINI', function (req, res) {
@@ -2927,8 +2927,6 @@ module.exports = function (app) {
             }
         });
     });
-
-
     ///
     /// POST de la página /contestartest
     ///

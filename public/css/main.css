@@ -193,7 +193,6 @@ ul.tab li label {
     font-size: 13px;
     font-weight: normal;
 }
-
 ul.tab li a:hover {background-color: #ddd;}
 
 ul.tab li a:focus, .active {background-color: #ccc;}
@@ -288,6 +287,12 @@ display:none;
 	padding-right: 10px;
 	padding-bottom: 10px;
 	padding-top: 10px;
+}
+
+#datosmini
+{
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
 }
 
 /*Small*/
