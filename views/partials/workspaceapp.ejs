@@ -85,7 +85,7 @@
         <br>
         <% if(typeof(pendientes) != 'undefined'){  %>
             <% for(i=0;i<pendientes.length;i++){ %>
-                <form action="/contestartestMINI" role="form" method="post" class="form-inline">
+                <form action="/contestartest" role="form" method="post" class="form-inline">
                     <div class="panel panel-default">
 
                         <div class="panel-heading">
@@ -100,8 +100,6 @@
             <input type="hidden" class="form-control input-personalizado" name="test" value="<%= pendientes[i].Test %>">
             <input type="hidden" class="form-control input-personalizado" name="fechaAplicacion" value="<%= pendientes[i].Fecha %>">
             <input type="hidden" class="form-control input-personalizado" name="username" value="<%= pendientes[i].Username %>">
-			<input type="hidden" class="form-control input-personalizado" name="nombre" value="<%= pendientes[i].Nombre %>">
-            <input type="hidden" class="form-control input-personalizado" name="apellidos" value="<%= pendientes[i].Apellidos %>">
                             </h2>
                         </div>
                         <div class="panel-body row">

@@ -134,7 +134,6 @@ INNER JOIN aplicador ON aplicador.NombreUsuario = test_usuario.Nombre_Aplicador 
 WHERE test_usuario.Contestado = \'Si\' AND test_usuario.Nombre_Usuario = ?';
 var selectCurrentPassword = 'SELECT * FROM usuario WHERE NombreUsuario = ? AND Password = ?';
 var selectCurrentPassword1 = 'SELECT * FROM aplicador WHERE NombreUsuario = ? AND Password = ?';
-var selectUsername = 'SELECT NombreUsuario FROM usuario WHERE Nombre = ? AND Apellidos = ?'
 ///
 /// INSERT queries
 ///
@@ -2870,63 +2869,6 @@ module.exports = function (app) {
         }
     });
 
-	///
-    /// POST de la pagina /contestartest para miniPLUS
-    ///
-    app.post('/contestartestMINI', function (req, res) {
-        var test = req.body.test;
-        var nombre = req.body.nombre;
-        var apellidos = req.body.apellidos;
-        var aplicador = req.cookies.name;
-        var fecha = req.body.fechaAplicacion.split("/");
-        fecha = fecha[2] + '-' + fecha[1] + '-' + fecha[0];
-        var preguntas = [];
-        var respuestas = [];
-        var testSeleccionado = req.query.test;
-
-        connection.query(selectUsername,[nombre, apellidos], function(err,  user)
-        {
-            if(err)
-                throw err;
-            else
-            {
-                if (typeof (user) != 'undefined') 
-                {
-                    var datos = [test, aplicador,  user[0].NombreUsuario, fecha];
-                    connection.query(selectTestPendientesUsuario, [test, fecha, user[0].NombreUsuario], function (errTest, resTest) 
-                    {
-                        if (errTest) 
-                            throw errTest;
-                        if (resTest.length > 0) 
-                        {
-                            connection.query(selectPreguntas_Test, [test], function (errorPreg, resultPreg) 
-                            {
-                                if (errorPreg) throw errorPreg;
-                                if (resultPreg.length > 0) {
-                                    preguntas = JSON.parse(JSON.stringify(resultPreg));
-                                    if (test == 'MINI PLUS') {
-                                        res.render('miniplus', {
-                                            title: 'MINI PLUS',
-                                            usuario: user[0].NombreUsuario,
-                                            datos: datos,
-                                            preguntas: preguntas,
-                                        });
-                                        } else {
-                                        res.send('No se ha encontrado sel test que buscas...');
-                                    }
-                                }
-                            });
-                        }
-                        else{
-                            res.redirect('/workspace');
-                        }
-                    });
-                } 
-                else 
-                    res.redirect('/');
-            }
-        });
-    });
     ///
     /// POST de la página /contestartest
     ///
