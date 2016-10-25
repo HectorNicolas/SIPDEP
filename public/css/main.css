@@ -182,6 +182,17 @@ ul.tab li a {
     font-size: 17px;
 }
 
+ul.tab li label {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding-bottom: 100%;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 13px;
+    font-weight: normal;
+}
 ul.tab li a:hover {background-color: #ddd;}
 
 ul.tab li a:focus, .active {background-color: #ccc;}
@@ -276,6 +287,29 @@ display:none;
 	padding-right: 10px;
 	padding-bottom: 10px;
 	padding-top: 10px;
+}
+
+#datosmini
+{
+	font-family: 'Lato', Arial, sans-serif;
+    font-size: 1em;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+}
+
+#datosmini1
+{
+	font-family: 'Lato', Arial, sans-serif;
+    font-size: 1em;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	padding-top: 5px;
 }
 
 /*Small*/
