@@ -159,15 +159,13 @@ DROP TABLE IF EXISTS `modulo`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `modulo` (
   `IdModulo` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(40) DEFAULT NULL,
+  `Nombre` varchar(100) DEFAULT NULL,
   `preg_ini` varchar(10) DEFAULT NULL,
-  `preg_fin` varchar(10) DEFAULT NULL,
+  `letra` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`IdModulo`),
   KEY `preg_ini` (`preg_ini`),
-  KEY `preg_fin` (`preg_fin`),
-  CONSTRAINT `modulo_ibfk_1` FOREIGN KEY (`preg_ini`) REFERENCES `pregunta` (`IdPregunta`),
-  CONSTRAINT `modulo_ibfk_2` FOREIGN KEY (`preg_fin`) REFERENCES `pregunta` (`IdPregunta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `modulo_ibfk_1` FOREIGN KEY (`preg_ini`) REFERENCES `pregunta` (`IdPregunta`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +174,7 @@ CREATE TABLE `modulo` (
 
 LOCK TABLES `modulo` WRITE;
 /*!40000 ALTER TABLE `modulo` DISABLE KEYS */;
+INSERT INTO `modulo` VALUES (1,'FOBIA ESPECÍFICA','H1','H'),(2,'FOBIA SOCIAL (Trastorno de Ansiedad Social)',NULL,'G');
 /*!40000 ALTER TABLE `modulo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,7 +189,7 @@ CREATE TABLE `pregunta` (
   `IdPregunta` varchar(10) NOT NULL,
   `Nombre_Test` varchar(100) DEFAULT NULL,
   `Numero` int(11) DEFAULT NULL,
-  `Pregunta` varchar(100) DEFAULT NULL,
+  `Pregunta` varchar(350) DEFAULT NULL,
   `SigPregunta_V` varchar(10) DEFAULT NULL,
   `SigPregunta_F` varchar(10) DEFAULT NULL,
   `Modulo` int(11) DEFAULT NULL,
@@ -211,6 +210,7 @@ CREATE TABLE `pregunta` (
 
 LOCK TABLES `pregunta` WRITE;
 /*!40000 ALTER TABLE `pregunta` DISABLE KEYS */;
+INSERT INTO `pregunta` VALUES ('H1',NULL,1,'¿El pasado mes, ha sentido un miedo excesivo a las siguientes cosas: a volar, a conducir, a las alturas, a las tormentas, a los animales, a los insectos, o a ver sangre o agujas? ','H2','H4',1,0),('H2',NULL,2,'¿Es este temor excesivo o irracional?','H3','H4',1,0),('H3',NULL,3,'¿Teme tanto estas situaciones que las evita o sufre a través de ellas?','H4','H4',1,0),('H4',NULL,4,'¿Este miedo interfiere con su trabajo normal o en su funcionamiento social o es la causa de intensa molestia?','H5',NULL,1,0),('H5',NULL,5,'¿Qué edad tenía cuando comenzó a temer o a evitar esta situación?','H6','H6',1,0),('H6',NULL,6,'¿Durante el pasado año, cuantas veces ha temido esta situación?',NULL,NULL,1,0);
 /*!40000 ALTER TABLE `pregunta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -548,4 +548,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-27  0:35:23
+-- Dump completed on 2016-10-28 13:45:25
