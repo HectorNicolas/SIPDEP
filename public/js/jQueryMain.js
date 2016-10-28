@@ -5,10 +5,15 @@ $(document).ready(function(e){
 	$('#inputUsername').on('focusin', function(){
         writeUser('inputUsername');
     });
-	$( "#tabs" ).tabs();	
+	$( "#tabs").tabs();	
 	$( "#tabs2").tabs();
-	$('#start').on('click', function () {
+	$( "#tabs3").tabs();
+
+	$('#moduloA').on('click', function () {
 		muestraModulo('moduloA');
+	})
+	$('#moduloB').on('click', function () {
+		muestraModulo('moduloB');
 	})
 });
 
@@ -88,7 +93,46 @@ function toggle4(showHideDiv3, switchImgTag3)
 
 function muestraModulo(nombre)
 {
-	$('#' + nombre).show();
-    $("#tabs2").tabs("option", "active", 1);
-    $("#start").hide();
+	switch(nombre)
+	{
+		case 'moduloA':
+		    $("#tabs-1").hide();
+		    $('#tabs-2').show();
+		    $("#tabs2").tabs("option", "active", 1);
+		    $('#' + nombre).show();
+		    $("#tabs3").hide();
+		    $('#tabs2').show();
+		break;		
+		case 'moduloB':
+			$("#tabs-1").hide();
+		    $('#tabs-2').show();
+		    $("#tabs3").tabs("option", "active", 1);
+		    $('#' + nombre).show();
+		    $("#tabs2").hide();
+		    $('#tabs3').show();
+		break;
+	}	
+}
+
+function muestraInstruccionesGral(){
+	$("#tabs-1").show();
+	$('#tabs-2').hide();
+}
+
+function changeColor(x)
+{
+    var modA = document.getElementById('moduloA');
+	modA.style.background="#ffffff";
+	var modB = document.getElementById('moduloB');
+	modB.style.background="#ffffff";
+	var modC = document.getElementById('moduloC');
+	modC.style.background="#ffffff";
+
+    if(x.style.background=="rgb(247, 211, 88)")//Si el Color de Fondo es Amarilo
+    {
+        x.style.background="#ffffff";//Cambia a Color Azul
+    }else{
+        x.style.background="rgb(247, 211, 88)";
+    }
+    return false;
 }
