@@ -312,6 +312,13 @@ display:none;
 	padding-top: 5px;
 }
 
+#moduloA > li:active
+{
+	background-color:gold;
+}
+
+
+
 /*Small*/
 @media only screen and (min-width : 480px) {
     .app-registro{

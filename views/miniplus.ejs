@@ -11,11 +11,14 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	    <script type="text/javascript" src="js/jQueryMain.js"></script>
-		<script type="text/javascript"></script>
+		<script type="text/javascript">
+				
+		</script>
 		
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<script src="js/modernizr.custom.js"></script>
 		<link rel="shortcut icon" href="../favicon.ico"> 
 	</head>
@@ -31,32 +34,84 @@
 					<nav class="gn-menu-wrapper">
 						<div class="gn-scroller">
 							<ul class="gn-menu">
-								<li><a id="moduloA" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo A</a></li>
-								<li><a id="moduloB" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo B</a></li>
-								<li><a id="moduloC" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo C</a></li>
-								<li><a id="moduloD" class="gn-icon  gn-icon-archive" onclick = "changeColor(this);">Modulo D</a></li>
-								<li><a id="moduloE" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo E</a></li>
-								<li><a id="moduloF" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo F</a></li>
-								<li><a id="moduloG" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo G</a></li>
-								<li><a id="moduloH" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo H</a></li>
-								<li><a id="moduloI" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo I</a></li>
-								<li><a id="moduloJ" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo J</a></li>
-								<li><a id="moduloK" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo K</a></li>
-								<li><a id="moduloL" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo L</a></li>
-								<li><a id="moduloM" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo M</a></li>
-								<li><a id="moduloN" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo N</a></li>
-								<li><a id="moduloO" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo O</a></li>
-								<li><a id="moduloP" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo P</a></li>
-								<li><a id="moduloQ" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo Q</a></li>
-								<li><a id="moduloR" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo R</a></li>
-								<li><a id="moduloS" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo S</a></li>
-								<li><a id="moduloT" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo T</a></li>
-								<li><a id="moduloU" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo U</a></li>
-								<li><a id="moduloV" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo V</a></li>
-								<li><a id="moduloW" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo W</a></li>
-								<li><a id="moduloX" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo X</a></li>
-								<li><a id="moduloY" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo Y</a></li>
-								<li><a id="moduloZ" class="gn-icon  gn-icon-article" onclick = "changeColor(this);">Modulo Z</a></li>
+								<li><a id="moduloA" class="gn-icon  gn-icon-article" onclick = "changeColorA(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo A</a></li>
+								
+								<li><a id="moduloB" class="gn-icon  gn-icon-article" onclick = "changeColorB(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo B</a></li>
+								
+								
+								<li><a id="moduloC" class="gn-icon  gn-icon-article" onclick = "changeColorC(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo C</a></li>
+								
+								<li><a id="moduloD" class="gn-icon  gn-icon-archive" onclick = "changeColorD(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo D</a></li>
+								
+								<li><a id="moduloE" class="gn-icon  gn-icon-article" onclick = "changeColorE(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo E</a></li>
+								
+								<li><a id="moduloF" class="gn-icon  gn-icon-article" onclick = "changeColorF(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo F</a></li>
+								
+								<li><a id="moduloG" class="gn-icon  gn-icon-article" onclick = "changeColorG(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo G</a></li>
+								
+								<li><a id="moduloH" class="gn-icon  gn-icon-article" onclick = "changeColorH(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo H</a></li>
+								
+								<li><a id="moduloI" class="gn-icon  gn-icon-article" onclick = "changeColorI(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo I</a></li>
+								
+								<li><a id="moduloJ" class="gn-icon  gn-icon-article" onclick = "changeColorJ(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo J</a></li>
+								
+								<li><a id="moduloK" class="gn-icon  gn-icon-article" onclick = "changeColorK(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo K</a></li>
+								
+								<li><a id="moduloL" class="gn-icon  gn-icon-article" onclick = "changeColorL(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo L</a></li>
+								
+								<li><a id="moduloM" class="gn-icon  gn-icon-article" onclick = "changeColorM(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo M</a></li>
+								
+								<li><a id="moduloN" class="gn-icon  gn-icon-article" onclick = "changeColorN(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo N</a></li>
+								
+								<li><a id="moduloO" class="gn-icon  gn-icon-article" onclick = "changeColorO(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo O</a></li>
+								
+								<li><a id="moduloP" class="gn-icon  gn-icon-article" onclick = "changeColorP(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo P</a></li>
+								
+								<li><a id="moduloQ" class="gn-icon  gn-icon-article" onclick = "changeColorQ(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo Q</a></li>
+								
+								<li><a id="moduloR" class="gn-icon  gn-icon-article" onclick = "changeColorR(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo R</a></li>
+								
+								<li><a id="moduloS" class="gn-icon  gn-icon-article" onclick = "changeColorS(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo S</a></li>
+								
+								<li><a id="moduloT" class="gn-icon  gn-icon-article" onclick = "changeColorT(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo T</a></li>
+								
+								<li><a id="moduloU" class="gn-icon  gn-icon-article" onclick = "changeColorU(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo U</a></li>
+								
+								<li><a id="moduloV" class="gn-icon  gn-icon-article" onclick = "changeColorV(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo V</a></li>
+								
+								<li><a id="moduloW" class="gn-icon  gn-icon-article" onclick = "changeColorW(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo W</a></li>
+								
+								<li><a id="moduloX" class="gn-icon  gn-icon-article" onclick = "changeColorX(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo X</a></li>
+								
+								<li><a id="moduloY" class="gn-icon  gn-icon-article" onclick = "changeColorY(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo Y</a></li>
+								
+								<li><a id="moduloZ" class="gn-icon  gn-icon-article" onclick = "changeColor(this);" 
+								onmouseover = "fondo(this);" onmouseout = "fondo2(this);">Modulo Z</a></li>
 							</ul>
 						</div><!-- /gn-scroller -->
 					</nav>

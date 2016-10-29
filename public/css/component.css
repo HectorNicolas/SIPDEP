@@ -51,6 +51,16 @@
 .no-touch .gn-menu li.gn-search-item:hover a {
 		background: #5f6f81;
 		color: white;
+		-webkit-animation-fill-mode: forwards;
+		-moz-animation-fill-mode: forwards;
+		-ms-animation-fill-mode: forwards;
+		-o-animation-fill-mode: forwards;
+		animation-fill-mode: forwards;
+}
+
+
+#moduloA:hover, #moduloA:focus{
+    background: green;    
 }
 
 .gn-menu-main > li {
@@ -189,19 +199,19 @@ input.gn-search:focus {
 /* placeholder */
 
 .no-touch .gn-menu li.gn-search-item:hover .gn-search::-webkit-input-placeholder {
-		color: white
+		color: white;
 }
 
 .no-touch .gn-menu li.gn-search-item:hover .gn-search:-moz-placeholder {
-		color: white
+		color: white;
 }
 
 .no-touch .gn-menu li.gn-search-item:hover .gn-search::-moz-placeholder {
-		color: white
+		color: white;
 }
 
 .no-touch .gn-menu li.gn-search-item:hover .gn-search:-ms-input-placeholder {
-		color: white
+		color: white;
 }
 
 .gn-menu-main a.gn-icon-search {
@@ -309,7 +319,7 @@ input.gn-search:focus {
 }
 
 .gn-menu-wrapper.gn-open-all {
-		width: 340px
+		width: 336px
 }
 
 .gn-menu-wrapper.gn-open-all .gn-submenu li {
