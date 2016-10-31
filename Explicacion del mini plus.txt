@@ -1,7 +1,0 @@
-Hola!
-Para que se arreglara el detalle que no abria la pagina del mini plus,
-lo que hice fue agregar el test desde mysql al igual que una pregunta a este mismo test, igual desde mysql.
-Espero que puedan agregar y abrir la pagina si no, me dicen y vemos que onda.
-:D!
-
-
