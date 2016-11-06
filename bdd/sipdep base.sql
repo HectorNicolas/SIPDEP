@@ -162,10 +162,12 @@ CREATE TABLE `modulo` (
   `Nombre` varchar(100) DEFAULT NULL,
   `preg_ini` varchar(10) DEFAULT NULL,
   `letra` varchar(10) DEFAULT NULL,
+  `Descripcion` varchar(500) DEFAULT NULL,
+  `NombreCorto` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`IdModulo`),
   KEY `preg_ini` (`preg_ini`),
   CONSTRAINT `modulo_ibfk_1` FOREIGN KEY (`preg_ini`) REFERENCES `pregunta` (`IdPregunta`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,7 +176,7 @@ CREATE TABLE `modulo` (
 
 LOCK TABLES `modulo` WRITE;
 /*!40000 ALTER TABLE `modulo` DISABLE KEYS */;
-INSERT INTO `modulo` VALUES (1,'FOBIA ESPECÍFICA','H1','H'),(2,'FOBIA SOCIAL (Trastorno de Ansiedad Social)',NULL,'G');
+INSERT INTO `modulo` VALUES (1,'FOBIA ESPECÍFICA','H1','H',NULL,'FOBIA ESPECÍFICA'),(2,'FOBIA SOCIAL (Trastorno de Ansiedad Social)',NULL,'G',NULL,'FOBIA SOCIAL'),(3,'RIESGO DE SUICIDIO',NULL,'C',NULL,'RIESGO DE SUICIDIO'),(4,'TRASTORNO OBSESIVO-COMPULSIVO',NULL,'I',NULL,'TRASTORNO OBSESIVO-COMPULSIVO'),(5,'EPISODIO DEPRESIVO MAYOR',NULL,'A',NULL,'EPISODIO DEPRESIVO MAYOR'),(6,'TRASTORNO DISTÍMICO',NULL,'B',NULL,'TRASTORNO DISTÍMICO'),(7,'EPISODIO (HIPO) MANÍACO',NULL,'D',NULL,'EPISODIO (HIPO) MANÍACO'),(8,'TRASTORNO DE ANGUSTIA (TRASTORNO DE ATAQUE DE PANICó) ',NULL,'E',NULL,'TRASTORNO DE ANGUSTIA'),(9,'AGORAFOBIA',NULL,'F',NULL,'AGORAFOBIA'),(10,'ESTADO POR ESTRÉS POSTRAUMÁTICO ',NULL,'J',NULL,'ESTADO POR ESTRÉS POSTRAUMÁTICO '),(11,'ABUSO Y DEPENDENCIA DE ALCOHOL',NULL,'K',NULL,'ABUSO Y DEPENDENCIA DE ALCOHOL'),(12,'TRASTORNOS ASOCIADOS AL USO DE SUSTANCIAS PSICOACTIVAS NO ALCOHÓLICAS',NULL,'L',NULL,'TRASTORNOS ASOCIADOS AL USO DE SUSTANCIAS PSICOACTIVAS NO ALCOHÓLICAS'),(13,'TRASTORNOS PSICÓTICOS',NULL,'M',NULL,'TRASTORNOS PSICÓTICOS'),(14,'ANOREXIA NERVIOSA',NULL,'N',NULL,'ANOREXIA NERVIOSA'),(15,'BULIMIA NERVIOSA',NULL,'O',NULL,'BULIMIA NERVIOSA'),(16,'TRASTORNO DE ANSIEDAD GENERALIZADA',NULL,'P',NULL,'TRASTORNO DE ANSIEDAD GENERALIZADA'),(17,'TRASTORNO ANTISOCIAL DE LA PERSONALIDAD',NULL,'Q',NULL,'TRASTORNO ANTISOCIAL DE LA PERSONALIDAD'),(18,'TRASTORNO DE SOMATIZACIÓN',NULL,'R',NULL,'TRASTORNO DE SOMATIZACIÓN'),(19,'HIPOCONDRÍA',NULL,'S',NULL,'HIPOCONDRÍA'),(20,'TRASTORNO DISMÓRFICO CORPORAL',NULL,'T',NULL,'TRASTORNO DISMÓRFICO CORPORAL'),(21,'TRASTORNO POR DOLOR',NULL,'U',NULL,'TRASTORNO POR DOLOR'),(22,'TRASTORNO DE CONDUCTA (DISOCIAL) 17 años de edad o menores',NULL,'V',NULL,'TRASTORNO DE CONDUCTA'),(23,'TRASTORNO POR DÉFICIT DE ATENCIÓN CON HIPERACTIVIDAD',NULL,'W',NULL,'TRASTORNO POR DÉFICIT DE ATENCIÓN CON HIPERACTIVIDAD'),(24,'TRASTORNOS ADAPTATIVOS',NULL,'X',NULL,'TRASTORNOS ADAPTATIVOS'),(25,'TRASTORNO DISFÓRICO PREMENSTRUAL',NULL,'Y',NULL,'TRASTORNO DISFÓRICO PREMENSTRUAL'),(26,'TRASTORNO MIXTO DE ANSIEDAD Y DEPRESIÓN',NULL,'Z',NULL,'TRASTORNO MIXTO DE ANSIEDAD Y DEPRESIÓN');
 /*!40000 ALTER TABLE `modulo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +212,7 @@ CREATE TABLE `pregunta` (
 
 LOCK TABLES `pregunta` WRITE;
 /*!40000 ALTER TABLE `pregunta` DISABLE KEYS */;
-INSERT INTO `pregunta` VALUES ('H1',NULL,1,'¿El pasado mes, ha sentido un miedo excesivo a las siguientes cosas: a volar, a conducir, a las alturas, a las tormentas, a los animales, a los insectos, o a ver sangre o agujas? ','H2','H4',1,0),('H2',NULL,2,'¿Es este temor excesivo o irracional?','H3','H4',1,0),('H3',NULL,3,'¿Teme tanto estas situaciones que las evita o sufre a través de ellas?','H4','H4',1,0),('H4',NULL,4,'¿Este miedo interfiere con su trabajo normal o en su funcionamiento social o es la causa de intensa molestia?','H5',NULL,1,0),('H5',NULL,5,'¿Qué edad tenía cuando comenzó a temer o a evitar esta situación?','H6','H6',1,0),('H6',NULL,6,'¿Durante el pasado año, cuantas veces ha temido esta situación?',NULL,NULL,1,0);
+INSERT INTO `pregunta` VALUES ('G1',NULL,1,'¿En el pasado mes, tuvo miedo o sintió verguenza de que lo esten observando, de ser el centro de atención o temió una humillación? Incluyendo cosas como el hablar en público, comer en público o con otros, el escribir mientras alguien lo mira o el estar en situaciones sociales. ',NULL,NULL,2,0),('G2',NULL,2,'¿Piensa usted que este miedo es excesivo o irracional?',NULL,NULL,2,0),('G3',NULL,3,'¿Teme tanto estas situaciones sociales que las evita, o sufre a través de ellas?',NULL,NULL,2,0),('G4',NULL,4,'¿Este miedo interfiere en su trabajo normal o en el desempeño de sus actividades sociales o es la causa de intensa molestia?',NULL,NULL,2,0),('G5',NULL,5,'¿Qué edad tenía cuando comenzó a temer situaciones sociales?',NULL,NULL,2,0),('G6',NULL,6,'¿Durante el pasado año, por cuantos meses tuvo un miedo significativo a situaciones sociales?',NULL,NULL,2,0),('H1',NULL,1,'¿El pasado mes, ha sentido un miedo excesivo a las siguientes cosas: a volar, a conducir, a las alturas, a las tormentas, a los animales, a los insectos, o a ver sangre o agujas? ','H2','H4',1,0),('H2',NULL,2,'¿Es este temor excesivo o irracional?','H3','H4',1,0),('H3',NULL,3,'¿Teme tanto estas situaciones que las evita o sufre a través de ellas?','H4','H4',1,0),('H4',NULL,4,'¿Este miedo interfiere con su trabajo normal o en su funcionamiento social o es la causa de intensa molestia?','H5',NULL,1,0),('H5',NULL,5,'¿Qué edad tenía cuando comenzó a temer o a evitar esta situación?','H6','H6',1,0),('H6',NULL,6,'¿Durante el pasado año, cuantas veces ha temido esta situación?',NULL,NULL,1,0),('I1',NULL,1,'¿Este último mes, ha estado usted molesto con pensamientos recurrentes, impulsos o imágenes no deseadas, desagradables, inapropiadas, intrusas o angustiosas?',NULL,NULL,4,0),('I2',NULL,2,'¿Estos pensamientos volvían a su mente aún cuando trataba de ignorarlos o de librarse de ellos?',NULL,NULL,4,0),('I3',NULL,3,'¿Cree usted que estos pensamientos son producto de su propia mente y que no le son impuestos desde el exterior? ',NULL,NULL,4,0),('I4',NULL,4,'¿En el pasado mes, ha hecho usted algo repetidamente, sin ser capaz de evitarlo, como el lavar o limpiar en exceso, el contar y verificar las cosas una y otra vez o el repetir, compulsiones el coleccionar, el ordenar las cosas o el realizar otros rituales supersticiosos?',NULL,NULL,4,0);
 /*!40000 ALTER TABLE `pregunta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -548,4 +550,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-28 13:45:25
+-- Dump completed on 2016-11-06  0:03:23
