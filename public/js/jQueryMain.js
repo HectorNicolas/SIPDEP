@@ -1,3 +1,4 @@
+var parametros = {modulo : '', respuesta : '', pregunta : '', nombreUs : '', aplicador : '', test : '', fecha : ''};
 $(document).ready(function(e){
 	$('#inputApellidos').on('focusin', function(){
     	writeUser('inputApellidos');
@@ -5,195 +6,98 @@ $(document).ready(function(e){
 	$('#inputUsername').on('focusin', function(){
         writeUser('inputUsername');
     });
-	$( "#tabs").tabs();	
-	$( "#tabs2").tabs();//Modulo A
-	$( "#tabs3").tabs();//Modulo B
-	$( "#tabs4").tabs();//Modulo C
-	$( "#tabs5").tabs();//Modulo D
-	$( "#tabs6").tabs();//Modulo E
-	$( "#tabs7").tabs();//Modulo F
-	$( "#tabs8").tabs();//Modulo G
-	$( "#tabs9").tabs();//Modulo H
-	$( "#tabs10").tabs();//Modulo I
-	$( "#tabs11").tabs();//Modulo J
-	$( "#tabs12").tabs();//Modulo K
-	$( "#tabs13").tabs();//Modulo L
-	$( "#tabs14").tabs();//Modulo M
-	$( "#tabs15").tabs();//Modulo N
-	$( "#tabs16").tabs();//Modulo O
-	$( "#tabs17").tabs();//Modulo P
-	$( "#tabs18").tabs();//Modulo Q
-	$( "#tabs19").tabs();//Modulo R
-	$( "#tabs20").tabs();//Modulo S
-	$( "#tabs21").tabs();//Modulo T
-	$( "#tabs22").tabs();//Modulo U
-	$( "#tabs23").tabs();//Modulo V
-	$( "#tabs24").tabs();//Modulo W
-	$( "#tabs25").tabs();//Modulo X
-	$( "#tabs26").tabs();//Modulo Y
-	$( "#tabs27").tabs();//Modulo Z
 
-	// Muestra el Modulo Seleccionado
-	$('#moduloA').on('click', function () {
-		muestraModulo('moduloA', 0);
-	})
-	$('#moduloB').on('click', function () {
-		muestraModulo('moduloB', 0);
-	})
-	$('#moduloC').on('click', function () {
-		muestraModulo('moduloC', 0);
-	})
-	$('#moduloD').on('click', function () { 
-		muestraModulo('moduloD', 0);
-	})
-	$('#moduloE').on('click', function () {
-		muestraModulo('moduloE', 0);
-	})
-	$('#moduloF').on('click', function () {
-		muestraModulo('moduloF', 0);
-	})
-	$('#moduloG').on('click', function () {
-		muestraModulo('moduloG', 0);
-	})
-	$('#moduloH').on('click', function () { 
-		muestraModulo('moduloH', 0);
-	})	
-	$('#moduloI').on('click', function () {
-		muestraModulo('modulOI', 0);
-	})
-	$('#moduloJ').on('click', function () {
-		muestraModulo('moduloJ', 0);
-	})
-	$('#moduloK').on('click', function () {
-		muestraModulo('moduloK', 0);
-	})
-	$('#moduloL').on('click', function () { 
-		muestraModulo('moduloL', 0);
-	})	
-	$('#moduloM').on('click', function () {
-		muestraModulo('moduloM', 0);
-	})
-	$('#moduloN').on('click', function () {
-		muestraModulo('moduloN', 0);
-	})
-	$('#moduloO').on('click', function () {
-		muestraModulo('moduloO', 0);
-	})
-	$('#moduloP').on('click', function () { 
-		muestraModulo('moduloP', 0);
-	})	
-	$('#moduloQ').on('click', function () {
-		muestraModulo('moduloQ', 0);
-	})
-	$('#moduloR').on('click', function () {
-		muestraModulo('moduloR', 0);
-	})
-	$('#moduloS').on('click', function () {
-		muestraModulo('moduloS', 0);
-	})
-	$('#moduloT').on('click', function () { 
-		muestraModulo('moduloT', 0);
-	})		
-	$('#moduloU').on('click', function () {
-		muestraModulo('moduloU', 0);
-	})
-	$('#moduloV').on('click', function () {
-		muestraModulo('moduloV', 0);
-	})
-	$('#moduloW').on('click', function () {
-		muestraModulo('moduloW', 0);
-	})
-	$('#moduloX').on('click', function () { 
-		muestraModulo('moduloX', 0);
-	})	
-	$('#moduloY').on('click', function () {
-		muestraModulo('moduloY', 0);
-	})
-	$('#moduloZ').on('click', function () {
-		muestraModulo('moduloZ', 0);
-	})
+    //$('#entrevista').hide();
+    //$('#instrucciones').load('../files/textfiles.html #generales');
+    $('#contentPrimero').load('../files/textfiles.html #primero');
+    $('#contentDivImg').load('../files/textfiles.html #DivImg');
+    $('#contentDivImg1').load('../files/textfiles.html #DivImg1');
+    $('#contentDivImg2').load('../files/textfiles.html #DivImg2');
+    $('#contentDivImg3').load('../files/textfiles.html #DivImg3');
+
+
+    $('#entrevista').click(function () {
+    	if($('#letraMod').val() == '')
+    	{
+    		alert("Por Favor Selecciona Un Modulo Primero");
+    		$("#tabs").tabs("option", "active", 0);
+    	}
+    		
+    })
+
+	$( "#tabs" ).tabs();	
+	$( "#tabs2").tabs();
 	
-	// Oculta Boton Comenzar de Cada Modulo
+	$('.gn-scroller li a').click(function () {
+		var id = ($(this).attr('id'));
+		parametros.modulo = id.substr(id.length-1);
+		$('#letraMod').val(($(this).attr('id')));
+		//alert($('#letraMod').val());
+		var letra = $('#letraMod').val();
+		var nombre = $(this).attr('name');
+		muestraModulo(letra,nombre,0);
+	});
+
+	
+	 //Oculta Boton Comenzar de Cada Modulo
 	$('#start').on('click', function () { 
 		$("#start").hide();
-	})
-	$('#start1').on('click', function () { 
-		$("#start1").hide();
-	})
-	$('#start2').on('click', function () { 
-		$("#start2").hide();
-	})
-	$('#start3').on('click', function () { 
-		$("#start3").hide();
-	})
-	$('#start4').on('click', function () { 
-		$("#start4").hide();
-	})
-	$('#start5').on('click', function () { 
-		$("#start5").hide();
-	})
-	$('#start6').on('click', function () { 
-		$("#start6").hide();
-	})
-	$('#start7').on('click', function () { 
-		$("#start7").hide();
-	})
-	$('#start8').on('click', function () { 
-		$("#start8").hide();
-	})
-	$('#start9').on('click', function () { 
-		$("#start9").hide();
-	})
-	$('#start10').on('click', function () { 
-		$("#start10").hide();
-	})
-	$('#start11').on('click', function () { 
-		$("#start11").hide();
-	})
-	$('#start12').on('click', function () { 
-		$("#start12").hide();
-	})
-	$('#start13').on('click', function () { 
-		$("#start13").hide();
-	})
-	$('#start14').on('click', function () { 
-		$("#start14").hide();
-	})
-	$('#start15').on('click', function () { 
-		$("#start15").hide();
-	})
-	$('#start16').on('click', function () { 
-		$("#start16").hide();
-	})
-	$('#start17').on('click', function () { 
-		$("#start17").hide();
-	})
-	$('#start18').on('click', function () { 
-		$("#start18").hide();
-	})
-	$('#start19').on('click', function () { 
-		$("#start19").hide();
-	})	
-	$('#start20').on('click', function () { 
-		$("#start20").hide();
-	})
-	$('#start21').on('click', function () { 
-		$("#start21").hide();
-	})
-	$('#start22').on('click', function () { 
-		$("#start22").hide();
-	})
-	$('#start23').on('click', function () { 
-		$("#start23").hide();
-	})
-	$('#start24').on('click', function () { 
-		$("#start24").hide();
-	})
-	$('#start25').on('click', function () { 
-		$("#start25").hide();
-	})
+		$.ajax({
+			method: "get",
+			url: "obtenerPregunta",
+			data: parametros,
+			dataType: "text"
+		}).done(function (data) {
+			$("#area").html(data);
+			$("#pregunta").val(data);
+			$("#tabs2").tabs("option", "active", 1);
+			$('#PreguntasTab').show();
+		});
+		return false;
+	});
+
+	$('#siguiente').click(function () {
+		var datos = obtenerParametros();
+		datos.respuesta = obtenerRespuesta();
+		$.ajax({
+			method: "get",
+			url: "guardaRespuesta",
+			data: datos
+		}).done(function () {
+			alert("se guardo la respuesta satisfactoriamente");
+			/*$.ajax({
+				method : "get",
+				url : "siguientePregunta",
+				data : parametros,
+				dataType : "text"
+			}).done(function (data) {
+				//cosas magicas
+			});*/
+		});
+		return false;
+	});
+	
+
 });
 
+function obtenerRespuesta() {
+	return $('input[name=respuesta]:checked', '#botones').val();
+}
+
+function obtenerParametros() {
+	var param = {nombreUs : '', aplicador : '', test : '', fecha : '', pregunta : '', respuesta : ''};
+	param.nombreUs = $("#usuario").val();
+	param.aplicador = $('#aplicador').val();
+	param.test = $('#aplicador').val();
+	param.fecha = $('#fecha').val();
+	param.pregunta = $('#pregunta').val();
+	param.respuesta = '';
+	return param;
+}
+
+function obtenerSiguientePregunta(argument) {
+	
+}
 
 function writeUser(ID) {
     var nombre = document.getElementById("nombre").value.split(" ")
@@ -268,109 +172,13 @@ function toggle4(showHideDiv3, switchImgTag3)
 	}
 }
 
-function muestraModulo(nombre, numPestana)
+function muestraModulo(letra, nombre, numTab)
 {
-	$("#tabs-1").hide();
-    $('#tabs-2').show();
-	switch(nombre)
-	{
-		case 'moduloA':		    
-		    $("#tabs2").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs3").hide();
-		    $("#tabs4").hide();
-		    $("#tabs5").hide();
-		    $("#tabs6").hide();
-		    $("#tabs7").hide();
-		    $("#tabs8").hide();
-		    $("#tabs9").hide();
-		    $('#tabs2').show();
-		break;		
-		case 'moduloB':			
-		    $("#tabs3").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs2").hide();
-		    $("#tabs4").hide();
-		    $("#tabs5").hide();
-		    $("#tabs6").hide();
-		    $("#tabs7").hide();
-		    $("#tabs8").hide();
-		    $("#tabs9").hide();
-		    $('#tabs3').show();
-		break;
-		case 'moduloC':			
-		    $("#tabs4").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs2").hide();
-		    $("#tabs3").hide();
-		    $("#tabs5").hide();
-		    $("#tabs6").hide();
-		    $("#tabs7").hide();
-		    $("#tabs8").hide();
-		    $("#tabs9").hide();
-		    $('#tabs4').show();
-		break;
-		case 'moduloD':			
-		    $("#tabs5").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs2").hide();
-		    $("#tabs3").hide();
-		    $('#tabs4').hide();
-		    $("#tabs6").hide();
-		    $("#tabs7").hide();
-		    $("#tabs8").hide();
-		    $("#tabs9").hide();
-		    $("#tabs5").show();
-		break;
-		case 'moduloE':			
-		    $("#tabs6").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs2").hide();
-		    $("#tabs3").hide();
-		    $('#tabs4').hide();
-		    $("#tabs5").hide();
-		    $("#tabs7").hide();
-		    $("#tabs8").hide();
-		    $("#tabs9").hide();
-			$("#tabs6").show();
-		break;
-		case 'moduloF':			
-		    $("#tabs7").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs2").hide();
-		    $("#tabs3").hide();
-		    $('#tabs4').hide();
-		    $("#tabs5").hide();
-		    $("#tabs6").hide();
-		    $("#tabs8").hide();
-		    $("#tabs9").hide();
-			$("#tabs7").show();
-		break;
-		case 'moduloG':			
-		    $("#tabs8").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs2").hide();
-		    $("#tabs3").hide();
-		    $('#tabs4').hide();
-		    $("#tabs5").hide();
-		    $("#tabs6").hide();
-		    $("#tabs7").hide();
-		    $("#tabs9").hide();
-			$("#tabs8").show();
-		break;
-		case 'moduloH':			
-		    $("#tabs9").tabs("option", "active", numPestana);
-		    $('#' + nombre).show();
-		    $("#tabs2").hide();
-		    $("#tabs3").hide();
-		    $('#tabs4').hide();
-		    $("#tabs5").hide();
-		    $("#tabs6").hide();
-		    $("#tabs7").hide();
-		    $("#tabs8").hide();
-			$("#tabs9").show();
-		break;
-	}	
+	var add = "../files/textfiles.html #mod" + letra;
+	$('#instMod').load(add);
+	$('#areaNombre').html(nombre);
+	$("#tabs").tabs("option", "active", 1);
+
 }
 
 function muestraInstruccionesGral(){

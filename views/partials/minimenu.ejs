@@ -1,0 +1,24 @@
+<!--Barra de menu de Modulos del test-->
+
+<ul id="gn-menu" class="gn-menu-main">
+	<li class="gn-trigger">
+		<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+		<nav class="gn-menu-wrapper">
+			<div class="gn-scroller">
+				<ul class="gn-menu">
+					<%if(typeof(modulos) != 'undefined)'){%>
+						<%for(i=0;i<modulos.length;i++){%>
+							<li><a id="<%=modulos[i].letra%>" class="gn-icon  gn-icon-article" name="<%=modulos[i].Nombre%>" onclick = "changeColorA(this);" onmouseover = "fondo(this);" onmouseout = "fondo2(this);"><%=modulos[i].Nombre%></a>
+							</li>
+						<%}%>
+					<%}%>
+				</ul>
+			</div><!-- /gn-scroller -->
+		</nav>
+	</li>
+	<li><a href="#tabs-1">Instrucciones Generales</a></li>
+	<li id="entrevista" hidden="true"><a href="#tabs-2">Entrevista</a></li>
+	<li hidden="true" id="datosmini">Usuario: <%=datos[2]%></li>
+	<li id="datosmini">Fecha: <%=datos[3]%></li>
+</ul>
+		

@@ -134,7 +134,11 @@ INNER JOIN aplicador ON aplicador.NombreUsuario = test_usuario.Nombre_Aplicador 
 WHERE test_usuario.Contestado = \'Si\' AND test_usuario.Nombre_Usuario = ?';
 var selectCurrentPassword = 'SELECT * FROM usuario WHERE NombreUsuario = ? AND Password = ?';
 var selectCurrentPassword1 = 'SELECT * FROM aplicador WHERE NombreUsuario = ? AND Password = ?';
-var selectUsername = 'SELECT NombreUsuario FROM usuario WHERE Nombre = ? AND Apellidos = ?'
+var selectUsername = 'SELECT NombreUsuario FROM usuario WHERE Nombre = ? AND Apellidos = ?';
+var selectClavePregunta = 'SELECT preg_ini FROM Modulo WHERE letra = ?';
+var selectPregunta = 'SELECT Pregunta FROM pregunta WHERE idPregunta = ?';
+var selectPreguntaXClave = 'SELECT * FROM pregunta WHERE pregunta.pregunta = ?';
+var selectModulos = 'SELECT * FROM modulo';
 ///
 /// INSERT queries
 ///
@@ -149,6 +153,7 @@ var sendTest = 'INSERT INTO test_usuario (Nombre_Aplicador, Nombre_Usuario, Nomb
 var insertUser = 'INSERT INTO usuario (NombreUsuario, Nombre, Apellidos, Correo, Sexo, FechaNacimiento, Password) VALUES(?, ?, ?, ?, ?, ?, ?)';
 var insertAplicador = 'INSERT INTO aplicador (NombreUsuario, Nombre, Apellidos, Telefono, Correo, Privilegios, Password, Eliminado) VALUES (?,?,?,?,?,?,?,"No")';
 var insertRespuesta = 'INSERT INTO respuesta_pregunta VALUES (?,?,?,?,?);';
+var insertRespuestaMini = 'INSERT INTO respuesta (idPregunta,respuestaBool,nombreUsuario) VALUES(?,?,?)';
 ///
 /// UPDATE queries
 ///
@@ -2870,6 +2875,51 @@ module.exports = function (app) {
         }
     });
 
+    ///
+    /// GET para obtener la primer pregunta del modulo
+    ///
+    app.get('/obtenerPregunta', function (req,res) {
+        var test = 'MINI PLUS';
+
+        connection.query(selectClavePregunta,[req.query.modulo],function (err,clave) {
+            if(err)
+                throw err
+            else{
+                var clavePreg = JSON.parse(JSON.stringify(clave));
+                connection.query(selectPregunta,[clavePreg[0].preg_ini],function (err,resPregunta) {
+                    if(err)
+                        throw err
+                    else{
+                        var pregunta = JSON.parse(JSON.stringify(resPregunta));
+                        res.send(pregunta[0].Pregunta);
+                    }
+                });
+            }
+        });
+    });
+
+    ///
+    ///POST para guardar la respuesta de la pregunta en la base de datos.
+    ///
+    app.get('/guardaRespuesta',function (req,res) {
+        var pregunta = req.query.pregunta;
+        connection.query(selectPreguntaXClave,[pregunta],function (err,resClave) {
+            if(err)
+                throw err;
+            else{
+                var idPregunta = resClave[0].IdPregunta;
+                console.log(resClave);
+                connection.query(insertRespuestaMini,[idPregunta,req.query.respuesta,req.query.nombreUs],function (err,result) {
+                    if(err)
+                        throw err;
+                    else{
+                        res.send("Respuesta Guardada");
+                    }
+                });
+            }
+        });
+    });
+
 	///
     /// POST de la pagina /contestartest para miniPLUS
     ///
@@ -2880,8 +2930,7 @@ module.exports = function (app) {
         var aplicador = req.cookies.name;
         var fecha = req.body.fechaAplicacion.split("/");
         fecha = fecha[2] + '-' + fecha[1] + '-' + fecha[0];
-        var preguntas = [];
-        var respuestas = [];
+        var modulos = [];
         var testSeleccionado = req.query.test;
 
         connection.query(selectUsername,[nombre, apellidos], function(err,  user)
@@ -2899,17 +2948,17 @@ module.exports = function (app) {
                             throw errTest;
                         if (resTest.length > 0) 
                         {
-                            connection.query(selectPreguntas_Test, [test], function (errorPreg, resultPreg) 
+                            connection.query(selectModulos, [test], function (err, resMod) 
                             {
-                                if (errorPreg) throw errorPreg;
-                                if (resultPreg.length > 0) {
-                                    preguntas = JSON.parse(JSON.stringify(resultPreg));
+                                if (err) throw err;
+                                if (resMod.length > 0) {
+                                    modulos = JSON.parse(JSON.stringify(resMod));
                                     if (test == 'MINI PLUS') {
                                         res.render('miniplus', {
                                             title: 'MINI PLUS',
                                             usuario: user[0].NombreUsuario,
                                             datos: datos,
-                                            preguntas: preguntas,
+                                            modulos: modulos
                                         });
                                         } else {
                                         res.send('No se ha encontrado el test que buscas...');
